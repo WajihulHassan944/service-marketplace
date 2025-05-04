@@ -14,7 +14,7 @@ export default function EnterpriseSuite() {
             <span className="highlight">find good company.</span>
           </h1>
           <p className="description">
-            Access the top 1% of talent on Upwork, and a full suite of hybrid workforce management tools.
+            Access the top 1% of talent on Todo, and a full suite of hybrid workforce management tools.
             This is how innovation works now.
           </p>
 

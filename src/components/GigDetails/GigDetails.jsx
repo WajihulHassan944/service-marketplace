@@ -48,7 +48,7 @@ const GigDetails = () => {
             </div>
             <div>
               <h4>Frontend framework</h4>
-              <p>React.js, jQuery, Bootstrap, Semantic-UI, Tailwind CSS</p>
+              <p>React.js, Bootstrap, Semantic-UI, Tailwind CSS</p>
             </div>
             <div>
               <h4>Backend framework</h4>

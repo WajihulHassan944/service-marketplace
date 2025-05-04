@@ -26,7 +26,7 @@ const AboutUs = () => {
         </div>
       </section>
       <section className="body-text">
-      <p>Upwork began over two decades ago by pioneering a better way of working, helping businesses find more flexibility and connecting talent with more opportunities.</p>
+      <p>Todo began over two decades ago by pioneering a better way of working, helping businesses find more flexibility and connecting talent with more opportunities.</p>
       </section>
 
       <section className="mission-section">
@@ -37,12 +37,12 @@ const AboutUs = () => {
 
       <section className="body-text">
         <p>
-          Like so many of you, Upwork has had a big impact on my life. I first came to this company on the product
+          Like so many of you, Todo has had a big impact on my life. I first came to this company on the product
           team and over the years have understood what makes this platform truly work: the relationships. We serve
           and personally see the passion and commitment that every client and every talent puts into their work.
         </p>
         <p>
-          Whether it’s a quick corporate presentation or a multi-year development project – both talent on Upwork and
+          Whether it’s a quick corporate presentation or a multi-year development project – both talent on Todo and
           clients are consistently doing really good work because they love what they do.
         </p>
         <p>
@@ -53,7 +53,7 @@ const AboutUs = () => {
       </section>
 
       <section className="talent-section">
-        <p><strong>Upwork is your workforce.</strong></p>
+        <p><strong>Todo is your workforce.</strong></p>
         <p>
           If you are a client, we’re down here to get things done, as this workforce of independent talent is ready
           for you. Whether you need one person or a full team, we make it easier to connect with freelancers to

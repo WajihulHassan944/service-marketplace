@@ -23,13 +23,8 @@ export default function Footer() {
           <h4 className='heading'>Featured Skills</h4>
           <div className="skillsGrid">
             {[
-              'Software Developers', 'Web Developers', 'Mobile App Developers', 'iOS Developers', 'AI Engineers',
-              'Node.js Developers', 'PHP Developers', 'React.js Developers', 'AngularJS Developers', 'Python Developers',
-              'Full-stack Developers', 'Front-end Developers', 'UX Designers', 'UI Designers', 'Web Designers',
-              'Mobile App Designers', 'Graphic Designers', 'Brand Designers', 'SEO Experts', 'Content Creators',
-              'Fractional CMOs', 'Growth Product Managers', 'Digital Product Managers', 'Product Consultants',
-              'Web Project Managers', 'Mobile Project Managers', 'Finance Experts', 'Interim CFOs',
-              'Startup Funding Consultants', 'M&A Consultants'
+              'Software Developers', 'Web Developers', 'Mobile App Developers', 'AI Engineers',
+              'Full-stack Developers','UI/UX Designers','Graphic Designers', 'SEO Experts', 'Content Creators','Project Managers',
             ].map((skill, i) => <p key={i}>{skill}</p>)}
           </div>
         </div>

@@ -6,7 +6,7 @@ const UpworkPromo = () => {
     <div className="upwork-container">
       <div className="upwork-left">
         <h1>
-          Why businesses<br />turn to Upwork
+          Why businesses<br />turn to Todo
         </h1>
 
         <div className="feature">
@@ -44,7 +44,7 @@ const UpworkPromo = () => {
           </h2>
           <div className="rating">
             <span>⭐ 4.9/5</span>
-            <p>Clients rate professionals on Upwork</p>
+            <p>Clients rate professionals on Todo</p>
           </div>
           <div className="award">
             <span>🏆 Award winner</span>
