@@ -1,0 +1,109 @@
+.find-talent-section {
+
+  width: 100%;
+  position: relative;
+  color: white;
+  padding: 0 10%;
+
+}
+
+.find-talent-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.overlay {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: stretch;
+
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 0 10px;
+  padding-top: 100px;
+  padding-bottom: 50px;
+  position: relative;
+  z-index: 1;
+  background-image: url('/assets/homeThird/find-talent-2x.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+}
+
+.text-area {
+  flex: 1 1 500px;
+  padding: 20px;
+  z-index: 1;
+}
+
+.for-clients {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.main-heading {
+  font-size: 48px;
+  font-weight: bold;
+  margin: 40px 0 0;
+  line-height: 1.2;
+}
+
+.subheading {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.green-card {
+  flex: 1 1 250px;
+  background-color: #14a800;
+  color: white;
+  text-decoration: none;
+  padding: 20px;
+  border-radius: 12px;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.green-card:hover {
+  background-color: #108a00;
+  transform: translateY(-4px);
+}
+
+.green-card h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.green-card p {
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .overlay {
+    flex-direction: column;
+  }
+
+  .main-heading {
+    font-size: 32px;
+  }
+
+  .subheading {
+    font-size: 16px;
+  }
+
+  .green-card {
+    flex: 1 1 100%;
+  }
+}

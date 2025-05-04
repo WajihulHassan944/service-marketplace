@@ -1,0 +1,138 @@
+.login-container {
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 1rem;
+  }
+  
+  .login-box {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    background-color: white;
+  }
+  
+  .login-box h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .login-input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+  
+  .login-btn {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .green-btn {
+    background-color: #14a800;
+    color: #fff;
+  }
+  
+  .green-btn:hover {
+    background-color: #108a00;
+  }
+  
+  .google-btn {
+    background-color: #4285f4;
+    color: white;
+  }
+  
+  .google-btn img {
+    height: 20px;
+    margin-right: 8px;
+  }
+  
+  .apple-btn {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+  }
+  
+  .apple-btn img {
+    height: 20px;
+    margin-right: 8px;
+  }
+  
+  .outline-btn {
+    background-color: white;
+    border: 2px solid #14a800;
+    color: #14a800;
+  }
+  
+  .outline-btn:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .separator,
+  .signup-text {
+    display: flex;
+    align-items: center;
+    margin: 1.2rem 0;
+  }
+  
+  .separator hr,
+  .signup-text hr {
+    flex: 1;
+    height: 1px;
+    background: #ccc;
+    border: none;
+  }
+  
+  .separator span,
+  .signup-text span {
+    margin: 0 0.8rem;
+    color: #777;
+    font-size: 0.9rem;
+  }
+  
+  /* ✅ Responsive Design */
+  @media (max-width: 480px) {
+    .login-box {
+      padding: 1.5rem;
+    }
+  
+    .login-box h2 {
+      font-size: 1.3rem;
+    }
+  
+    .login-input,
+    .login-btn {
+      font-size: 0.95rem;
+      padding: 0.65rem;
+    }
+  
+    .google-btn img,
+    .apple-btn img {
+      height: 18px;
+      margin-right: 6px;
+    }
+  
+    .separator span,
+    .signup-text span {
+      font-size: 0.85rem;
+    }
+  }
+  

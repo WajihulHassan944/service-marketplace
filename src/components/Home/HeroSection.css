@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+.banner-section{
+    padding: 50px 10%;
+    padding-top: 15px;
+}
+.banner-section .hero {
+  position: relative;
+  width: 100%;
+  height: 85vh;
+  background: url('/assets/homeThird/hero.png') no-repeat center center/cover;
+  background-position: center -50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  border-radius: 20px;
+}
+
+.banner-section .overlay {
+  max-width: 1200px;
+  width: 100%;
+  padding: 2rem;
+  color: white;
+  background: none;
+}
+
+.banner-section .heading {
+  font-size: 3.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 3rem;
+}
+.banner-section .overlay .heading{
+  border: none;
+}
+.banner-section .search-card {
+  background-color: rgba(30, 30, 30, 0.85);
+  padding: 2rem;
+  border-radius: 20px;
+  max-width: 720px;
+  width: 100%;
+}
+
+.banner-section .tab-buttons {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.banner-section .tab-toggle-bg {
+  background-color: #3a3a3a;
+  border-radius: 50px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  height: 50px;
+}
+
+.banner-section .tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  z-index: 2;
+  cursor: pointer;
+  position: relative;
+  padding: 0.8rem 1rem;
+}
+
+.banner-section .active-tab {
+  color: black;
+}
+
+.tab-slider {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: 50%;
+  background-color: white;
+  border-radius: 999px;
+  transition: left 0.3s ease;
+  z-index: 1;
+}
+
+.search-bar {
+  position: relative;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  padding-right: 120px; /* reserve space for button */
+  border-radius: 999px;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-button {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  bottom: 5px;
+  padding: 0 1.5rem;
+  background-color: black;
+  color: white;
+  border-radius: 999px;
+  border: 2px solid white;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.search-icon {
+  font-size: 1.2rem;
+  color: #a6ff00;
+}

@@ -1,0 +1,285 @@
+
+  /* second section */
+  .brands-section {
+    background-color: #f6f7f9;
+    text-align: center;
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    justify-content: center;
+  }
+  
+  .brands-heading {
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #6b7280;
+    font-weight: 500;
+    width: 200px;
+    text-align: left;
+    line-height: 1.6;
+  }
+  
+  .brands-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  
+  .brands-logos img {
+    max-height: 36px;
+    opacity: 0.6;
+    object-fit: contain;
+  }
+  
+  .brand-with-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .brand-with-link a {
+    font-size: 10px;
+    color: #375de3;
+    margin-top: 6px;
+    text-decoration: none;
+  }
+  
+  .brand-with-link a:hover {
+    text-decoration: underline;
+  }
+  
+
+
+
+  .upwork-container {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: Arial, sans-serif;
+    padding: 60px 10%;
+    background: #fff;
+    color: #000;
+    align-items: stretch; /* ✅ make both sides equal height */
+    justify-content: center;
+    position: relative;
+  }
+  
+  .upwork-left {
+    flex: 1;
+    min-width: 300px;
+    padding: 20px 40px;
+    padding-right: 180px;
+    z-index: 1;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 90vh;
+  }
+  
+  .upwork-left h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    line-height: 1.2;
+  }
+  
+  .feature {
+    display: flex;
+    margin-bottom: 30px;
+    align-items: flex-start;
+  }
+  
+  .icon {
+    font-size: 24px;
+    margin-right: 16px;
+    line-height: 1.5;
+    min-width: 24px;
+  }
+  
+  .feature h3 {
+    font-size: 22px;
+    margin: 0 0 6px 0;
+  }
+  
+  .feature p {
+    color: #555;
+    font-size: 16px;
+    margin: 0;
+  }
+  
+  .upwork-right {
+    flex: 1;
+    max-width: 450px;
+    background: #04b400;
+    color: #fff;
+    padding: 60px 40px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* helps push content down */
+  }
+  
+  .illustration {
+    position: absolute;
+    top: 10%;
+    left: 52%;
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    object-fit: contain;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .right-box {
+    position: relative;
+    z-index: 2;
+    margin-top: auto;
+  }
+  
+  .right-box h2 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    line-height: 1.3;
+  }
+  
+  .rating span,
+  .award span {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  
+  .rating p,
+  .award p {
+    font-size: 16px;
+    margin: 0 0 20px 0;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  .talent-container {
+    display: flex;
+    height: 80vh;
+    padding: 0 10%;
+    margin-bottom: 70px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .talent-image {
+    position: relative;
+    width: 50%;
+    min-height: 100%;
+  }
+  .talent-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  
+  .talent-content {
+    width: 50%;
+    background-color: #0073e6;
+    color: white;
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  
+  .talent-label {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .talent-content h1 {
+    font-size: 56px;
+    font-weight: bold;
+    margin-bottom: 24px;
+  }
+  
+  .talent-subtext {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 40px;
+    max-width: 480px;
+  }
+  
+  .talent-links {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    padding-top: 24px;
+    margin-bottom: 32px;
+    font-size: 16px;
+    font-weight: 500;
+    gap: 24px;
+  }
+  
+  .talent-links div {
+    flex: 1;
+  }
+  
+  .talent-button {
+    background-color: white;
+    color: #0073e6;
+    border: none;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    width: fit-content;
+    transition: background-color 0.2s ease;
+  }
+  
+  .talent-button:hover {
+    background-color: #e6f0ff;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+  .home-services-cards{
+    padding: 0 10%;
+    margin-bottom: 50px;
+  }
+  .home-services-cards h1{
+    margin-bottom: 30px;
+  }
+
+
+
+
+
+
+
+  

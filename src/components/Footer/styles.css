@@ -1,0 +1,122 @@
+.footer {
+    background-color: #1f2a60;
+    color: white;
+    padding: 40px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 10% 60px;
+    gap: 30px;
+  }
+  
+  .column {
+    flex: 1 1 220px;
+  }
+  
+  .footer .heading {
+    border-bottom: 1px solid hsla(0, 0%, 100%, .2);
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    font-size: 18px;
+  }
+  
+  .A-items {
+    list-style: none;
+    margin: 6px 0;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .A-items:hover {
+    color: #00baff;
+  }
+  
+  .skillsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+  }
+  
+  .skillsGrid p {
+    margin: 4px 0;
+    font-size: 14px;
+  }
+  
+  .bottomBar {
+    border-top: 1px solid #3a4a7a;
+    padding: 20px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .logoSection {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  
+  .footer-logo {
+    width: 80px;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+  }
+  
+  .footer-logo:hover {
+    opacity: 1;
+  }
+  
+  .socialIcons {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .social-icon {
+    font-size: 22px;
+    color: #fff;
+    transition: transform 0.2s ease, color 0.3s ease;
+  }
+  
+  .social-icon:hover {
+    color: #0a66c2;
+    transform: scale(1.2);
+  }
+  
+  .legal {
+    text-align: center;
+    padding: 20px 10%;
+    font-size: 13px;
+    color: #ccc;
+  }
+  
+  /* 📱 Responsive */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      padding: 20px 5%;
+      margin-bottom: 0px;
+    }
+  
+    .bottomBar {
+      flex-direction: column;
+      gap: 20px;
+    }
+  
+    .logoSection {
+      justify-content: center;
+    }
+  
+    .legal {
+      font-size: 12px;
+    }
+  }
+  

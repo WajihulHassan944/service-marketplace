@@ -1,0 +1,146 @@
+.about-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #1f1f1f;
+}
+
+.about-header h2 {
+  color: #14a800;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.about-header p {
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.profile-section {
+  text-align: center;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+}
+
+.profile-img {
+  width: 85px;
+  height: 85px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.profile-section h3 {
+  margin: 0.7rem 0 0.2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.title {
+  font-size: 1rem;
+  color: #666;
+}
+
+.mission-section {
+  margin: 2rem 0;
+}
+
+.mission-highlight {
+  color: #14a800;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.7;
+  text-align: justify; /* ✅ Added */
+}
+
+.body-text p,
+.talent-section p,
+.closing-section p {
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+  color: #222;
+  text-align: justify; /* ✅ Added */
+}
+
+.talent-section strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: bold;
+}
+
+.signature {
+  font-style: italic;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+.cta-section {
+  text-align: center;
+  margin: 3rem 0 2rem;
+}
+
+.cta-section h3 {
+  font-size: 1.6rem;
+  color: #14a800;
+  font-weight: bold;
+  margin-bottom: 1.2rem;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.btn {
+  background-color: #14a800;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0f8b17;
+}
+
+.second-div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ✅ Mobile Responsive */
+@media (max-width: 600px) {
+  .about-container {
+    padding: 1.2rem;
+  }
+
+  .profile-img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .mission-section {
+    padding: 1rem;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 260px;
+  }
+}

@@ -1,0 +1,136 @@
+.popular-container {
+    padding: 20px 10%;
+    width: 100%;
+    overflow-x: hidden;
+    margin: 0 auto;
+  }
+  
+  .popular-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  
+  .popular-wrapper {
+    position: relative;
+    display: flex;
+    padding-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .popular-scroll-container {
+    flex-grow: 1;
+    padding-bottom: 10px;
+    overflow-x: hidden; /* Hides scrollbars */
+    position: relative;
+  }
+  
+  .popular-scroll {
+    display: flex;
+    gap: 20px;
+    scroll-behavior: smooth;
+    padding: 10px 0;
+    overflow-x: auto; /* ✅ Enables scroll via JS */
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .popular-scroll::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  
+  .service-card {
+    flex: 0 0 auto;
+    width: 220px;
+    height: 280px;
+    background-color: #004400;
+    color: white;
+    border-radius: 20px;
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .card-top h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px;
+    line-height: 28px;
+  }
+  
+  .card-bottom {
+    background-color: #e2f0ff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+  }
+  
+  .service-image {
+    border-radius: 10px;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+  .scroll-button-container {
+    position: relative; /* needed for absolute children */
+  }
+  
+  .arrow-button-unique {
+    position: absolute;
+    top: 39%;
+    background-color: white;
+    border-radius: 50%;
+    border: none;
+    font-size: 28px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+  }
+  
+  .arrow-button-unique:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .arrow-button-unique.left {
+    left: -30px;
+  }
+  
+  .arrow-button-unique.right {
+    right: 0;
+  }
+  
+  /* Mobile responsive */
+  @media (max-width: 600px) {
+    .service-card {
+      width: 80%;
+      height: 230px;
+    }
+  
+    .card-top h3 {
+      font-size: 14px;
+    }
+    .popular-scroll{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .arrow-button-unique {
+      display: none;
+      width: 36px;
+      height: 36px;
+      font-size: 24px;
+    }
+  }
+  

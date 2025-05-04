@@ -1,0 +1,125 @@
+.signup-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 4rem 1rem;
+    font-family: sans-serif;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .social-buttons button {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .google-logo {
+    width: 20px;
+    height: 20px;
+  }
+  
+  
+  .divider {
+    text-align: center;
+    margin: 1rem 0;
+    position: relative;
+  }
+  
+  .divider span {
+    background: #fff;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background: #ccc;
+    z-index: 0;
+  }
+  
+  .signup-form input,
+  .signup-form select {
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .name-fields {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .name-fields input {
+    flex: 1;
+  }
+  
+  .checkbox-group {
+    margin: 0.75rem 0;
+    font-size: 14px;
+  }
+  
+  .checkbox-group a {
+    color: #14a800;
+    text-decoration: underline;
+  }
+  
+  .submit-btn {
+    background: #14a800;
+    color: #fff;
+    padding: 0.75rem;
+    width: 100%;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 1rem;
+    cursor: pointer;
+  }
+  
+  .login-text {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 14px;
+  }
+  
+  .login-text a {
+    color: #14a800;
+    font-weight: bold;
+  }
+  

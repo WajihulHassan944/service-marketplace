@@ -1,0 +1,135 @@
+.gigs-cards-in-services{
+    padding: 50px 10%;
+    padding-top: 20px;
+}
+.gig-card {
+    width: 280px;
+    font-family: Arial, sans-serif;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .gig-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+  }
+  
+  .gig-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .display-flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+  }
+  .heart-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .gig-info {
+    padding: 12px;
+  }
+  
+  .seller-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  
+  .seller-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #ccc;
+  }
+  
+  .seller-name {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .vetted-badge {
+    background-color: #e6e6fa;
+    color: #5d3fd3;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-weight: bold;
+  }
+  
+  .gig-title {
+    font-size: 14px;
+    color: #333;
+    margin: 8px 0;
+    line-height: 1.4;
+  }
+  
+  .gig-rating {
+    font-size: 14px;
+    color: #ffb400;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .star {
+    font-size: 14px;
+    margin-top: -2.1px;
+  }
+  
+  .rating-score {
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .rating-count {
+    color: #777;
+  }
+  
+  .gig-price {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .from-text {
+    margin-right: 4px;
+    color: #888;
+  }
+  
+  .price {
+    font-weight: bold;
+  }
+  
+  .gig-extras {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #777;
+    margin-top: 6px;
+  }
+  
+  .video-icon {
+    margin-right: 4px;
+  }
+  
