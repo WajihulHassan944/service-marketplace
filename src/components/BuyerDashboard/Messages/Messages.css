@@ -1,0 +1,306 @@
+.messages-container {
+    display: flex;
+    height: 89vh;
+    
+    font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+    padding-right: 0;
+    padding-top: 1px;
+  }
+  
+  /* Left Sidebar */
+  .sidebar {
+    width: 320px;
+    padding: 10px;
+    margin-right: 20px;
+    
+  }
+  .sidebar .usersInMessagesWrapper{
+    background: #f9fafb;
+    padding: 10px 0;
+    border-radius: 10px;
+  }
+  .sidebar .sidebar-title{
+    font-weight: 500;
+    font-size: 25px;
+    margin-bottom: 23px;
+  }
+
+  .searchBarWrapper{
+    display: flex;
+    gap:20px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    
+  }
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    padding: 10px;
+    padding-left: 15px;
+    border-radius: 20px;
+    border:1px solid #333;
+    width: 100%;
+  }
+  
+  .search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+  }
+  .filterIcon{
+    color: #108a00;
+  }
+  .contact {
+    background: white;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    position: relative;
+  }
+  
+  .contact.active {
+    background: #108a00;
+    color: white;
+  }
+  
+  .contact img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+  }
+  
+  .contact-info h4 {
+    margin: 0;
+    margin-bottom: 4px;
+    font-size: 16px;
+  }
+  
+  .contact-info p,
+  .preview {
+    margin: 0;
+    font-size: 12px;
+  }
+  
+  .timestamp {
+    position: absolute;
+    right: 10px;
+    top: 19px;
+    font-size: 12px;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* Chat Area */
+  .chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    
+  }
+  .chat-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    z-index: 1;
+  }
+  
+  .chat-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    pointer-events: none;
+    z-index: 1;
+  }
+    
+  
+  .chat-title{
+    display: flex;
+    flex-direction: column;
+    gap:4px
+  }
+  .chat-title h3 {
+    margin: 0;
+}
+.chat-title span{
+    color: rgb(51, 51, 51);
+    font-size: 14px;
+    font-weight: 400;
+}
+  
+  .chat-actions .video-icon {
+    margin-left: 12px;
+    cursor: pointer;
+    color: #108a00;
+    font-size: 20px;
+  }
+  
+  .chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+  }
+  
+  .message {
+    display: flex;
+    margin-bottom: 15px;
+  }
+  .message p{
+    color: rgb(51, 51, 51);
+    font-size: 14px;
+
+  }
+  .message img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .sender {
+    font-weight: bold;
+  }
+  
+  .time {
+    font-size: 12px;
+    color: gray;
+  }
+  
+  .chat-input {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    background: #f9f9f9;
+    border-radius: 20px;
+  }
+  
+  .chat-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+  }
+  
+  .input-actions {
+    display: flex;
+    gap: 10px;
+    margin-left: 10px;
+    align-items: center;
+  }
+  
+  .send-btn {
+    background: #22c55e;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+
+
+
+
+
+  /* Right Info Panel */
+  .info-panel {
+    width: 300px;
+    background: #f9fafb;
+    padding: 20px;
+    position: relative;
+    margin-left: 30px;
+    border-radius: 20px;
+  }
+  .info-panel h4{
+    text-align: center;
+  }
+  .close-btn {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .user-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin: 10px auto;
+    display: block;
+    object-fit: cover;
+  }
+  
+  .role,
+  .time {
+    font-size: 14px;
+    text-align: center;
+    margin: 5px 0;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+  }
+  
+  .view-proposal-btn {
+    flex: 1;
+    padding: 8px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .view-proposal-btn {
+    background: #ecfdf5;
+    color: #16a34a;
+  }
+  
+  .info-section {
+    margin-top: 20px;
+  }
+  
+  .info-item {
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  
