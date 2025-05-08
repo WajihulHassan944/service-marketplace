@@ -29,21 +29,21 @@ const BuyerHome = () => {
   ];
 
   return (
-    <div className="dashboard">
-      <div className="dashboard-header">
+    <div className="dashboard-buyer">
+      <div className="dashboard-buyer-header">
         <h2>Welcome</h2>
         <p className="user-name">Ramy Khuffash</p>
       </div>
 
-      <div className="dashboard-main">
-        <div className="left-column">
-          <div className="card">
-            <div className="card-header">
+      <div className="dashboard-buyer-main">
+        <div className="left-column-buyer">
+          <div className="card-buyer">
+            <div className="card-header-buyer">
               <h3>Your Analytics</h3>
               <a href="#">See all orders</a>
             </div>
-            <div className="posting-card">
-              <div className="posting-title">
+            <div className="posting-card-buyer">
+              <div className="posting-title-buyer">
                 <strong>NFT artist (2D, 3D, or pixel art)</strong>
                 <FiMoreHorizontal className="icon-btn" />
               </div>
@@ -57,8 +57,8 @@ const BuyerHome = () => {
             </div>
           </div>
 
-          <div className="card">
-            <div className="card-header">
+          <div className="card-buyer">
+            <div className="card-header-buyer">
               <h3>How to work with talent</h3>
             </div>
             <div className="faq-section">
@@ -74,8 +74,8 @@ const BuyerHome = () => {
             </div>
           </div>
 
-          <div className="card notifications-card">
-  <div className="card-header notificationHeader">
+          <div className="card-buyer notifications-card">
+  <div className="card-header-buyer notificationHeader">
     <h3>Notifications</h3>
   </div>
   <div className="notification-item sent">
@@ -110,9 +110,9 @@ const BuyerHome = () => {
 
         </div>
 
-        <div className="right-column">
-          <div className="card">
-            <div className="card-header vertical">
+        <div className="right-column-buyer">
+          <div className="card-buyer">
+            <div className="card-header-buyer vertical">
               <h3>Getting started</h3>
               <div className="progress-bar">
                 <div className="progress" style={{ width: "57%" }}></div>
@@ -124,11 +124,11 @@ const BuyerHome = () => {
             <div className="task-button"><FiFolder /> Explore services</div>
           </div>
 
-          <div className="card">
-            <div className="card-header">
+          <div className="card-buyer">
+            <div className="card-header-buyer">
               <h3>Ready-to-buy services</h3>
             </div>
-            <p className="project-text">
+            <p className="project-text-buyer">
               Know what you need but not how to get it done? Buy a project priced and scoped for success.
             </p>
           </div>
