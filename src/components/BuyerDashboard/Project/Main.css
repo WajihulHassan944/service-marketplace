@@ -1,0 +1,63 @@
+.main-container {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color:#fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 0 10%;
+    padding-bottom: 50px;
+   
+  }
+  
+  /* Grid layout for larger screens */
+  .top-grid {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  
+  .main-container .left-column {
+    flex: 2;
+    min-width: 300px;
+  }
+  
+  .main-container .right-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 250px;
+  }
+  
+  .main-container .bottom-section {
+    margin-top: 2rem;
+  }
+  
+  /* ✅ Responsive Design for tablets and phones */
+  @media (max-width: 1024px) {
+    .top-grid {
+      flex-direction: column;
+    }
+  
+    .left-column,
+    .right-column {
+      width: 100%;
+      min-width: unset;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .main-container {
+      padding: 1rem;
+    }
+  
+    .right-column {
+      gap: 1rem;
+    }
+  
+    .bottom-section {
+      margin-top: 1.5rem;
+    }
+  }
+  

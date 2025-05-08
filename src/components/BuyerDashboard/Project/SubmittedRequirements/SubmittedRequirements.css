@@ -1,0 +1,63 @@
+.requirements-container {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    max-width: 600px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+  }
+  
+  .requirements-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .arrow {
+    font-size: 1.2rem;
+  }
+  
+  .requirement {
+    margin-bottom: 1.5rem;
+  }
+  
+  .requirement p {
+    margin: 0 0 0.5rem;
+    color: #333;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  .file-link {
+    display: inline-block;
+    color: #0a8f36;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  
+  .file-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* ✅ Mobile Responsive */
+  @media (max-width: 600px) {
+    .requirements-container {
+      padding: 1rem;
+    }
+  
+    .requirements-header {
+      font-size: 1rem;
+    }
+  
+    .requirement p {
+      font-size: 0.9rem;
+    }
+  
+    .file-link {
+      font-size: 0.9rem;
+    }
+  }
+  

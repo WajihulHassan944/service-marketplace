@@ -1,0 +1,161 @@
+.settings-container {
+    display: flex;
+    padding: 5px 10%;
+    color: #1c1c1c;
+    min-height: 90vh;
+    font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .sidebar {
+    width: 220px;
+    background-color: #fff;
+    padding: 20px 0;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar li {
+    text-decoration: none;
+  }
+  .sidebar-link{
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-weight: 400;
+    border-radius: 10px;
+   
+  
+  }
+  
+  .sidebar-link:hover{
+    background-color: #d3ecda;
+
+  color: #1a7f37;
+  }
+  .sidebar .sidebar-link svg {
+    margin-right: 10px;
+  }
+  
+  .sidebar .active .sidebar-link {
+    background-color: #4fa62f;
+    font-weight: 500;
+    color: #fff;
+  }
+  
+  .billing-content {
+    flex: 1;
+    padding: 30px;
+  }
+  .billing-content h2{
+    font-weight: 600;
+  }
+  .balance-section {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    margin-top: 20px;
+  }
+  .balance-section h3{
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  
+  .pay-now {
+    background-color: #e5e5e5;
+    border: none;
+    color: #888;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: not-allowed;
+    margin-top: 20px;
+  }
+  
+  .manage-billing {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .manage-billing h3{
+    font-weight: 500;
+  }
+  .manage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .add-btn {
+    border: 2px solid #1a7f37;
+    color: #1a7f37;
+    background-color: white;
+    padding: 10px 18px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .desc {
+    margin: 10px 0 20px;
+    color: #666;
+  }
+  
+  .billing-card {
+    border-top: 1px solid #eee;
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .billing-card.primary {
+    border-bottom: 1px solid #eee;
+  }
+  
+  .card-label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .card-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  
+  .card-info img {
+    width: 40px;
+  }
+  
+  .actions span {
+    margin-left: 15px;
+    cursor: pointer;
+  }
+  
+  .edit {
+    color: #1c1c1c;
+  }
+  
+  .set-primary {
+    color: #1a7f37;
+    font-weight: bold;
+  }
+  
+  .remove {
+    color: #a94442;
+  }
+  

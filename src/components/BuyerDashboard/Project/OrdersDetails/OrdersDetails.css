@@ -1,0 +1,102 @@
+.order-card {
+    background: white;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    margin-top: 28px;
+  }
+  
+  .order-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .order-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .order-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .order-price {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  
+  .product-name {
+    font-weight: 600;
+  }
+  
+  .price {
+    color: #333;
+  }
+  
+  .escrow {
+    font-size: 0.85rem;
+    color: gray;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .help-icon {
+    font-size: 0.85rem;
+    color: green;
+    cursor: pointer;
+  }
+  
+  .status-chip {
+    background-color: #e4f0ff;
+    color: #007bff;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    border-radius: 10px;
+    width: fit-content;
+  }
+  
+  .due-time {
+    font-size: 0.85rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 5px;
+  }
+  
+  .due-icon {
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  /* Responsive */
+  @media (max-width: 480px) {
+    .order-card {
+      padding: 15px;
+    }
+  
+    .order-title {
+      font-size: 1rem;
+    }
+  
+    .order-price {
+      font-size: 0.95rem;
+    }
+  
+    .status-chip {
+      font-size: 0.7rem;
+    }
+  
+    .due-time {
+      font-size: 0.8rem;
+    }
+  }
+  

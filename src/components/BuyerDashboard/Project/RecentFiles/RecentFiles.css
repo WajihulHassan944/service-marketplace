@@ -1,0 +1,71 @@
+.recent-files-container {
+    max-width: 800px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 1rem;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .recent-files-header {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .file-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0.5rem;
+    border-top: 1px solid #f0f0f0;
+  }
+  
+  .file-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .file-icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .file-name {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #0a8f36;
+  }
+  
+  .file-meta {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #888;
+  }
+  
+  .file-options {
+    font-size: 1.5rem;
+    color: #666;
+    cursor: pointer;
+  }
+  
+  /* ✅ Mobile Responsive */
+  @media (max-width: 600px) {
+    .file-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  
+    .file-info {
+      flex-direction: row;
+    }
+  
+    .file-options {
+      align-self: flex-end;
+    }
+  }
+  

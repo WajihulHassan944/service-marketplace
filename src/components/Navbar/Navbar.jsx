@@ -1,8 +1,12 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import './Navbar.css';
 import Image from 'next/image';
 import Link from 'next/link';
+import {  FaUser, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { FiHeart, FiBell } from 'react-icons/fi';
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
   return (
     <nav className="navbar">
     <div className='navSecOne'>
@@ -12,42 +16,52 @@ const Navbar = () => {
   </div>
 </Link>
       <ul className="navbar-menu">
-        <Link href="/" className='navLink'><li className="navbar-item">Top 1%</li>
+        <Link href="/buyer/dashboard" className='navLink'><li className="navbar-item">Dashboard</li>
         </Link>
-        <li className="navbar-item dropdown">
-          Hire Talent <span className="arrow">▾</span>
-          <ul className="dropdown-menu">
-            <li>Developers</li>
-            <li>Designers</li>
-            <li>Marketing Experts</li>
-            <li>Product Managers</li>
-            <li>Project Managers</li>
-            <li>Management Consultants</li>
-            <li className="submenu-divider">Want to hire a full team?</li>
-            <li>Hire a Team</li>
-          </ul>
-        </li>
-       <Link href="/about" className='navLink'> <li className="navbar-item">About Us</li>
+       <Link href="/buyer/orders" className='navLink'> <li className="navbar-item">Orders</li>
        </Link>
        <Link href="/services" className='navLink'> <li className="navbar-item">Services</li>
        </Link>
        
-       <Link href="/privacy-policy" className='navLink'> <li className="navbar-item">Privacy Policy</li>
+       <Link href="/messages" className='navLink'> <li className="navbar-item">Messages</li>
        </Link>
        
-       <Link href="/terms-of-service" className='navLink'> <li className="navbar-item">Terms of Service</li>
+       <Link href="/buyer/settings/billing" className='navLink'> <li className="navbar-item">Billing</li>
        </Link>
-       
-        <Link href="/contact" className='navLink'> <li className="navbar-item">Contact Us</li>
-       </Link>
-      </ul></div>
-      <div className="navbar-actions">
-      <Link href="/register" className='navLink'> <button className="green-btn">Sign up</button>
-      </Link>
-        
-        <Link href="/login" className='navLink'> Log In
-        </Link>
+       </ul></div>
+       <div className="navbar-actions">
+       <div className="nav-icon"><FiHeart /></div>
+
+<div className="nav-icon notification-icon">
+  <FiBell />
+  <span className="red-dot" />
+</div>
+      <div className="user-avatar-wrapper-nav" onClick={() => setOpen(!open)}>
+        <img src="/assets/myimg.jpg" alt="User" className="user-avatar-nav" />
       </div>
+
+      {open && (
+        <div className="dropdown-menu-user">
+          <div className="dropdown-header-user">
+            <img src="/assets/myimg.jpg" alt="User" className="dropdown-avatar-user" />
+            <div className="dropdown-name-user">Jane Doe</div>
+            <div className="dropdown-role-user">Client</div>
+          </div>
+
+          <div className="dropdown-status-user">
+            <button className="status-btn-user active">Online</button>
+            <button className="status-btn-user">Invisible</button>
+          </div>
+
+          <ul className="dropdown-links-user">
+            <Link href="/profile" onClick={()=> setOpen(false)} ><li><FaUser /> Profile</li>
+            </Link>
+            <Link href="/buyer/settings/billing" onClick={()=> setOpen(false)}><li><FaCog /> Settings</li></Link>
+            <Link href="/" onClick={()=> setOpen(false)}><li><FaSignOutAlt /> Log out</li></Link>
+          </ul>
+        </div>
+      )}
+    </div>
     </nav>
   );
 };
