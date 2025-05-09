@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import "./BuyerHome.css";
 import { FiMoreHorizontal, FiCreditCard, FiUsers, FiFolder, FiChevronDown, FiChevronUp } from "react-icons/fi";
+import Link from "next/link";
 
 const BuyerHome = () => {
   const [openFAQ, setOpenFAQ] = useState(0); // 0: first one open by default
@@ -104,7 +105,7 @@ const BuyerHome = () => {
 
   
 
-  <a href="#" className="see-all">See All ↝</a>
+  <Link href="/buyer/notifications" className="see-all">See All ↝</Link>
 </div>
 
 

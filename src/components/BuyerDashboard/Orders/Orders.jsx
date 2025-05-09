@@ -1,7 +1,14 @@
-
+'use client';
+import { useRouter } from 'next/navigation';
 import './Orders.css';
 
 export default function ManageOrders() {
+    const router = useRouter();
+  
+    const handleClick = () => {
+      router.push('/buyer/order-details');
+    };
+  
   const orders = [
     {
       id: 1,
@@ -59,7 +66,7 @@ export default function ManageOrders() {
           </div>
 
           {orders.map((order) => (
-            <div key={order.id} className="order-row">
+            <div key={order.id} className="order-row" onClick={handleClick} style={{cursor:'pointer'}}>
               <img src={order.image} alt="Order" className="thumbnail" />
               <div className="order-tag">CUSTOM ORDER</div>
               <div className="order-title">{order.title}</div>

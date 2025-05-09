@@ -1,0 +1,72 @@
+.notifications-wrapper-buyer {
+  padding: 30px 10%;
+  background-color: #fff;
+  color: #333;
+  padding-top: 10px;
+}
+
+.notifications-wrapper-buyer .card {
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.notifications-wrapper-buyer .card-header {
+  margin-bottom: 10px;
+}
+
+.notifications-wrapper-buyer .card-header h3 {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 500;
+  margin-bottom: 25px;
+}
+
+.notifications-wrapper-buyer .notifications-card-buyer {
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  padding-bottom: 10px;
+}
+
+
+.notifications-wrapper-buyer .notification-item {
+  padding: 10px 0 10px 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background: #f9fafb;
+  word-wrap: break-word;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.01);
+ 
+}
+
+.notifications-wrapper-buyer .notification-item .notif-title {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  gap: 6px;
+  color: #333;
+}
+
+.notifications-wrapper-buyer .notification-item p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.notifications-wrapper-buyer .notification-item a {
+  color: #00b22d;
+  text-decoration: none;
+}
+
+.notifications-wrapper-buyer .notification-item .notif-time {
+  font-size: 13px;
+  color: #999;
+}
+
+.notifications-wrapper-buyer .see-all {
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #00b22d;
+  text-decoration: none;
+  font-size: 14px;
+}

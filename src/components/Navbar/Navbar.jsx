@@ -30,12 +30,12 @@ const Navbar = () => {
        </Link>
        </ul></div>
        <div className="navbar-actions">
-       <div className="nav-icon"><FiHeart /></div>
-
+      <Link href="/buyer/liked-services"> <div className="nav-icon"><FiHeart /></div></Link>
+<Link href="/buyer/notifications">
 <div className="nav-icon notification-icon">
   <FiBell />
   <span className="red-dot" />
-</div>
+</div></Link>
       <div className="user-avatar-wrapper-nav" onClick={() => setOpen(!open)}>
         <img src="/assets/myimg.jpg" alt="User" className="user-avatar-nav" />
       </div>

@@ -61,3 +61,17 @@
     }
   }
   
+  .give-review-btn{
+    margin-top: 30px;
+     padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #399e09;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-start;
+    font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+    font-weight: 700;
+  }

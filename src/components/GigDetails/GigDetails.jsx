@@ -62,17 +62,17 @@ const GigDetails = () => {
     <div className={`${styles.row} ${styles.headerRow}`}>
       <div className={styles.cellSpecial}>Package</div>
       <div className={styles.cell}>
-        <strong>PKR 4,439</strong><br />
+        <span className="pricingTitleInPackage">PKR 4,439</span><br />
         <span className={styles.packageTitle}>GOLD</span><br />
         <span className={styles.packageDesc}>1 page max 5 Sections + Responsive *no animations included</span>
       </div>
       <div className={styles.cell}>
-        <strong>PKR 8,878</strong><br />
+        <span className="pricingTitleInPackage">PKR 8,878</span><br />
         <span className={styles.packageTitle}>DIMOND</span><br />
         <span className={styles.packageDesc}>1 page max 8 Sections + counter + slider + basic animations</span>
       </div>
       <div className={styles.cell}>
-        <strong>PKR 17,755</strong><br />
+        <span className="pricingTitleInPackage">PKR 17,755</span><br />
         <span className={styles.packageTitle}>PLATINUM</span><br />
         <span className={styles.packageDesc}>1 page as many sections need + counter + slider + reviews + contact form + map + animations & effect</span>
       </div>
@@ -178,33 +178,41 @@ const GigDetails = () => {
 
         </div>
 
-        <div className={styles.packageBox}>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px" }}>
-            <strong>Basic</strong>
-            <strong>Standard</strong>
-            <strong>Premium</strong>
-          </div>
-
-          <h2>PKR 4,439</h2>
-          <p style={{ fontSize: "13px", marginBottom: "8px" }}>
-            Save up to 20% with <strong>Subscribe to Save</strong>
-          </p>
-          <p>GOLD 1 page max 5 Sections + Responsive *no animations included</p>
-
-          <ul>
-            <li>⏱ 1-day delivery</li>
-            <li>⟳ 2 Revisions</li>
-            <li>✔ 1 page</li>
-            <li>✔ Design customization</li>
-            <li>✔ Content upload</li>
-            <li>✔ Responsive design</li>
-            <li>✔ Source code</li>
-            <li>✔ Detailed code comments</li>
-          </ul>
-
-          <button className={styles.orderButton}>Request to order</button>
-        </div>
+    <div className={styles.packageCard}>
+      <div className={styles.tabs}>
+        <span>Basic</span>
+        <span>Standard</span>
+        <span className={styles.active}>Premium</span>
       </div>
+<div className={styles.packageCardPadded}>
+      <div className={styles.price}>$165</div>
+
+      <p className={styles.subscription}>
+        Save up to 20% with <span className={styles.subscribeLink}>Subscribe to Save</span>
+      </p>
+
+      <p className={styles.desc}>
+        <strong>Mountain Package – For Pros !</strong> 5 Highly Professional
+        variations JPEG PNG + STATIONARY & SOCIAL MEDIA DESIGN + Source files for logo
+      </p>
+
+      <div className={styles.meta}>
+        <span>⏱ 3 Days Delivery</span>
+        <span>⟳ Unlimited Revisions</span>
+      </div>
+
+      <div className={styles.included}>
+        <span>What's Included</span>
+        <span>▾</span>
+      </div>
+
+      <button className={styles.continueBtn}>Continue →</button>
+
+      <p className={styles.compare}>Compare Packages</p>
+
+      <button className={styles.contactBtn}>Contact Seller</button>
+    </div>
+      </div></div>
     </div>
   );
 };

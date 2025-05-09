@@ -1,0 +1,20 @@
+.liked-services-container{
+    padding: 30px 10%;
+    min-height: 90vh;
+}
+.liked-head{
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 25px;
+}
+.results-liked{
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.liked-services-wrap{
+    display: flex;
+    flex-wrap: wrap;
+    gap:30px;
+}
