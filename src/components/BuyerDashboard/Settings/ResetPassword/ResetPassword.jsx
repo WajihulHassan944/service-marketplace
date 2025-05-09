@@ -4,13 +4,12 @@ import Sidebar from '../Sidebar/Sidebar';
 
 const ResetPassword = () => {
   return (
-    <div className="resetpass-container">
+    <div className="resetpass-container-updated">
       <Sidebar />
-      <main className="resetpass-content">
-        <h2 className="reset-title">Reset your password</h2>
-        <div className='line-break'></div>
-
-        <form className="resetpass-form">
+      <main className="resetpass-content-updated">
+        <h2 className="reset-title-updated">Reset your password</h2>
+      
+        <form className="resetpass-form-updated">
           <label htmlFor="email" className="reset-label">Username or Email</label>
           <input
             type="text"

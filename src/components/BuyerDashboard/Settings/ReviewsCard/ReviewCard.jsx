@@ -63,7 +63,7 @@ const ReviewCard = () => {
       <div className="review-card">
         <h2 className="review-count">Reviews</h2>
         {reviews.map((review, index) => (
-          <div className="card" key={index}>
+          <div className="card-review-updated" key={index}>
             <div className="user-info">
               <Image
                 src={review.avatar}
