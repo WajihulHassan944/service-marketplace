@@ -7,12 +7,17 @@ import MessageProfile from './MessageProfile';
 import { useRouter } from 'next/navigation';
 
 const Messages = () => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMobile, setIsMobile] = useState(false);
+
   const router = useRouter();
+
+
+
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener('resize', handleResize);
+     handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
