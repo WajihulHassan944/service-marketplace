@@ -5,10 +5,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaUser, FaCog, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
 import { FiHeart, FiBell } from 'react-icons/fi';
+import { FiMessageSquare } from "react-icons/fi";
+import SearchBar from './Search/SearchBar';
+import MessagePopup from './MessagePopup/MessagePopup';
+import NotificationPopup from './NotificationPopup/NotificationPopup';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [showNotificationPopup, setShowNotificationPopup] = useState(false);
+ const [showPopup, setShowPopup] = useState(false);
 
   return (
     <>
@@ -19,15 +25,13 @@ const Navbar = () => {
               <Image src="/assets/logo.png" alt="logo" width={50} height={50} />
             </div>
           </Link>
+          <SearchBar />
              <ul className="navbar-menu">
         <Link href="/buyer/dashboard" className='navLink'><li className="navbar-item">Dashboard</li>
         </Link>
        <Link href="/buyer/orders" className='navLink'> <li className="navbar-item">Orders</li>
        </Link>
        <Link href="/services" className='navLink'> <li className="navbar-item">Services</li>
-       </Link>
-       
-       <Link href="/messages" className='navLink'> <li className="navbar-item">Messages</li>
        </Link>
        
        <Link href="/buyer/settings/billing" className='navLink'> <li className="navbar-item">Billing</li>
@@ -41,12 +45,26 @@ const Navbar = () => {
           </div>
           <div className="navbar-actions">
             <Link href="/buyer/liked-services"><div className="nav-icon"><FiHeart /></div></Link>
-            <Link href="/buyer/notifications">
-              <div className="nav-icon notification-icon">
-                <FiBell />
-                <span className="red-dot" />
-              </div>
-            </Link>
+         
+        <div className="nav-message-container">
+      <div className="nav-icon" onClick={() => setShowPopup(!showPopup)}>
+        <FiMessageSquare />
+      </div>
+      {showPopup && <MessagePopup closePopup={() => setShowPopup(false)} />}
+    </div>
+         
+             <div className="nav-message-container">
+      <div
+        className="nav-icon notification-icon"
+        onClick={() => setShowNotificationPopup(!showNotificationPopup)}
+      >
+        <FiBell />
+        <span className="red-dot" />
+      </div>
+      {showNotificationPopup && (
+        <NotificationPopup closePopup={() => setShowNotificationPopup(false)} />
+      )}
+    </div>
             <div className="user-avatar-wrapper-nav" onClick={() => setDropdownOpen(!dropdownOpen)}>
               <img src="/assets/myimg.jpg" alt="User" className="user-avatar-nav" />
             </div>

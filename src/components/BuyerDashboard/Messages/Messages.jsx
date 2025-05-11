@@ -7,20 +7,23 @@ import MessageProfile from './MessageProfile';
 import { useRouter } from 'next/navigation';
 
 const Messages = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  
+  const [isMobile, setIsMobile] = useState(null);
 
   const router = useRouter();
 
 
+useEffect(() => {
+  const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+  checkMobile();
+  window.addEventListener("resize", checkMobile);
+  return () => window.removeEventListener("resize", checkMobile);
+}, []);
 
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener('resize', handleResize);
-     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
+if (isMobile === null) {
+  // Optionally render a loading state or nothing
+  return null;
+}
   const handleImageClick = (e) => {
     if (isMobile) {
       e.stopPropagation(); // prevent container click from firing
