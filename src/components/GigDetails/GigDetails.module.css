@@ -427,3 +427,114 @@
   cursor: pointer;
   border-radius: 4px;
 }
+
+
+@media (max-width: 768px) {
+  
+  .containerGigDetails {
+    padding: 16px;
+    padding-top: 10px;
+  }
+
+  .containerGigDetails .title {
+    font-size: 22px;
+    line-height: 1.4;
+  }
+
+  .containerGigDetails .sellerInfo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .containerGigDetails .mainContent {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .containerGigDetails .leftContent {
+    flex: 1 1 100%;
+  }
+
+  .techStack {
+    grid-template-columns: 1fr;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .cellSpecial {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .cell {
+    padding: 12px;
+    padding-top: 16px;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  .packageTable .row:nth-child(odd):not(.headerRow) {
+    background-color: transparent;
+  }
+
+  .reviewSummary {
+    flex-direction: column;
+  }
+
+  .leftStats,
+  .rightStats {
+    width: 100%;
+    padding: 0;
+    text-align: left;
+  }
+
+  .reviewFilters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .reviewFilters input[type="text"],
+  .reviewFilters select,
+  .reviewFilters button {
+    width: 100%;
+  }
+
+  .containerGigDetails .packageCard {
+    width: 100%;
+  }
+
+  .containerGigDetails .packageCardPadded {
+    padding: 16px;
+  }
+
+  .containerGigDetails .desc {
+    font-size: 14px;
+  }
+
+  .aboutSection h2 {
+    font-size: 18px;
+  }
+
+  .aboutSection h3 {
+    font-size: 14px;
+  }
+
+  .packageComparison h2,
+  .reviewsSection h2 {
+    font-size: 18px;
+  }
+
+  .reviewCard {
+    font-size: 14px;
+  }
+
+  .gigheaderImage{
+    width: 100%;
+    height: auto;
+  
+  }
+}

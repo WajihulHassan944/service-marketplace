@@ -229,3 +229,54 @@
     font-size: 14px;
   }
   
+  @media (max-width: 768px) {
+  .dashboard-buyer {
+    padding: 20px;
+    padding-top: 10px;
+  }
+
+  .dashboard-buyer-main {
+    flex-direction: column;
+  }
+
+  .left-column-buyer,
+  .right-column-buyer {
+    flex-basis: 100%;
+  }
+
+  .card-header-buyer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .posting-stats {
+    gap: 6px;
+  }
+
+  .faq-title {
+    font-size: 14px;
+  }
+
+  .faq-content {
+    font-size: 13px;
+  }
+
+  .task-button {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .project-text-buyer,
+  .posting-sub,
+  .posting-time,
+  .notif-title,
+  .notification-item p,
+  .notification-item .notif-time {
+    font-size: 13px;
+  }
+
+  .see-all {
+    font-size: 13px;
+  }
+}

@@ -34,13 +34,13 @@ export default function GigCard({ data, index = 0 }) {
       <div className="gig-info">
         <div className="seller-info">
           <div className="display-flex">
-            <img src={gig.avatar} alt="Seller" className="seller-avatar" />
+            <img src={gig.avatar} alt="Seller" className="seller-avatar-gigcard" />
             <span className="seller-name">{gig.sellerName}</span>
           </div>
           <span className="vetted-badge">{gig.badge}</span>
         </div>
 
-        <p className="gig-title">{gig.title}</p>
+        <p className="gig-title-gigcard">{gig.title}</p>
 
         <div className="gig-rating">
           <span className="star">★</span>

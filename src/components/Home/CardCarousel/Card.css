@@ -131,23 +131,12 @@
 }
 
 @media screen and (max-width: 768px) {
-  .carousel-container{
-    display: flex;
-    justify-content: center;
-  }
-  .card {
-    width: 100%;
-    
-  }
+.carousel-container {
+ 
+padding-left: 17%;
+}
 
-  .carousel {
-    gap: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .arrowleft .arrowright {
-    display: none;
-  }
+.carousel-container .arrowright{
+  right: 3%;
+}
 }

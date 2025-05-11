@@ -23,7 +23,7 @@ const GigDetails = () => {
       <div className={styles.mainContent}>
         <div className={styles.leftContent}>
           <div className={styles.imageSlider}>
-            <Image src="/assets/gigs/dummy.png" alt="Gig Image" width={800} height={500} />
+            <Image src="/assets/gigs/dummy.png" alt="Gig Image" width={800} height={500} className={styles.gigheaderImage} />
           </div>
 
           <section className={styles.aboutSection}>

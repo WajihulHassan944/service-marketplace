@@ -18,3 +18,11 @@
     flex-wrap: wrap;
     gap:30px;
 }
+
+@media(max-width:768px){
+    .liked-services-container{
+    padding: 30px 10%;
+    padding-top: 10px;
+}
+
+}

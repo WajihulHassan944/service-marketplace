@@ -138,4 +138,62 @@
     min-height: 200px;
     resize: vertical;
   }
-  
+  @media (max-width: 768px) {
+  .contact-hero {
+    padding: 3rem 1rem;
+  }
+
+  .contact-hero h1 {
+    font-size: 2rem;
+  }
+
+  .contact-hero p {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .contact-join {
+    padding: 3rem 1rem;
+  }
+
+  .contact-join h2 {
+    font-size: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .contact-join-image {
+    max-width: 100%;
+  }
+
+  .contact-cta {
+    flex-direction: column;
+    gap: 20px;
+    padding: 3rem 1rem;
+  }
+
+  .join-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .contact-form-section {
+    padding: 3rem 1rem;
+  }
+
+  .contact-form {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+  }
+}

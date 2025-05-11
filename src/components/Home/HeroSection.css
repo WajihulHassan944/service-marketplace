@@ -121,3 +121,45 @@
   font-size: 1.2rem;
   color: #a6ff00;
 }
+
+@media(max-width:768px){
+  .toRemove{
+    display: none;
+  }
+ .banner-section{
+    padding: 50px 0;
+    padding-top: 5px;
+    padding-bottom: 20px;
+}
+.banner-section .hero {
+  height: 95vh;
+  border-radius: 0;
+}
+
+.banner-section .heading {
+  font-size: 40px;
+  line-height: 1.5;
+}
+
+.banner-section .tab-toggle-bg {
+  height: 40px;
+}
+
+.banner-section .tab {
+  font-size: 0.8rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.8rem 1.2rem;
+  font-size: 0.7rem;
+}
+
+.search-button {
+  padding: 0 8px;
+}
+
+.search-icon {
+  font-size: 0.8rem;
+}
+}

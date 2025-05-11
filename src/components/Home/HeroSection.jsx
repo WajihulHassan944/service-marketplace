@@ -46,7 +46,7 @@ const HeroSection = () => {
             />
             <button className="search-button">
               <FiSearch className="search-icon" />
-              Search
+              <span className='toRemove'>Search</span>
             </button>
           </div>
         </div>

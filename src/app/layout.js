@@ -1,6 +1,8 @@
 // app/layout.js
+import Navbar from "@/components/Navbar/Navbar";
 import "./globals.css";
-import RootWrapper from "./RootWrapper"; // Import the client-side wrapper
+import Footer from "@/components/Footer/Footer";
+import LayoutClientWrapper from "@/components/LayoutClientWrapper";
 
 export const metadata = {
   title: "Service Marketplace",
@@ -14,7 +16,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <RootWrapper>{children}</RootWrapper>
+      <LayoutClientWrapper />
+       <Navbar />
+      {children}
+      <Footer />
       </body>
     </html>
   );

@@ -1,56 +1,67 @@
+/* Brands section */
+.brands-section {
+  background-color: #f6f7f9;
+  text-align: center;
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
-  /* second section */
-  .brands-section {
-    background-color: #f6f7f9;
-    text-align: center;
-    padding: 40px 20px;
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    justify-content: center;
-  }
-  
-  .brands-heading {
-    font-size: 14px;
-    letter-spacing: 2px;
-    color: #6b7280;
-    font-weight: 500;
-    width: 200px;
-    text-align: left;
-    line-height: 1.6;
-  }
-  
-  .brands-logos {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 40px;
-  }
-  
-  .brands-logos img {
-    max-height: 36px;
-    opacity: 0.6;
-    object-fit: contain;
-  }
-  
-  .brand-with-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .brand-with-link a {
-    font-size: 10px;
-    color: #375de3;
-    margin-top: 6px;
-    text-decoration: none;
-  }
-  
-  .brand-with-link a:hover {
-    text-decoration: underline;
-  }
-  
+/* Heading styles */
+.brands-heading {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #6b7280;
+  font-weight: 500;
+  width: 200px;
+  text-align: left;
+  line-height: 1.6;
+}
+
+/* Scroll wrapper */
+.brands-scroll-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+/* Logos row */
+.brands-logos {
+  display: flex;
+  gap: 40px;
+  flex-wrap: nowrap;
+  padding-bottom: 10px;
+  width: max-content;
+}
+
+/* Logo image */
+.brands-logos img {
+  max-height: 36px;
+  opacity: 0.6;
+  object-fit: contain;
+}
+
+/* Logo with link */
+.brand-with-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Link styling */
+.brand-with-link a {
+  font-size: 10px;
+  color: #375de3;
+  margin-top: 6px;
+  text-decoration: none;
+}
+
+.brand-with-link a:hover {
+  text-decoration: underline;
+}
 
 
 
@@ -162,8 +173,67 @@
     font-size: 16px;
     margin: 0 0 20px 0;
   }
-  
+  @media (max-width: 768px) {
+  .upwork-container {
+    flex-direction: column;
+    padding: 40px 20px;
+  }
 
+  .upwork-left {
+    padding: 20px;
+    padding-right: 20px;
+    height: auto;
+  }
+
+  .upwork-left h1 {
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+
+  .feature {
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  .icon {
+    font-size: 20px;
+    margin-right: 12px;
+  }
+
+  .feature h3 {
+    font-size: 18px;
+  }
+
+  .feature p {
+    font-size: 14px;
+  }
+
+  .upwork-right {
+    max-width: 100%;
+    padding: 30px 20px;
+    border-radius: 0;
+  }
+
+  .right-box h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  .rating span,
+  .award span {
+    font-size: 16px;
+  }
+
+  .rating p,
+  .award p {
+    font-size: 14px;
+  }
+
+  .illustration {
+    display: none;
+  }
+}
 
 
 
@@ -257,6 +327,57 @@
   .talent-button:hover {
     background-color: #e6f0ff;
   }
+@media (max-width: 768px) {
+  .talent-container {
+    flex-direction: column;
+    height: auto;
+    padding: 0 20px;
+    gap:0;
+  }
+
+  .talent-image {
+    width: 100%;
+    min-height: 250px;
+  }
+
+  .talent-image img {
+    border-radius: 10px 10px 0 0;
+    height: 250px;
+  }
+
+  .talent-content {
+    width: 100%;
+    padding: 40px 20px;
+    border-radius: 0 0 10px 10px;
+  }
+
+  .talent-content h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  .talent-subtext {
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+
+  .talent-links {
+    flex-direction: column;
+    gap: 16px;
+    font-size: 15px;
+  }
+
+  .talent-links div {
+    flex: unset;
+  }
+
+  .talent-button {
+    width: 100%;
+    text-align: center;
+    padding: 14px;
+    font-size: 16px;
+  }
+}
   
 
 

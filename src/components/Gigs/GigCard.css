@@ -56,9 +56,9 @@
     margin-bottom: 6px;
   }
   
-  .seller-avatar {
-    width: 24px;
-    height: 24px;
+  .seller-avatar-gigcard {
+    width: 24px !important;
+    height: 24px !important;
     border-radius: 50%;
     background-color: #ccc;
   }
@@ -77,9 +77,9 @@
     font-weight: bold;
   }
   
-  .gig-title {
+  .gig-title-gigcard {
     font-size: 14px;
-    color: #333;
+    color: #333 !important;
     margin: 8px 0;
     line-height: 1.4;
   }

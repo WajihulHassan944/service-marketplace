@@ -70,3 +70,10 @@
   text-decoration: none;
   font-size: 14px;
 }
+
+@media(max-width:768px){
+  .notifications-wrapper-buyer {
+  padding: 30px 7%;
+  padding-top: 10px;
+}
+}
