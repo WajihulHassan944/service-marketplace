@@ -132,4 +132,9 @@
   .video-icon {
     margin-right: 4px;
   }
-  
+  .popular-services-homeoage-wrap{
+      display: flex;
+    flex-wrap: wrap;
+    gap:30px;
+    padding-bottom: 70px;
+  }

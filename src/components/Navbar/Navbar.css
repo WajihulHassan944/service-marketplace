@@ -9,6 +9,7 @@
     justify-content: space-between;
     padding: 9px 10%;
     padding-top: 12px;
+   font-weight: 600;
   }
   .navSecOne{
     display: flex;
@@ -37,7 +38,6 @@
     cursor: pointer;
     color: #333;
     font-size: 15px;
-    font-weight: 400;
   }
   
   .dropdown:hover .dropdown-menu {
@@ -380,4 +380,10 @@
   }
 }
 
-  
+  .separationNavsLine{
+    width: 78%;
+    height: 1px;
+    background: #ccc;
+    margin: 0 11%;
+    border-radius: 10px;
+  }

@@ -1,0 +1,84 @@
+.sub-navbar {
+  display: flex;
+  gap: 20px;
+  padding: 10px 10%;
+  background-color: #fff;
+  padding-left: 10.5%;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  z-index: 10;
+}
+
+.category-item {
+  position: relative;
+  cursor: pointer;
+  color: #333;
+}
+
+.category-item:hover {
+  color: #1dbf73;
+}
+
+.popup {
+  position: absolute;
+  top: 35px;
+  left: 0;
+  background-color: #fff;
+  padding: 15px 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  white-space: nowrap;
+  z-index: 100;
+}
+
+.popup ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.popup li {
+  padding: 6px 0;
+  color: #444;
+  transition: color 0.2s ease;
+}
+
+.popup li:hover {
+  color: #1dbf73;
+}
+/* Mobile Responsive: Max Width 768px */
+@media (max-width: 768px) {
+  .sub-navbar {
+    padding: 10px 10%;
+    padding-left: 8%;
+    max-width: 330px;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .sub-navbar::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  .category-item {
+    flex: 0 0 auto;
+  }
+
+  .popup {
+    position: fixed;
+    top: 70px; /* Adjust based on navbar height */
+    left: 10px;
+    right: 10px;
+    width: auto;
+    max-width: calc(100% - 20px);
+    white-space: normal;
+    overflow-y: auto;
+    max-height: 50vh;
+  }
+}

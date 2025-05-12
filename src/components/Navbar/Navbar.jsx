@@ -9,6 +9,7 @@ import { FiMessageSquare } from "react-icons/fi";
 import SearchBar from './Search/SearchBar';
 import MessagePopup from './MessagePopup/MessagePopup';
 import NotificationPopup from './NotificationPopup/NotificationPopup';
+import SubNavbar from './SubNavbar/SubNavbar';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -90,6 +91,9 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+<div className='separationNavsLine'></div>
+<SubNavbar />
+
 {menuOpen && (
   <div className="mobile-menu">
     <div className="mobile-menu-header">

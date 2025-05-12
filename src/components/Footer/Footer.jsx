@@ -33,11 +33,10 @@ export default function Footer() {
         <div className="column">
           <h4 className='heading'>About</h4>
           <ul>
-            <li className='A-items'>Why Market service place</li>
             <li className='A-items'>Contact Us</li>
-            <li className='A-items'>Press Center</li>
-            <li className='A-items'>Careers</li>
             <li className='A-items'>About Us</li>
+            <li className='A-items'>Services</li>
+            <li className='A-items'>Top Talent</li>
           </ul>
         </div>
       </div>
@@ -57,7 +56,7 @@ export default function Footer() {
       </div>
 
       <div className="legal">
-        Copyright 2025 Market Place Service | Privacy Policy | Website Terms | Accessibility
+        Copyright 2025 Market Place Service | Privacy Policy | Website Terms
       </div>
     </footer>
   );

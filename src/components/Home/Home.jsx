@@ -15,16 +15,74 @@ const MainHome = () => {
     <HeroSection />
       <Brands />
       <CardCarousel />
-      <UpworkPromo />
+   {/*    <UpworkPromo /> */}
     
 <PopularServices />
       <div className='home-services-cards'>
         <h1 className="popular-title">Popular Services</h1>
-        <GigCard />
+        <div className='popular-services-homeoage-wrap'>
+           <GigCard
+           data={{
+             image: '/assets/gigs/dummytwo.png',
+             avatar: '/assets/gigs/avatar.png',
+             sellerName: 'Jane Doe',
+             badge: 'Top Rated',
+             title: 'I will convert figma to react nextjs with responsive tailwind CSS',
+             rating: 4.8,
+             reviews: 20,
+             price: 'PKR 25,000',
+             offersVideo: true,
+           }}
+         />
+         
+                       <GigCard
+           data={{
+             image: '/assets/gigs/dummy.png',
+             avatar: '/assets/gigs/avatar.png',
+             sellerName: 'Jane Doe',
+             badge: 'Top Rated',
+             title: 'I will convert figma to react nextjs with responsive tailwind CSS',
+             rating: 4.8,
+             reviews: 20,
+             price: 'PKR 25,000',
+             offersVideo: true,
+           }}
+         />
+
+
+             <GigCard
+           data={{
+             image: '/assets/gigs/dummythree.png',
+             avatar: '/assets/gigs/avatar.png',
+             sellerName: 'Jane Doe',
+             badge: 'Top Rated',
+             title: 'I will convert figma to react nextjs with responsive tailwind CSS',
+             rating: 4.8,
+             reviews: 20,
+             price: 'PKR 25,000',
+             offersVideo: true,
+           }}
+         />
+
+
+             <GigCard
+           data={{
+             image: '/assets/gigs/dummyfour.png',
+             avatar: '/assets/gigs/avatar.png',
+             sellerName: 'Jane Doe',
+             badge: 'Top Rated',
+             title: 'I will convert figma to react nextjs with responsive tailwind CSS',
+             rating: 4.8,
+             reviews: 20,
+             price: 'PKR 25,000',
+             offersVideo: true,
+           }}
+         />
+        </div>
       </div>
-      <TalentPromo />
+    {/*   <TalentPromo />
       <FindTalent />
-      <EnterpriseSuite />
+      <EnterpriseSuite /> */}
     </div>
   )
 }
