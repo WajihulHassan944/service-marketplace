@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaSearch, FaUserFriends, FaFileAlt, FaStickyNote } from 'react-icons/fa';
 import './Messages.css';
+import Link from 'next/link';
 const MessageProfile = () => {
   return (
   <div className="info-panel">
