@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaSearch, FaUserFriends, FaFileAlt, FaStickyNote } from 'react-icons/fa';
 import '../../../BuyerDashboard/Messages/Messages.css';
+import Link from 'next/link';
 const SellerProfile = () => {
   return (
   <div className="info-panel" style={{marginLeft:'0'}}>
@@ -12,7 +13,7 @@ const SellerProfile = () => {
      <p className="time">Level 2 Seller</p>
         
           <div className="action-buttons">
-            <button className="view-proposal-btn">Preview profile</button>
+          <Link href="/profile" className="view-proposal-btn"> Preview profile</Link>
           </div>
   
           <div className="info-section">
