@@ -111,13 +111,13 @@ const Navbar = () => {
     </div>
 
     <ul className="mobile-nav-links">
-      <Link href="/buyer/dashboard" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
+      <Link href="/" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
         <li className="mobile-nav-item">Dashboard</li>
       </Link>
       <Link href="/buyer/orders" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
         <li className="mobile-nav-item">Orders</li>
       </Link>
-      <Link href="/services" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
+      <Link href="/seller/services" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
         <li className="mobile-nav-item">Services</li>
       </Link>
       <Link href="/messages" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
@@ -126,8 +126,8 @@ const Navbar = () => {
       <Link href="/buyer/settings/billing" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
         <li className="mobile-nav-item">Billing</li>
       </Link>
-      <Link href="/buyer/liked-services" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
-        <li className="mobile-nav-item">Liked Services</li>
+      <Link href="/seller/earnings" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
+        <li className="mobile-nav-item">Earnings</li>
       </Link>
       <Link href="/buyer/notifications" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
         <li className="mobile-nav-item">Notifications</li>
