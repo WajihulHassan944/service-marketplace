@@ -50,13 +50,13 @@
   
   .help-icon {
     font-size: 0.85rem;
-    color: green;
+    color: #1f2a60;
     cursor: pointer;
   }
   
   .status-chip {
     background-color: #e4f0ff;
-    color: #007bff;
+    color: #1f2a60;
     padding: 4px 8px;
     font-size: 0.75rem;
     border-radius: 10px;
@@ -73,7 +73,7 @@
   }
   
   .due-icon {
-    color: #007bff;
+    color: #1f2a60;
     font-weight: bold;
   }
   

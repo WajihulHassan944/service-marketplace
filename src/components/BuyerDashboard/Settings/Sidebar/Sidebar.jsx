@@ -15,7 +15,7 @@ const Sidebar = () => {
     { path: '/buyer/settings/billing', icon: <FaBuilding />, label: 'Billing & Payments' },
     { path: '/buyer/settings/reset-password', icon: <FaLock />, label: 'Password & Security' },
     { path: '/buyer/settings/reviews', icon: <FaCalendarAlt />, label: 'My Reviews' },
-    { path: '/buyer/settings/connected-accounts', icon: <FaLinkIcon />, label: 'Connected Accounts' },
+    { path: '/seller/create-portfolio', icon: <FaLinkIcon />, label: 'My Portfolio' },
   ];
 
   useEffect(() => {

@@ -1,0 +1,265 @@
+.payout-container {
+  margin: 40px 10%;
+  margin-top: 20px;
+  padding: 0;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+  border-radius: 6px;
+}
+
+.payout-title {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  margin: 0;
+background: #f4f6ff;
+
+}
+
+.payout-section {
+  padding: 20px;
+}
+
+.payout-label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #111;
+}
+
+.payout-value {
+  font-size: 14px;
+  color: #111;
+}
+
+.payout-select-wrapper {
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  background-color: #fff;
+  max-width: 500px;
+  margin-top: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.payout-select-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.arrowSelect{
+    color: #204ecf;
+}
+.payout-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  z-index: 10;
+  font-size: 14px;
+}
+
+.payout-dropdown-item {
+  padding: 10px 14px;
+  border-top: 1px solid #eee;
+  cursor: pointer;
+}
+
+.payout-dropdown-item:hover {
+  background-color: #f5f5f5;
+}
+
+.payout-radio {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.payout-radio input[type='radio'] {
+  margin-right: 8px;
+}
+
+.payout-other-input {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.payout-dollar {
+  background: #f3f4f6;
+  color: #204ecf;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  font-weight: bold;
+}
+
+.payout-other-input input {
+  padding: 11.5px 10px;
+  padding-bottom: 13px;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-right: none;
+  font-size: 14px;
+  width: 120px;
+  border-radius: 0 !important;
+}
+
+.payout-currency {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  background-color: #f9f9f9;
+}
+
+.payout-summary {
+  padding: 20px;
+  border-top: 1px solid #f0f0f0;
+  font-size: 14px;
+}
+
+.payout-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.payout-row.total {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.payout-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-top: 1px solid #ddd;
+  background-color: #fafafa;
+}
+
+.payout-cancel {
+  background: none;
+  border: none;
+  color:#204ecf;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.payout-submit {
+  background-color:#204ecf;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+  .payout-container {
+    margin: 20px 5%;
+    padding: 0;
+    font-size: 14px;
+  }
+
+  .payout-title {
+    font-size: 16px;
+    padding: 15px;
+  }
+
+  .payout-section {
+    padding: 15px;
+  }
+
+  .payout-label {
+    font-size: 12px;
+  }
+
+  .payout-value {
+    font-size: 12px;
+  }
+
+  .payout-select-wrapper {
+    max-width: 100%;
+    padding: 10px 12px;
+  }
+
+  .payout-select-display {
+    font-size: 12px;
+  }
+
+  .arrowSelect {
+    font-size: 12px;
+  }
+
+  .payout-dropdown {
+    font-size: 12px;
+  }
+
+  .payout-dropdown-item {
+    padding: 8px 12px;
+  }
+
+  .payout-radio {
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .payout-radio input[type='radio'] {
+    margin-right: 6px;
+  }
+
+
+  .payout-other-input input{
+    padding: 10px;
+    padding-top: 11px;
+    margin-top: -1px;
+  }
+
+  .payout-summary {
+    font-size: 12px;
+  }
+
+  .payout-row {
+    flex-direction: column;
+    margin-bottom: 8px;
+  }
+
+  .payout-actions {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+  }
+
+  .payout-cancel,
+  .payout-submit {
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+
+  .payout-submit {
+    width: 100%;
+    margin-top: 10px;
+  }
+}

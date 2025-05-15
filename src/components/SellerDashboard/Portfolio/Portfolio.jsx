@@ -24,12 +24,6 @@ export default function Portfolio() {
       image: "/assets/portfolio/Port2.png",
       likes: "506",
     },
-    {
-      title: "Money form request",
-      author: "Dipa Inhouse",
-      image: "/assets/portfolio/Port3.png",
-      likes: "7.7k",
-    },
   ];
 
   return (
@@ -40,7 +34,7 @@ export default function Portfolio() {
       <main className="container">
         <h1 className="main-title">Discover My Portfolio's</h1>
         <p className="subtitle">
-          Explore work from the most talented and accomplished designers ready to take on your next project
+          Explore work from the most recent and accomplished achievements of mine to take on your next project
         </p>
 
         <div className="filter-bar">
@@ -62,7 +56,7 @@ export default function Portfolio() {
 </button>
         </div>
 
-        <div className="card-row">
+        <div className="card-row-seller-portfolio">
           {cards.map((card, index) => (
             <div className="card" key={index}>
               <Image
@@ -79,6 +73,41 @@ export default function Portfolio() {
             </div>
           ))}
         </div>
+<div className="portfolio-showcase">
+  <div className="portfolio-card">
+    <iframe
+      src="https://wajihulhassan.vercel.app/"
+      title="Wajih Ul Hassan Portfolio"
+      className="portfolio-iframe"
+    />
+    <a
+      href="https://wajihulhassan.vercel.app/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="view-website-button"
+    >
+      View Website
+    </a>
+  </div>
+
+  <div className="portfolio-card">
+    <iframe
+      src="http://muhammadfurqan.vercel.app/"
+      title="Muhammad Furqan Portfolio"
+      className="portfolio-iframe"
+    />
+    <a
+      href="http://muhammadfurqan.vercel.app/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="view-website-button"
+    >
+      View Website
+    </a>
+  </div>
+</div>
+
+
       </main>
     </>
   );

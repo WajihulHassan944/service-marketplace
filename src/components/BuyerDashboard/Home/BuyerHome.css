@@ -64,7 +64,7 @@
   
   .card-header-buyer a {
     font-size: 14px;
-    color: #00b22d;
+    color: #204ecf;
     text-decoration: none;
   }
   
@@ -114,7 +114,7 @@
   }
   
   .progress {
-    background-color: #00b22d;
+    background-color: #204ecf;
     height: 100%;
     border-radius: 5px;
   }
@@ -174,7 +174,7 @@
   }
   
   .faq-content a {
-    color: #00b22d;
+    color: #204ecf;
     text-decoration: none;
   }
 
@@ -209,7 +209,7 @@
   }
   
   .notification-item a {
-    color: #00b22d;
+    color: #204ecf;
     text-decoration: none;
   }
   
@@ -224,7 +224,7 @@
     text-align: center;
     font-weight: bold;
     margin-top: 10px;
-    color: #00b22d;
+    color: #0f256e;
     text-decoration: none;
     font-size: 14px;
   }

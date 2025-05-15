@@ -1,0 +1,27 @@
+.seller-dashboard-container{
+    padding-top: 10px;
+}
+
+
+.dashboard-seller-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+.dashboard-seller-header .tag {
+  background-color: #e4e8f3;
+  color: #3c4c78;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 10px;
+  margin-top: 3px;
+ 
+}
+
+.dashboard-seller-header .subtext {
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+}

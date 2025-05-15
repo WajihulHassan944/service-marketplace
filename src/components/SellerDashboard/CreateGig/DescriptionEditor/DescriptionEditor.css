@@ -1,0 +1,141 @@
+.main-div {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto; /* Center the content */
+}
+
+.desc-container {
+    margin: auto;
+    font-family: "Segoe UI", sans-serif;
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem; /* Added some padding for mobile view */
+}
+
+h3 {
+    margin-bottom: 0.5rem;
+    color: #444;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
+
+.desc-label {
+    display: block;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+.editor-toolbar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap; /* Ensure toolbar buttons wrap on smaller screens */
+}
+
+.editor-toolbar button {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 0.5rem; /* Added margin for spacing on smaller screens */
+    flex: 1 1 auto; /* Allow buttons to stretch and wrap */
+}
+
+.editor-box {
+    height: 160px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.75rem;
+    overflow-y: auto;
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 1rem; /* Added space below the editor box */
+}
+.hourlyRateTaker input{
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem;
+ font-size: 14px;
+width: 70px;    
+}
+.hourlyRateTaker span{
+    margin-left: 10px;
+    font-size: 17px;
+}
+.editor-box:focus {
+    outline: none;
+    border-color: #1c73e8;
+    box-shadow: 0 0 0 2px rgba(28, 115, 232, 0.15);
+}
+
+.char-count {
+    font-size: 0.85rem;
+    color: #888;
+    text-align: right;
+    margin-top: 0.4rem;
+}
+
+.submit-btn {
+    background-color: black;
+    color: white;
+    padding: 12px 25px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-left: 22px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #333; /* Darker shade on hover */
+}
+
+.submit-container {
+    justify-content: space-between;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* Ensure items wrap on smaller screens */
+}
+
+/* ✅ Responsive */
+@media (max-width: 600px) {
+    .desc-container {
+        padding: 1rem; /* Ensure padding for mobile */
+    }
+
+    .editor-box {
+        font-size: 0.95rem; /* Adjust font size for smaller screens */
+        height: auto; /* Allow box height to adjust for mobile */
+    }
+
+    .editor-toolbar {
+        flex-wrap: wrap; /* Ensure buttons wrap correctly */
+    }
+
+    .editor-toolbar button {
+        flex: 1 1 45%; /* Make buttons take up more space on mobile */
+        font-size: 0.9rem;
+    }
+
+    .submit-container {
+        flex-direction: column; /* Stack items vertically on small screens */
+        align-items: flex-start; /* Align buttons to the left */
+    }
+
+    .submit-btn {
+        width: 100%; /* Make the submit button full-width on mobile */
+        margin-left: 0; /* Remove margin on mobile */
+        margin-top: 1rem; /* Space between the submit button and other elements */
+    }
+}

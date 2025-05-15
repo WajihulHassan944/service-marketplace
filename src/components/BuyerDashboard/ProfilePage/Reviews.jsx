@@ -41,7 +41,6 @@ export default function Reviews() {
             <span>Duration</span>
           </div>
           <div className="meta-box tag-box">
-            <Image src="/portfolio.png" alt="tag" width={20} height={20} />
             <span>Web Application</span>
           </div>
         </div>

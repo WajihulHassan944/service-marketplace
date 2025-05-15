@@ -3,26 +3,28 @@ import React, { useState } from "react";
 import ProjectTimeline from "./ProjectTimeline/ProjectTimeline";
 import OrderDetails from "./OrdersDetails/OrdersDetails";
 import RecentFiles from "./RecentFiles/RecentFiles";
-import "./Main.css";
 import SubmittedRequirements from "./SubmittedRequirements/SubmittedRequirements";
+import InviteModal from "./InviteModal/InviteModal";
 import ReviewPopup from "./ReviewPopup/ReviewPopup";
+import "./Main.css";
 
 export default function Main() {
-  const [showPopup, setShowPopup] = useState(false);
-
+  const [showReviewPopup, setShowReviewPopup] = useState(false);
+  
   return (
     <div className="main-container">
       <div className="top-grid">
         <div className="left-column">
           <ProjectTimeline />
           <RecentFiles />
-          <center>
+          <center className="flexed-div">
             <button
               className="give-review-btn"
-              onClick={() => setShowPopup(true)}
+              onClick={() => setShowReviewPopup(true)}
             >
               Give Review
             </button>
+                 <InviteModal />
           </center>
         </div>
         <div className="right-column">
@@ -30,7 +32,9 @@ export default function Main() {
           <SubmittedRequirements />
         </div>
       </div>
-      {showPopup && <ReviewPopup onClose={() => setShowPopup(false)} />}
-    </div>
+
+      {showReviewPopup && <ReviewPopup onClose={() => setShowReviewPopup(false)} />}
+   
+     </div>
   );
 }

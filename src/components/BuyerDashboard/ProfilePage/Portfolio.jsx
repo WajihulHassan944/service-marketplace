@@ -1,22 +1,23 @@
+import Link from "next/link";
 import "./Styles.css";
 
 const portfolioItems = [
   {
-    image: "/portfolio.png",
+    image: "/assets/portfolio/one.png",
     title: "Construction website",
     description: "It's a portfolio construction website.",
     tag: "Website Development",
   },
   {
-    image: "/portfolio.png",
+    image: "/assets/gigs/dummytwo.png",
     title: "E-commerce Platform",
   },
   {
-    image: "/portfolio.png",
+    image: "/assets/portfolio/two.png",
     title: "Portfolio Landing Page",
   },
   {
-    image: "/portfolio.png",
+    image: "/assets/portfolio/three.png",
     title: "Marketing Agency",
   },
   // Add more items as needed
@@ -47,7 +48,7 @@ export default function Portfolio() {
               className="thumbnail"
             />
           ))}
-          <div className="more-projects">+{portfolioItems.length - 1} Projects</div>
+         <Link className="link" href="/seller/portfolio"> <div className="more-projects">+{portfolioItems.length - 1} Projects</div></Link>
         </div>
       </div>
     </div>

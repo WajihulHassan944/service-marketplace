@@ -42,8 +42,8 @@
   }
   
   .timeline-item.completed .timeline-icon {
-    border-color: green;
-    color: green;
+    border-color: #204ecf;
+    color: #204ecf;
   }
   
   .timeline-item.current .timeline-icon {
@@ -85,7 +85,7 @@
   }
   
   .submit-btn {
-    background-color: green;
+    background-color: #204ecf;
     color: white;
     border: none;
     padding: 10px;
@@ -97,7 +97,7 @@
   }
   
   .submit-btn:hover {
-    background-color: #057a05;
+    background-color: #204ecf;
   }
   
   /* Mobile Responsive */

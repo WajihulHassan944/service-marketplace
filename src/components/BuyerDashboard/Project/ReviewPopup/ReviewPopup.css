@@ -42,7 +42,7 @@
 }
 
 .rating-box {
-  background-color: #27ae60;
+  background-color: #1f2a60;
   color: white;
   padding: 10px 20px;
   border-radius: 8px;
@@ -87,7 +87,7 @@
 }
 
 .star.filled {
-  color: #27ae60;
+  color: #1f2a60;
 }
 
 .desc-label {
@@ -109,7 +109,7 @@
 }
 
 .submit-review-btn {
-  background-color: #27ae60;
+  background-color: #1f2a60;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -122,5 +122,5 @@
 }
 
 .submit-review-btn:hover {
-  background-color: #219150;
+  background-color: #1f2a60;
 }

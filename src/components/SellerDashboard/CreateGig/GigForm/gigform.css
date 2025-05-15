@@ -1,0 +1,108 @@
+.gig-form-container {
+  background-color: #fff;
+  padding: 30px;
+  max-width: 800px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+}
+
+.section-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+.form-section select{
+  font-size: 14px;
+}
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.two-columns {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.two-columns > div {
+  flex: 1;
+  min-width: 200px;
+}
+
+.note-text {
+  font-size: 14px;
+  color: #cc3300;
+  margin-bottom: 20px;
+}
+
+.submit-container-1 {
+  display: flex;
+  margin-top: 2rem;
+  margin-right: auto;
+  justify-content: flex-end;
+  /* optional spacing */
+}
+
+.submit-btn-1 {
+  color: #fff;
+  cursor: pointer;
+  background-color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 0.75rem 1.5rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn-1:hover {
+  background-color: #333; /* Darker shade on hover */
+}
+
+/* ✅ Mobile Responsive */
+@media (max-width: 600px) {
+  .gig-form-container {
+    padding: 15px; /* Reduce padding on mobile */
+  }
+
+  .section-title {
+    font-size: 20px; /* Smaller title size */
+    margin-bottom: 15px; /* Adjust margin */
+  }
+
+  .two-columns {
+    flex-direction: column; /* Stack columns vertically */
+    gap: 10px; /* Reduced gap between stacked items */
+  }
+
+  .form-input {
+    font-size: 14px; /* Smaller input text size */
+  }
+
+  .submit-container-1 {
+    flex-direction: column; /* Stack buttons on mobile */
+    align-items: stretch; /* Ensure full width on smaller screens */
+    justify-content: center; /* Center button vertically */
+  }
+
+  .submit-btn-1 {
+    width: 100%; /* Full width button on mobile */
+    margin-top: 1rem; /* Add some space above the button */
+  }
+}

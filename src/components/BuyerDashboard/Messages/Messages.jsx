@@ -40,10 +40,10 @@ if (isMobile === null) {
   return (
     <div className="messages-container">
       {/* Sidebar */}
-      <div className="sidebar">
-        <h1 className="sidebar-title">Messages</h1>
-        <div className="searchBarWrapper">
-          <div className="search-bar">
+      <div className="sidebar-messages">
+        <h1 className="sidebar-title-messages">Messages</h1>
+        <div className="searchBarWrapper-messages">
+          <div className="search-bar-messages">
             <FaSearch />
             <input type="text" placeholder="Search" />
           </div>
@@ -51,27 +51,27 @@ if (isMobile === null) {
         </div>
 
         <div className="usersInMessagesWrapper">
-          <div className="contact active" onClick={handleContactClick}>
+          <div className="contact-messages active-messages" onClick={handleContactClick}>
             <img
               src="/assets/users/one.png"
               alt="Amina"
               onClick={handleImageClick}
             />
-            <div className="contact-info">
+            <div className="contact-info-messages">
               <h4>Amina Okonkwo</h4>
               <p>Data Analyst – E-commerce Insights</p>
             </div>
             <span className="timestamp">12:02 AM</span>
           </div>
 
-          <div className="contact" onClick={handleContactClick}>
+          <div className="contact-messages" onClick={handleContactClick}>
             <img
               src="/assets/users/one.png"
               alt="Amina"
               onClick={handleImageClick}
             />
-            <div className="contact-info">
-              <h4>Amina Okonkwo</h4>
+            <div className="contact-info-messages">
+              <h4>Amina Okonkwos</h4>
               <p>Data Analyst – E-commerce Insights</p>
             </div>
             <span className="timestamp">12:02 AM</span>

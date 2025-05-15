@@ -1,0 +1,89 @@
+/* PublishGig.css */
+.publish-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  padding-top: 100px;
+}
+
+.publish-content {
+  text-align: center;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+.publish-content h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1f4f70;
+}
+
+.publish-content p {
+  font-size: 1rem;
+  color: #555;
+  margin: 20px 0;
+}
+
+.publish-btn {
+  background-color: #3a4a7a;
+  color: white;
+  font-size: 1.1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 10px 0;
+}
+
+.publish-btn:hover {
+  background-color: #3a4a7a;
+}
+
+.back-btn {
+  background-color: #f1f1f1;
+  color: #555;
+  font-size: 1rem;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+  background-color: #ddd;
+}
+.btn-div{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    margin: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .publish-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .publish-content p {
+    font-size: 0.9rem;
+  }
+
+  .publish-btn {
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+
+  .back-btn {
+    font-size: 0.9rem;
+    padding: 7px 14px;
+  }
+}
+

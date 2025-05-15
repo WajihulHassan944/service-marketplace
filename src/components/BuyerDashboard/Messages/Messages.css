@@ -9,24 +9,24 @@
   }
   
   /* Left Sidebar */
-  .sidebar {
+  .sidebar-messages {
     width: 320px;
     padding: 10px;
     margin-right: 20px;
     
   }
-  .sidebar .usersInMessagesWrapper{
+  .sidebar-messages .usersInMessagesWrapper-messages{
     background: #f9fafb;
     padding: 10px 0;
     border-radius: 10px;
   }
-  .sidebar .sidebar-title{
+  .sidebar-messages .sidebar-title-messages{
     font-weight: 500;
     font-size: 25px;
     margin-bottom: 23px;
   }
 
-  .searchBarWrapper{
+  .searchBarWrapper-messages{
     display: flex;
     gap:20px;
     align-items: center;
@@ -34,7 +34,7 @@
     margin-bottom: 15px;
     
   }
-  .search-bar {
+  .search-bar-messages {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -46,16 +46,16 @@
     width: 100%;
   }
   
-  .search-bar input {
+  .search-bar-messages input {
     flex: 1;
     border: none;
     outline: none;
     font-size: 14px;
   }
   .filterIcon{
-    color: #108a00;
+    color: #204ecf;
   }
-  .contact {
+  .contact-messages {
     background: white;
     display: flex;
     align-items: center;
@@ -65,12 +65,12 @@
     position: relative;
   }
   
-  .contact.active {
-    background: #108a00;
+  .contact-messages.active-messages {
+    background: #204ecf;
     color: white;
   }
   
-  .contact img {
+  .contact-messages img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -78,13 +78,13 @@
     object-fit: cover;
   }
   
-  .contact-info h4 {
+  .contact-info-messages h4 {
     margin: 0;
     margin-bottom: 4px;
     font-size: 16px;
   }
   
-  .contact-info p,
+  .contact-info-messages p,
   .preview {
     margin: 0;
     font-size: 12px;
@@ -117,7 +117,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-height: 90vh;
+    min-height: 80vh;
     
   }
   .chat-header {
@@ -159,7 +159,7 @@
   .chat-actions .video-icon {
     margin-left: 12px;
     cursor: pointer;
-    color: #108a00;
+    color: #204ecf;
     font-size: 20px;
   }
   
@@ -219,11 +219,16 @@
   }
   
   .send-btn {
-    background: #22c55e;
+    background: #204ecf;
     color: white;
     border: none;
     border-radius: 50%;
-    padding: 8px;
+    width:30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     cursor: pointer;
   }
   
@@ -286,8 +291,8 @@
   }
   
   .view-proposal-btn {
-    background: #ecfdf5;
-    color: #16a34a;
+    background: #e7ecfb;
+    color: #204ecf;
   }
   
   .info-section {

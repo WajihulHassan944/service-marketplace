@@ -19,7 +19,6 @@ export default function ContactCard() {
           </div>
         </div>
         <div className="card-actions">
-          <button className="btn-outline">More about me</button>
           <button className="btn-icon"><FaRegHeart /></button>
         </div>
       </div>

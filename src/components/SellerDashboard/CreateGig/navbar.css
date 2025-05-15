@@ -1,0 +1,81 @@
+.creation-gig-wrapper{
+  min-height: 90vh;
+   background: #f9fafb;
+}
+.create-gig-navbar {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  padding: 10px 20px;
+  padding-left: 11.5%;
+  
+}
+
+.create-gig-navbar-steps {
+  display: flex;
+  gap: 30px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.create-gig-step {
+  display: flex;
+  width: 110px;
+  align-items: center;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+}
+
+.create-gig-step-number {
+  background-color: #ccc;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  font-weight: bold;
+  margin-right: 10px;
+  color: #fff;
+  line-height: 1.5;
+}
+
+.create-gig-step.active .create-gig-step-number {
+  background-color: #1f2a60;
+}
+
+.create-gig-step.active .create-gig-step-name {
+  color: #222;
+  font-weight: bold;
+}
+.create-gig-step.done {
+ font-weight: bold;
+  color: #1f2a60;
+}
+
+.create-gig-step.done .create-gig-step-number {
+  background-color: #1f2a60;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .create-gig-navbar-steps {
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .create-gig-step-name {
+    display: none;
+  }
+
+  .create-gig-step-number {
+    margin-right: 0;
+  }
+}
+
+.create-gig-main-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}

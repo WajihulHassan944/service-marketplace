@@ -21,18 +21,19 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         <div className="navSecOne">
-          <Link href="/">
+          <Link href="/seller/dashboard">
             <div className="navbar-logo">
-              <Image src="/assets/logo.png" alt="logo" width={50} height={50} />
+              <Image src="/assets/logo.png" alt="logo" width={50} height={50} style={{objectFit:'cover', width:'60px', height:'auto', borderRadius:'50%'}} />
             </div>
           </Link>
-          <SearchBar />
              <ul className="navbar-menu">
-        <Link href="/buyer/dashboard" className='navLink'><li className="navbar-item">Dashboard</li>
+        <Link href="/seller/dashboard" className='navLink'><li className="navbar-item">Dashboard</li>
         </Link>
        <Link href="/buyer/orders" className='navLink'> <li className="navbar-item">Orders</li>
        </Link>
-       <Link href="/services" className='navLink'> <li className="navbar-item">Services</li>
+       <Link href="/seller/services" className='navLink'> <li className="navbar-item">Services</li>
+       </Link>
+       <Link href="/seller/earnings" className='navLink'> <li className="navbar-item">Earnings</li>
        </Link>
        
        <Link href="/buyer/settings/billing" className='navLink'> <li className="navbar-item">Billing</li>
@@ -45,8 +46,7 @@ const Navbar = () => {
             <FaBars size={22} />
           </div>
           <div className="navbar-actions">
-            <Link href="/buyer/liked-services"><div className="nav-icon"><FiHeart /></div></Link>
-         
+          
         <div className="nav-message-container">
       <div className="nav-icon" onClick={() => setShowPopup(!showPopup)}>
         <FiMessageSquare />
@@ -83,7 +83,7 @@ const Navbar = () => {
                 </div>
                 <ul className="dropdown-links-user">
                   <Link href="/profile" onClick={() => setDropdownOpen(false)}><li><FaUser /> Profile</li></Link>
-                  <Link href="/buyer/settings/billing" onClick={() => setDropdownOpen(false)}><li><FaCog /> Settings</li></Link>
+                  <Link href="/buyer/settings/myinfo" onClick={() => setDropdownOpen(false)}><li><FaCog /> Settings</li></Link>
                   <Link href="/" onClick={() => setDropdownOpen(false)}><li><FaSignOutAlt /> Log out</li></Link>
                 </ul>
               </div>
@@ -91,9 +91,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-<div className='separationNavsLine'></div>
-<SubNavbar />
-
+      
 {menuOpen && (
   <div className="mobile-menu">
     <div className="mobile-menu-header">
