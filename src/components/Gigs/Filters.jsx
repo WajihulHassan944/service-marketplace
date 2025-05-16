@@ -49,7 +49,7 @@ export default function Filters() {
         <h1 className="title">Software Development</h1>
         <p className="subtitle">
           Add features to your website with custom web applications and extensions
-          <span className="how-works"> ▶ How Fiverr Works</span>
+          <span className="how-works"> ▶ How doTask Works</span>
         </p>
       </div>
 
