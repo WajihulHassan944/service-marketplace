@@ -9,13 +9,13 @@ import PopularServices from './PopularServices/PopularServices';
 import CardCarousel from './CardCarousel/CardCarousel';
 import FindTalent from './Talent/FindTalent';
 import EnterpriseSuite from './Enterprise/EnterpriseSuite';
-const MainHome = () => {
+const BuyerHomePage = () => {
   return (
     <div>
     <HeroSection />
       <Brands />
       <CardCarousel />
-       <UpworkPromo /> 
+   {/*    <UpworkPromo /> */}
     
 <PopularServices />
       <div className='home-services-cards'>
@@ -80,11 +80,11 @@ const MainHome = () => {
          />
         </div>
       </div>
-      <TalentPromo />
+    {/*   <TalentPromo />
       <FindTalent />
-      <EnterpriseSuite /> 
+      <EnterpriseSuite /> */}
     </div>
   )
 }
 
-export default MainHome
+export default BuyerHomePage

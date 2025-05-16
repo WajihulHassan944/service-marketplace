@@ -2,12 +2,13 @@
 import React, { useState } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
 import './CreatePortfolio.css';
-
+import { AiOutlineInfoCircle } from "react-icons/ai";
 const CreatePortfolio = () => {
   const [previewType, setPreviewType] = useState('image');
   const [imagePreview, setImagePreview] = useState(null);
   const [linkPreview, setLinkPreview] = useState('');
-
+const [showInfo, setShowInfo] = useState(true);
+const toggleInfo = () => setShowInfo((prev) => !prev);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -61,16 +62,26 @@ const CreatePortfolio = () => {
   </div>
 </div>
 ) : (
-            <div className="form-group">
-              <label htmlFor="portfolio-link">Website Link</label>
-              <input
-                type="text"
-                id="portfolio-link"
-                placeholder="Enter website URL"
-                value={linkPreview}
-                onChange={(e) => setLinkPreview(e.target.value)}
-              />
-            </div>
+         <div className="form-group">
+  <label htmlFor="portfolio-link">Website Link</label>
+  
+  <div className="input-with-info">
+    <input
+      type="text"
+      id="portfolio-link"
+      placeholder="Enter website URL"
+      value={linkPreview}
+      onChange={(e) => setLinkPreview(e.target.value)}
+    />
+    <AiOutlineInfoCircle className="info-icon" onClick={toggleInfo} />
+  </div>
+
+  {showInfo && (
+    <div className="info-tooltip">
+      Do not include your portfolio. Otherwise, your account will be flagged.
+    </div>
+  )}
+</div>
           )}
 
           <div className="form-group">

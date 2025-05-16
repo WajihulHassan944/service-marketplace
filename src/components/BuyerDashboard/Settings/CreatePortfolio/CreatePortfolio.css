@@ -203,3 +203,31 @@
     font-size: 13px;
   }
 }
+.input-with-info {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-info input {
+  width: 100%;
+  padding-right: 30px; /* Make space for icon */
+}
+
+.info-icon {
+  position: absolute;
+  right: 10px;
+  color: #888;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.info-tooltip {
+  margin-top: 6px;
+  background: #ffecec;
+  color: #b00020;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  border: 1px solid #ffbdbd;
+}

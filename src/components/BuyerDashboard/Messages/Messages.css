@@ -310,3 +310,10 @@
     cursor: pointer;
   }
   
+
+  
+.view-proposal-btn{
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+}

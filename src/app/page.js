@@ -6,9 +6,8 @@ import Dashboard from "@/components/SellerDashboard/dashboard/Dashboard";
 export default function Home() {
   return (
     <div>
-{/*     <MainHome />
- */}
- <Dashboard />
+     <MainHome />
+ 
         </div>
   );
 }

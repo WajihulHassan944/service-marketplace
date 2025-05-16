@@ -51,6 +51,10 @@ export default function Portfolio() {
          <Link className="link" href="/seller/portfolio"> <div className="more-projects">+{portfolioItems.length - 1} Projects</div></Link>
         </div>
       </div>
+   <Link className="link" href="/seller/portfolio">  <button className="view-gig">View all projects</button></Link>
+      
+      
+   
     </div>
   );
 }
