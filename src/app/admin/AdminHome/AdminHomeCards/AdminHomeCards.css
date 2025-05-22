@@ -1,0 +1,89 @@
+.adminHomeCardsContainer {
+  display: flex;
+justify-content: space-between;
+align-items: center;
+  gap: 30px;
+  padding: 20px 4%;
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+
+.adminHomeCardsContainer  .adminHomeCard {
+  width: 180px;
+  padding: 35px 20px;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+   justify-content: center;
+  align-items: center;
+}
+
+.adminHomeCard .icon {
+  margin: auto;
+    margin-bottom: 10px;
+
+}
+
+.adminHomeCard h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: 0.25rem;
+}
+
+.adminHomeCard p {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 5px 0 0;
+}
+
+/* Unique adminHomeCard backgrounds */
+.adminHomeCard.reports {
+  background-color: #eaf3ff;
+  color: #1e66f6;
+}
+
+.adminHomeCard.payroll {
+  background-color: #e7fdf7;
+  color: #00b894;
+}
+
+.adminHomeCard.events {
+  background-color: #fef4f2;
+  color: #ff6b6b;
+}
+
+.adminHomeCard.projects {
+  background-color: #eaf3ff;
+  color: #1e66f6;
+}
+
+.adminHomeCard.clients {
+  background-color: #fff7ec;
+  color: #ffa500;
+}
+
+.adminHomeCard.employees {
+  background-color: #eaf3ff;
+  color: #1e66f6;
+}
+@media (max-width: 768px) {
+  .adminHomeCardsContainer {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 16px 3%;
+  }
+
+  .adminHomeCardsContainer .adminHomeCard {
+    width: 45%;
+    padding: 25px 16px;
+  }
+
+  .adminHomeCard h4 {
+    font-size: 0.8125rem;
+  }
+
+  .adminHomeCard p {
+    font-size: 0.9rem;
+  }
+}

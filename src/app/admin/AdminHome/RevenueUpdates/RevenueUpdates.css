@@ -1,0 +1,106 @@
+.revenue-container {
+  display: flex;
+  gap: 2rem;
+  background: #fff;
+  padding: 1.5rem;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  max-width: 900px;
+  width: 100%;
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+
+.left {
+  flex: 2;
+}
+
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+h2 {
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.dropdown {
+  background: #f3f4f6;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 300;
+  user-select: none;
+  width: fit-content;
+  margin-left: auto;
+}
+
+.total {
+  font-size: 2rem;
+  margin: 0;
+  font-weight: 100;
+}
+
+.label {
+  color: #888;
+  margin-top: 0;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-earnings {
+  background-color: #4c6ef5;
+}
+
+.dot-expenses {
+  background-color: #38bdf8;
+}
+
+.report-btn {
+  background-color: #4c6ef5;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+  width: fit-content;
+}
+
+.report-btn:hover {
+  background-color: #3b54d9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .revenue-container {
+    flex-direction: column;
+  }
+  .left, .right {
+    flex: unset;
+  }
+  .right {
+    margin-top: 2rem;
+  }
+}

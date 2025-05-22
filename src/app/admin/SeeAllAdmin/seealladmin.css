@@ -1,0 +1,137 @@
+.table-wrapper {
+  overflow-x: auto;
+  padding: 10px 4%;
+  background: #fff;
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+
+.team-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.team-table th,
+.team-table td {
+  padding: 1rem 1.2rem;
+  text-align: left;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.team-table th {
+  font-weight: 700;
+  color: #333;
+  background: #f9f9f9;
+  white-space: nowrap;
+}
+
+.name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.action-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-right: 8px;
+}
+
+.action-btn.view {
+  background-color: #6c63ff;
+  color: white;
+}
+
+.action-btn.view:hover {
+  background-color: #574fdb;
+}
+
+.action-btn.delete {
+  background-color: #d9363e;
+  color: white;
+}
+
+.action-btn.delete:hover {
+  background-color: #b32a2a;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .team-table {
+    min-width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .team-table thead {
+    display: none; /* Hide table headers on mobile */
+  }
+
+  .team-table,
+  .team-table tbody,
+  .team-table tr,
+  .team-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .team-table tr {
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  .team-table td {
+    display: flex;
+    justify-content: center;
+    text-align: right;
+    position: relative;
+    border: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  .team-table td:last-child {
+    border-bottom: none;
+  }
+
+  .team-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    width: calc(50% - 30px);
+    font-weight: 600;
+    text-align: left;
+    color: #555;
+  }
+
+  .name-cell {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .avatar {
+    width: 35px;
+    height: 35px;
+  }
+
+  .action-btn {
+    margin: 5px 5px 0 0;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}

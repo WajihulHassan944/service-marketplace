@@ -1,0 +1,197 @@
+.admin-notifications {
+  padding: 20px 4%;
+  
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  background: #fafafa;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.notificationParentWrapAdmin{
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
+}
+.subtitle {
+  color: #666;
+  font-size: 14px;
+}
+
+.add-button {
+  background: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.label {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.action-label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.unread-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggle-label {
+  font-size: 14px;
+  color: #333;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #007bff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.item:last-of-type{
+  border: none;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.checkbox-col {
+  width: 5%;
+  align-items: center;
+}
+
+.title-col {
+  width: 55%;
+}
+
+.users-col {
+  width: 20%;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-col {
+  width: 20%;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+}
+
+.title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.desc {
+  font-size: 14px;
+  color: #555;
+}
+
+.user-count {
+  font-size: 14px;
+  color: #333;
+}
+
+.menu-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.dropdown {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  z-index: 10;
+  width: 150px;
+}
+
+.dropdown-item {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdown-item:hover {
+  background: #f9f9f9;
+}
+
+.dropdown-item.delete {
+  color: red;
+}
+
+.icon {
+  font-size: 16px;
+}

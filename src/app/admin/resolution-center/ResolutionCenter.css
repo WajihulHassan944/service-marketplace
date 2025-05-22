@@ -1,0 +1,166 @@
+.resolution-container {
+  background: #fafafa;
+  padding: 40px;
+  min-height: 90vh;
+  
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  position: relative;
+}
+
+.resolution-container .resolution-heading {
+    font-size: 23px;
+    line-height: 36px;
+    font-weight: 500;
+    color: #333;
+  margin-bottom: 20px;
+}
+
+.resolution-container .browse-link {
+  color: #3f51f7;
+  float: right;
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: none;
+  margin-top: -50px;
+}
+.resolution-container .resolutionCardsWrap{
+box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 12px;
+   margin-top: 24px;
+   padding-bottom: 8px;
+}
+.resolution-container .resolution-card {
+  background: #fff;
+    border-radius: 3px 3px 0px 0px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ 
+}
+
+.resolution-container .resolution-info {
+  flex: 1;
+}
+
+.resolution-container .resolution-title {
+  margin-bottom: 8px;
+ font-size: 17px;
+    color: #333;
+    line-height: 28px;
+    cursor: pointer;
+    font-weight: 600;
+    padding-top: 2px;
+}
+
+.resolution-container .resolution-meta {
+  display: flex;
+  gap: 20px;
+  color: #6b6b6b;
+  font-size: 14px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.resolution-container .resolution-meta svg {
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.resolution-container .resolution-tags{
+    margin-top: 15px;
+    
+}
+.resolution-container .resolution-tags span {
+  background-color: #f1f3ff;
+  color: #3f51f7;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.resolution-container .resolution-bid {
+  text-align: left;
+  min-width: 180px;
+ margin-top: 5px;
+}
+
+.resolution-amount {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.resolution-type {
+  font-size: 14px;
+  color: #6b6b6b;
+  margin-bottom: 16px;
+}
+
+.bid-button {
+  background-color: #3f51f7;
+  color: white;
+  padding: 10px 24px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.bid-button:hover {
+  background-color: #3042d8;
+}
+@media (max-width: 768px) {
+  .resolution-container {
+    padding: 20px;
+  }
+
+  .resolution-heading {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .browse-link {
+    float: none;
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+
+  .resolution-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  .resolution-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .resolution-tags {
+    margin-top: 12px;
+  }
+
+  .resolution-tags span {
+    margin-bottom: 8px;
+  }
+
+  .resolution-bid {
+    text-align: left;
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  .bid-button {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+  }
+}

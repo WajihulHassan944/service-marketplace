@@ -1,0 +1,147 @@
+.topnav {
+  position: fixed;
+  top: 0;
+  left: 260px; /* Adjust for fixed sidebar */
+  right: 0;
+  height: 60px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  padding-top: 10px;
+  z-index: 1000;
+   font-family: "Plus Jakarta Sans", sans-serif !important;
+   box-shadow: 6px 0px 18px rgba(0, 0, 0, 0.12);
+
+}
+
+.topnav-left,
+.topnav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.topnav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.icon-topnav {
+  font-size: 16px;
+  color: #1f2937;
+  cursor: pointer;
+}
+
+.icon-img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.icon-with-badge-topnav {
+  position: relative;
+}
+
+.icon-with-badge-topnav .badge-topnav {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background-color: #f97316;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 5px;
+  border-radius: 50%;
+}
+
+.icon-with-dot-topnav {
+  position: relative;
+}
+
+.icon-with-dot-topnav .dot-topnav {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 6px;
+  height: 6px;
+  background-color: #6366f1;
+  border-radius: 50%;
+}
+.topnav-link-main{
+  text-decoration: none;
+   color: #1f2937;
+}
+.avatar-topnav {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+/* Mobile adjustments */
+.topnav-more {
+  display: none;
+  position: fixed;
+  top:17.5px;
+  right: 30px;
+  transform: rotate(90deg);
+  z-index: 5;
+  cursor: pointer;
+}
+.topNavIcon{
+  font-weight: 700;
+  font-size: 23px;
+  margin-top: 20px;
+}
+/* Hide icons container on mobile */
+.topnavbar-icons {
+  display: flex;
+  gap: 20px;
+}
+
+.mobile-topnav-dropdown {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  
+.topnav-left,
+.topnav-right {
+  display: none;
+}
+  .topnav-more {
+    display: block;
+    font-size: 20px;
+  }
+
+  .topnav-icons {
+    display: none; /* hide desktop icons */
+  }
+
+  .mobile-topnav-dropdown {
+    position: absolute;
+    top: 60px;
+    right: 16px;
+    background: white;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    padding: 10px 12px;
+    border-radius: 8px;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .topnav {
+    box-shadow: none;
+  }
+}

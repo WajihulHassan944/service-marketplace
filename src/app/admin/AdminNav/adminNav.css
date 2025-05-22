@@ -1,0 +1,208 @@
+
+.admin-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh;
+  background-color: #fff;
+  border-right: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.03);
+  z-index: 1000;
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 20px;
+}
+
+.logo {
+  width: 30px;
+  height: 30px;
+}
+
+.brand-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e1e2d;
+}
+.nav-sections {
+  flex: 1;
+  overflow-y: hidden; /* Hide scrollbar initially */
+  margin-top: 20px;
+}
+
+/* Show scrollbar only on hover */
+.nav-sections:hover {
+  overflow-y: auto;
+}
+
+/* Hide scrollbar arrows (WebKit browsers) */
+.nav-sections::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Optional: style scrollbar (WebKit only) */
+.nav-sections::-webkit-scrollbar {
+  width: 8px;
+}
+
+.nav-sections::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.nav-sections::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Firefox support */
+.nav-sections {
+  scrollbar-width: none; /* Hide scrollbar in Firefox by default */
+}
+
+.nav-sections:hover {
+  scrollbar-width: thin; /* Show thin scrollbar on hover in Firefox */
+  scrollbar-color: rgba(0,0,0,0.2) transparent;
+}
+
+
+.nav-group {
+  margin-bottom: 30px;
+}
+
+.nav-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: #2a3547;;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  padding-left: 10px;
+}
+
+.nav-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-group li {
+  margin-bottom: 12px;
+}
+
+.nav-group a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  color: #2e2e3a;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.nav-group a:hover {
+  background-color: #f3f4f6;
+}
+
+.icon {
+  font-size: 16px;
+  margin-right: 12px;
+  color: #4b5563;
+}
+
+.user-box {
+  display: flex;
+  align-items: center;
+  background: #e9f3ff;
+  padding: 12px;
+  border-radius: 10px;
+  gap: 10px;
+}
+
+.user-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.username {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.usertag {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.logout-icon {
+  margin-left: auto;
+  color: #3b82f6;
+  font-size: 18px;
+  cursor: pointer;
+}
+/* Mobile Header with Hamburger + Centered Logo */
+.mobile-header {
+  display: none;
+}
+
+@media (max-width: 768px) {
+.mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  padding: 0 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+width: 100% !important;
+  z-index: 1;
+}
+
+
+  .mobile-header .hamburger-btn {
+    position: absolute;
+    left: 16px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: #1e1e2d;
+    cursor: pointer;
+  }
+
+  .mobile-logo {
+    width: 45px;
+  }
+
+  .admin-sidebar {
+    top: 60px; /* leave space for mobile-header */
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    width: 220px;
+    height: 90vh;
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+   .nav-sections {
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .nav-sections::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
+}
