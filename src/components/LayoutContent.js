@@ -8,22 +8,25 @@ import TopNav from '@/app/admin/AdminNav/TopNav/TopNav';
 
 export default function LayoutContent({ children }) {
   const pathname = usePathname();
-  const isAdminRoute = pathname.startsWith('/admin');
+  const isAdminLogin = pathname === '/admin/login';
+  const isAdminRoute = pathname.startsWith('/admin') && !isAdminLogin;
 
   return (
     <>
-      {isAdminRoute ? (
+      {isAdminRoute && (
         <>
           <AdminNav />
           <TopNav />
         </>
-      ) : (
-        <Navbar />
       )}
+
+      {!isAdminRoute && !isAdminLogin && <Navbar />}
+
       <main className={isAdminRoute ? 'admin-main' : ''}>
         {children}
       </main>
-      {!isAdminRoute && <Footer />}
+
+      {!isAdminRoute && !isAdminLogin && <Footer />}
     </>
   );
 }

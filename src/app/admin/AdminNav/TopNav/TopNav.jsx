@@ -30,15 +30,15 @@ const TopNav = () => {
         <div className="topnavbar-icons">
           <img src="/assets/admin/icon-flag-en.svg" alt="Flag" className="icon-img" />
 
-          <div className="icon-with-badge-topnav">
+         <Link href="/admin/messages"> <div className="icon-with-badge-topnav">
             <HiOutlineChatBubbleLeftRight className="icon-topnav" />
             <span className="badge-topnav">2</span>
-          </div>
+          </div></Link>
 
-          <div className="icon-with-dot-topnav">
+        <Link href="/admin/notifications">  <div className="icon-with-dot-topnav">
             <FiBell className="icon-topnav" />
             <span className="dot-topnav"></span>
-          </div>
+          </div></Link>
 
           <img src="/assets/myimg.jpg" alt="User" className="avatar-topnav" />
         </div>
