@@ -1,90 +1,107 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./sellerdata.css";
-
-const initialTeamMembers = [
-  {
-    name: "Emma Adams",
-    role: "Web Developer",
-    email: "adams@mail.com",
-    location: "Boston, USA",
-    phone: "+91(070)123–4567",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Olivia Allen",
-    role: "Web Designer",
-    email: "allen@mail.com",
-    location: "Sydney, Australia",
-    phone: "+91(125)450–1500",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Isabella Anderson",
-    role: "UX/UI Designer",
-    email: "anderson@mail.com",
-    location: "Miami, USA",
-    phone: "+91(100)154–1254",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Amelia Armstrong",
-    role: "Ethical Hacker",
-    email: "armstrong@mail.com",
-    location: "Tokyo, Japan",
-    phone: "+91(154)199–1540",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Emily Atkinson",
-    role: "Web Developer",
-    email: "atkinson@mail.com",
-    location: "Edinburgh, UK",
-    phone: "+91(900)150–1500",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Sofia Bailey",
-    role: "UX/UI Designer",
-    email: "bailey@mail.com",
-    location: "New York, USA",
-    phone: "+91(001)160–1845",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Victoria Sharma",
-    role: "Project Manager",
-    email: "sharma@mail.com",
-    location: "Miami, USA",
-    phone: "+91(110)180–1600",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Penelope Baker",
-    role: "Web Developer",
-    email: "baker@mail.com",
-    location: "Edinburgh, UK",
-    phone: "+91(405)483–4512",
-    image: "/assets/myimg.jpg",
-  },
-];
+import { baseUrl } from "@/const";
 
 const SellersData = () => {
-  const [members, setMembers] = useState(
-    initialTeamMembers.map((member) => ({ ...member, isBlocked: false }))
-  );
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const toggleBlock = (index) => {
-    const updatedMembers = [...members];
-    updatedMembers[index].isBlocked = !updatedMembers[index].isBlocked;
-    setMembers(updatedMembers);
+  useEffect(() => {
+    const fetchSellers = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const res = await fetch(`${baseUrl}/users/sellers`, {
+          credentials: "include",
+        });
+
+        if (!res.ok) throw new Error("Failed to fetch sellers");
+
+        const data = await res.json();
+        if (data.success && Array.isArray(data.users)) {
+          setMembers(data.users);
+        } else {
+          throw new Error("Invalid data format");
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSellers();
+  }, []);
+
+  const toggleBlock = async (id, currentlyBlocked) => {
+    try {
+      const url = `${baseUrl}/users/${id}/${currentlyBlocked ? "unblock" : "block"}`;
+
+      const res = await fetch(url, {
+        method: "PUT",
+        credentials: "include",
+      });
+
+      if (!res.ok) throw new Error("Failed to update block status");
+
+      setMembers((prev) =>
+        prev.map((m) =>
+          m._id === id ? { ...m, blocked: !currentlyBlocked } : m
+        )
+      );
+    } catch (err) {
+      alert("Error toggling block status: " + err.message);
+    }
   };
 
-  const handleDelete = (index) => {
-    const updatedMembers = [...members];
-    updatedMembers.splice(index, 1);
-    setMembers(updatedMembers);
+  const handleDelete = async (userId) => {
+    if (window.confirm("Are you sure you want to delete this seller?")) {
+      try {
+        const res = await fetch(`${baseUrl}/users/admin/delete-user/${userId}`, {
+          method: "DELETE",
+          credentials: "include",
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          setMembers((prev) => prev.filter((m) => m._id !== userId));
+          alert(data.message || "Seller deleted successfully.");
+        } else {
+          alert(data.message || "Failed to delete seller.");
+        }
+      } catch (err) {
+        alert("Error deleting seller: " + err.message);
+      }
+    }
   };
+
+  const handleApprove = async (id) => {
+    try {
+      const res = await fetch(`${baseUrl}/users/verify/${id}`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (!res.ok) throw new Error("Failed to approve seller");
+
+      setMembers((prev) =>
+        prev.map((m) =>
+          m._id === id ? { ...m, verified: true } : m
+        )
+      );
+
+      alert("Seller approved successfully!");
+    } catch (err) {
+      alert("Error approving seller: " + err.message);
+    }
+  };
+
+  if (loading) return <p>Loading sellers...</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
     <div className="table-wrapper">
@@ -93,45 +110,68 @@ const SellersData = () => {
           <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>Location</th>
-            <th>Phone</th>
-            <th>Action</th>
+            <th>Country</th>
+            <th>Actions</th>
             <th>Block</th>
           </tr>
         </thead>
         <tbody>
-          {members.map((member, index) => (
-            <tr key={index}>
-              <td className="name-cell">
-                <img src={member.image} alt={member.name} className="avatar" />
-                <div>
-                  <p className="name">{member.name}</p>
-                  <p className="role">{member.role}</p>
-                </div>
-              </td>
-              <td>{member.email}</td>
-              <td>{member.location}</td>
-              <td>{member.phone}</td>
-              <td>
-                <button
-                  className="delete-btn"
-                  onClick={() => handleDelete(index)}
-                >
-                  Delete
-                </button>
-              </td>
-              <td>
-                <button
-                  className={`block-btn ${
-                    member.isBlocked ? "unblock" : "block"
-                  }`}
-                  onClick={() => toggleBlock(index)}
-                >
-                  {member.isBlocked ? "Unblock" : "Block"}
-                </button>
-              </td>
+          {members.length === 0 ? (
+            <tr>
+              <td colSpan={5}>No sellers found.</td>
             </tr>
-          ))}
+          ) : (
+            members.map((member) => (
+              <tr key={member._id}>
+                <td className="name-cell">
+                   {member.profileUrl ? (
+                  <img
+                    src={member.profileUrl}
+                    alt={`${member.firstName} ${member.lastName}`}
+                    className="buyer-avatar"
+                  />
+                ) : (
+                  <div className="fallback-avatar">
+                    {member.firstName?.[0]?.toUpperCase() || "?"}
+                  </div>
+                )}
+               <div>
+                    <p className="name">
+                      {member.firstName} {member.lastName}
+                    </p>
+                    <p className="role">Seller</p>
+                  </div>
+                </td>
+                <td>{member.email}</td>
+                <td>{member.country || "N/A"}</td>
+                <td>
+                  <div style={{ display: "flex",  gap: "6px" }}>
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(member._id)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className={`approve-btn ${member.verified ? "approved" : "approve"}`}
+                      onClick={() => handleApprove(member._id)}
+                      disabled={member.verified}
+                    >
+                      {member.verified ? "Approved" : "Approve"}
+                    </button>
+                  </div>
+                </td>
+                <td>
+                  <button
+                    className={`block-btn ${member.blocked ? "unblock" : "block"}`}
+                    onClick={() => toggleBlock(member._id, member.blocked)}
+                  >
+                    {member.blocked ? "Unblock" : "Block"}
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>

@@ -1,133 +1,146 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./buyerdata.css";
-
-const initialTeamMembers = [
-  {
-    name: "Emma Adams",
-    role: "Web Developer",
-    email: "adams@mail.com",
-    location: "Boston, USA",
-    phone: "+91(070)123–4567",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Olivia Allen",
-    role: "Web Designer",
-    email: "allen@mail.com",
-    location: "Sydney, Australia",
-    phone: "+91(125)450–1500",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Isabella Anderson",
-    role: "UX/UI Designer",
-    email: "anderson@mail.com",
-    location: "Miami, USA",
-    phone: "+91(100)154–1254",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Amelia Armstrong",
-    role: "Ethical Hacker",
-    email: "armstrong@mail.com",
-    location: "Tokyo, Japan",
-    phone: "+91(154)199–1540",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Emily Atkinson",
-    role: "Web Developer",
-    email: "atkinson@mail.com",
-    location: "Edinburgh, UK",
-    phone: "+91(900)150–1500",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Sofia Bailey",
-    role: "UX/UI Designer",
-    email: "bailey@mail.com",
-    location: "New York, USA",
-    phone: "+91(001)160–1845",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Victoria Sharma",
-    role: "Project Manager",
-    email: "sharma@mail.com",
-    location: "Miami, USA",
-    phone: "+91(110)180–1600",
-    image: "/assets/myimg.jpg",
-  },
-  {
-    name: "Penelope Baker",
-    role: "Web Developer",
-    email: "baker@mail.com",
-    location: "Edinburgh, UK",
-    phone: "+91(405)483–4512",
-    image: "/assets/myimg.jpg",
-  },
-];
+import { baseUrl } from '@/const';
+const API_BASE = "https://backend-service-marketplace.vercel.app/api/users";
 
 const BuyerData = () => {
-  const [members, setMembers] = useState(
-    initialTeamMembers.map((member) => ({ ...member, isBlocked: false }))
-  );
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [updatingUserId, setUpdatingUserId] = useState(null);
 
-  const toggleBlock = (index) => {
-    const updatedMembers = [...members];
-    updatedMembers[index].isBlocked = !updatedMembers[index].isBlocked;
-    setMembers(updatedMembers);
+  useEffect(() => {
+    const fetchBuyers = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/buyers`, {
+          method: "GET",
+          credentials: "include", // sends cookies
+        });
+
+        if (!res.ok) throw new Error("Failed to fetch buyers");
+        const data = await res.json();
+        setMembers(data.users);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBuyers();
+  }, []);
+
+  const toggleBlock = async (userId, currentlyBlocked) => {
+    setUpdatingUserId(userId);
+    try {
+      const url = `${API_BASE}/${userId}/${currentlyBlocked ? "unblock" : "block"}`;
+
+      const res = await fetch(url, {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) throw new Error("Failed to update block status");
+
+      setMembers((prev) =>
+        prev.map((user) =>
+          user._id === userId ? { ...user, blocked: !currentlyBlocked } : user
+        )
+      );
+    } catch (err) {
+      alert("Error: " + err.message);
+    } finally {
+      setUpdatingUserId(null);
+    }
   };
 
-  const handleDelete = (index) => {
-    const updatedMembers = [...members];
-    updatedMembers.splice(index, 1);
-    setMembers(updatedMembers);
-  };
+const handleDelete = async (userId) => {
+  if (window.confirm("Are you sure you want to delete this buyer?")) {
+    try {
+      const response = await fetch(`${baseUrl}/users/admin/delete-user/${userId}`, {
+        method: "DELETE",
+        credentials: "include", // 👈 ensures cookies like auth tokens are sent
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Remove user from UI
+        setMembers((prev) => prev.filter((user) => user._id !== userId));
+        alert(data.message || "User deleted successfully.");
+      } else {
+        alert(data.message || "Failed to delete user.");
+      }
+
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert("An error occurred. Please try again.");
+    }
+  }
+};
+
+  if (loading) return <p>Loading buyers...</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
     <div className="table-wrapper">
       <table className="team-table">
         <thead>
           <tr>
+            <th>Picture</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Location</th>
-            <th>Phone</th>
-            <th>Action</th>
+            <th>Country</th>
+            <th>Verified</th>
             <th>Block</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {members.map((member, index) => (
-            <tr key={index}>
-              <td className="name-cell">
-                <img src={member.image} alt={member.name} className="avatar" />
-                <div>
-                  <p className="name">{member.name}</p>
-                  <p className="role">{member.role}</p>
-                </div>
+          {members.map((member) => (
+            <tr key={member._id}>
+              <td>
+                {member.profileUrl ? (
+                  <img
+                    src={member.profileUrl}
+                    alt={`${member.firstName} ${member.lastName}`}
+                    className="buyer-avatar"
+                  />
+                ) : (
+                  <div className="fallback-avatar">
+                    {member.firstName?.[0]?.toUpperCase() || "?"}
+                  </div>
+                )}
               </td>
+              <td>{member.firstName} {member.lastName}</td>
               <td>{member.email}</td>
-              <td>{member.location}</td>
-              <td>{member.phone}</td>
+              <td>{member.country}</td>
+              <td>{member.verified ? "Yes" : "No"}</td>
               <td>
                 <button
-                  className="delete-btn"
-                  onClick={() => handleDelete(index)}
+                  className={`block-btn ${member.blocked ? "unblock" : "block"}`}
+                  onClick={() => toggleBlock(member._id, member.blocked)}
+                  disabled={updatingUserId === member._id}
                 >
-                  Delete
+                  {updatingUserId === member._id
+                    ? member.blocked
+                      ? "Unblocking..."
+                      : "Blocking..."
+                    : member.blocked
+                      ? "Unblock"
+                      : "Block"}
                 </button>
               </td>
               <td>
                 <button
-                  className={`block-btn ${
-                    member.isBlocked ? "unblock" : "block"
-                  }`}
-                  onClick={() => toggleBlock(index)}
+                  className="delete-btn"
+                  onClick={() => handleDelete(member._id)}
                 >
-                  {member.isBlocked ? "Unblock" : "Block"}
+                  Delete
                 </button>
               </td>
             </tr>

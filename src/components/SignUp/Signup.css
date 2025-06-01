@@ -95,12 +95,12 @@
   }
   
   .checkbox-group a {
-    color: #14a800;
+    color: #1f2a60;
     text-decoration: underline;
   }
   
   .submit-btn {
-    background: #14a800;
+    background: #1f2a60;
     color: #fff;
     padding: 0.75rem;
     width: 100%;
@@ -119,7 +119,30 @@
   }
   
   .login-text a {
-    color: #14a800;
+    color: #1f2a60;
     font-weight: bold;
   }
   
+.custom-file-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #ccc;
+  padding: 0.75rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  background-color: #fafafa;
+  transition: border-color 0.3s;
+  text-align: center;
+}
+
+.custom-file-label:hover {
+  border-color: #999;
+}
+
+.image-preview {
+  max-height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}

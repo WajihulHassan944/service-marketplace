@@ -47,16 +47,16 @@
   }
   
   .green-btn {
-    background-color: #14a800;
+    background-color: #1f2a60;
     color: #fff;
   }
   
   .green-btn:hover {
-    background-color: #108a00;
+    background-color: #1f2a60;
   }
   
   .google-btn {
-    background-color: #4285f4;
+    background-color: #1f2a60;
     color: white;
   }
   
@@ -78,8 +78,8 @@
   
   .outline-btn {
     background-color: white;
-    border: 2px solid #14a800;
-    color: #14a800;
+    border: 2px solid #1f2a60;
+    color: #1f2a60;
   }
   
   .outline-btn:hover {

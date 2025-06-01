@@ -1,115 +1,110 @@
+/* Table Container */
 .table-wrapper {
   overflow-x: auto;
-  padding: 10px 4%;
+  padding: 16px 4%;
 }
 
+/* Table Styles */
 .team-table {
   width: 100%;
   border-collapse: collapse;
   font-family: sans-serif;
-  min-width: 600px;
+  min-width: 800px;
+  background-color: white;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
+/* Table Header & Cells */
 .team-table th,
 .team-table td {
   padding: 1rem;
   text-align: left;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
 }
 
 .team-table th {
+  background-color: #f9f9f9;
   font-weight: 600;
   color: #333;
-  background: #f9f9f9;
 }
 
-.name-cell {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.name {
-  font-weight: 600;
-  margin: 0;
-}
-
-.role {
-  font-size: 0.85rem;
-  color: gray;
-  margin: 0;
-}
-
-.avatar {
+/* Avatar Image */
+.buyer-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
-.actions {
-  display: flex;
-  gap: 10px;
-}
-
-.icon {
-  color: #6c63ff;
-  cursor: pointer;
-}
-.block-btn {
-  padding: 5px 10px;
-  border: none;
-  background-color: #ddd;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.2s ease;
+/* Fallback Avatar */
+.fallback-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #999;
+  color: #fff;
   display: flex;
   align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Block / Unblock Buttons */
+.block-btn {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
 }
 
 .block-btn.block {
   background-color: #d9363e;
-  color: white;
+  color: #fff;
 }
 
 .block-btn.unblock {
   background-color: #4caf50;
-  color: white;
+  color: #fff;
 }
 
-.block-btn:hover {
-  opacity: 0.8;
+.block-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.delete-btn {
-  padding: 5px 10px;
-  border: none;
-  background-color: #ddd;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.2s ease;
-  display: flex;
-  align-items: center;
-  background-color: #d9363e;
-  color: white;
+/* Error / Loading Messages */
+.status-message {
+  text-align: center;
+  font-weight: 600;
+  margin: 20px;
 }
 
-.delete-btn:hover {
-  background-color: #d9363e;
-  color: white;
+.status-message.error {
+  color: red;
 }
 
+/* Responsive Styles */
 @media (max-width: 768px) {
   .team-table {
     font-size: 0.85rem;
+    min-width: 100%;
   }
 
-  .name-cell {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .avatar {
+  .buyer-avatar,
+  .fallback-avatar {
     width: 35px;
     height: 35px;
+  }
+
+  .block-btn {
+    font-size: 0.8rem;
+    padding: 5px 10px;
   }
 }
