@@ -11,10 +11,12 @@ import MessagePopup from './MessagePopup/MessagePopup';
 import NotificationPopup from './NotificationPopup/NotificationPopup';
 import SubNavbar from './SubNavbar/SubNavbar';
 import useLogout from '@/hooks/useLogout';
+import { useSelector } from 'react-redux';
 
 const SellerNav = () => {
    const logout = useLogout();
- 
+   const user = useSelector((state) => state.user);
+   
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showNotificationPopup, setShowNotificationPopup] = useState(false);
@@ -71,16 +73,16 @@ const SellerNav = () => {
       )}
     </div>
             <div className="user-avatar-wrapper-nav" onClick={() => setDropdownOpen(!dropdownOpen)}>
-              <img src="/assets/myimg.jpg" alt="User" className="user-avatar-nav" />
+              <img src={user.profileUrl} alt="User" className="user-avatar-nav" />
             </div>
 
             {dropdownOpen && (
               <div className="dropdown-menu-user">
                 <div className="dropdown-header-user">
-                  <img src="/assets/myimg.jpg" alt="User" className="dropdown-avatar-user" />
-                  <div className="dropdown-name-user">Jane Doe</div>
-                  <div className="dropdown-role-user">Client</div>
-                </div>
+                  <img src={user.profileUrl} alt="User" className="dropdown-avatar-user" />
+                    <div className="dropdown-name-user">{user.firstName} {user.lastName}</div>
+                  <div className="dropdown-role-user">{user.currentDashboard}</div>
+              </div>
                 <div className="dropdown-status-user">
                   <button className="status-btn-user active">Online</button>
                   <button className="status-btn-user">Invisible</button>
