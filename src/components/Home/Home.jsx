@@ -1,3 +1,4 @@
+'use client';
 import React from 'react'
 import "./Home.css";
 import Brands from './Brands';
@@ -9,7 +10,11 @@ import PopularServices from './PopularServices/PopularServices';
 import CardCarousel from './CardCarousel/CardCarousel';
 import FindTalent from './Talent/FindTalent';
 import EnterpriseSuite from './Enterprise/EnterpriseSuite';
+import { useSelector } from 'react-redux';
 const MainHome = () => {
+     const user = useSelector((state) => state.user);
+   console.log("user is",user);
+
   return (
     <div>
     <HeroSection />

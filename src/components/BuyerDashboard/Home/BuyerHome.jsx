@@ -3,8 +3,12 @@ import React, { useState } from "react";
 import "./BuyerHome.css";
 import { FiMoreHorizontal, FiCreditCard, FiUsers, FiFolder, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 const BuyerHome = () => {
+      const user = useSelector((state) => state.user);
+   console.log("User is printing",user);
+
   const [openFAQ, setOpenFAQ] = useState(0); // 0: first one open by default
 
   const toggleFAQ = (index) => {
