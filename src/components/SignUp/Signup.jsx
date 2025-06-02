@@ -80,7 +80,7 @@ const googleLogin = useGoogleLogin({
       const result = await response.json();
 
       if (response.ok) {
-        router.push('/dashboard');
+        router.push('/login');
       } else {
         if (result.message === 'User already exists. Please login.') {
           router.push('/login');
