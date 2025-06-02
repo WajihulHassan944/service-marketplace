@@ -1,13 +1,11 @@
-import BuyerHomePage from '@/components/Home/BuyerHomePage'
-import MainHome from '@/components/Home/Home'
-import React from 'react'
+'use client';
 
-const page = () => {
-  return (
-    <>
-      <BuyerHomePage />
-    </>
-  )
-}
+import BuyerHomePage from '@/components/Home/BuyerHomePage';
+import withAuth from '@/hooks/withAuth';
+import React from 'react';
 
-export default page
+const Page = () => {
+  return <BuyerHomePage />;
+};
+
+export default withAuth(Page);

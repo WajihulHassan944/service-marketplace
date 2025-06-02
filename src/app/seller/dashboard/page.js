@@ -1,12 +1,11 @@
-import Dashboard from '@/components/SellerDashboard/dashboard/Dashboard'
-import React from 'react'
+'use client';
 
-const page = () => {
-  return (
-    <>
-      <Dashboard />
-    </>
-  )
-}
+import Dashboard from '@/components/SellerDashboard/dashboard/Dashboard';
+import withAuth from '@/hooks/withAuth';
+import React from 'react';
 
-export default page
+const Page = () => {
+  return <Dashboard />;
+};
+
+export default withAuth(Page);

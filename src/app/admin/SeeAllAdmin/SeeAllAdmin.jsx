@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "./seealladmin.css";
 import { baseUrl } from "@/const";
+import { Toaster, toast } from 'react-hot-toast';
 
 const SeeAllAdmin = () => {
   const [members, setMembers] = useState([]);
@@ -51,7 +52,7 @@ const SeeAllAdmin = () => {
         )
       );
     } catch (err) {
-      alert("Error toggling block status: " + err.message);
+      toast.error("Error toggling block status: " + err.message);
     }
   };
 
@@ -67,12 +68,12 @@ const SeeAllAdmin = () => {
 
         if (res.ok) {
           setMembers((prev) => prev.filter((m) => m._id !== userId));
-          alert(data.message || "Admin deleted successfully.");
+          toast.success(data.message || "Admin deleted successfully.");
         } else {
-          alert(data.message || "Failed to delete admin.");
+          atoast.error(data.message || "Failed to delete admin.");
         }
       } catch (err) {
-        alert("Error deleting admin: " + err.message);
+        toast.error("Error deleting admin: " + err.message);
       }
     }
   };

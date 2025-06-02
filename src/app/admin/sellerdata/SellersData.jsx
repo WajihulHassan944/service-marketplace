@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "./sellerdata.css";
 import { baseUrl } from "@/const";
+import { Toaster, toast } from 'react-hot-toast';
 
 const SellersData = () => {
   const [members, setMembers] = useState([]);
@@ -53,7 +54,7 @@ const SellersData = () => {
         )
       );
     } catch (err) {
-      alert("Error toggling block status: " + err.message);
+    toast.error("Error toggling block status: " + err.message);
     }
   };
 
@@ -69,12 +70,12 @@ const SellersData = () => {
 
         if (res.ok) {
           setMembers((prev) => prev.filter((m) => m._id !== userId));
-          alert(data.message || "Seller deleted successfully.");
+          toast.success(data.message || "Seller deleted successfully.");
         } else {
-          alert(data.message || "Failed to delete seller.");
+          toast.error(data.message || "Failed to delete seller.");
         }
       } catch (err) {
-        alert("Error deleting seller: " + err.message);
+        toast.erro("Error deleting seller: " + err.message);
       }
     }
   };
@@ -94,9 +95,9 @@ const SellersData = () => {
         )
       );
 
-      alert("Seller approved successfully!");
+      toast.success("Seller approved successfully!");
     } catch (err) {
-      alert("Error approving seller: " + err.message);
+      toast.error("Error approving seller: " + err.message);
     }
   };
 

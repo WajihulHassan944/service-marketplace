@@ -56,8 +56,10 @@
   }
   
   .google-btn {
-    background-color: #1f2a60;
-    color: white;
+    color: #1f2a60;
+    background-color: #fff;
+    border: 1px solid #ddd;
+  
   }
   
   .google-btn img {

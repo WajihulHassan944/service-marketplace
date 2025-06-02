@@ -8,6 +8,7 @@ const initialState = {
   country: null,
   role: ['buyer'],
   verified: false,
+  sellerStatus: false,
   blocked: false,
   createdAt: null,
   isLoggedIn: false,
@@ -37,6 +38,7 @@ const userSlice = createSlice({
     setVerified: (state, action) => {
       state.verified = action.payload;
     },
+  
     setBlocked: (state, action) => {
       state.blocked = action.payload;
     },

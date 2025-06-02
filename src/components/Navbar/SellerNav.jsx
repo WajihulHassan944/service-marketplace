@@ -11,16 +11,27 @@ import MessagePopup from './MessagePopup/MessagePopup';
 import NotificationPopup from './NotificationPopup/NotificationPopup';
 import SubNavbar from './SubNavbar/SubNavbar';
 import useLogout from '@/hooks/useLogout';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentDashboard } from '@/redux/features/userSlice';
+import { useRouter } from 'next/navigation';
+
 
 const SellerNav = () => {
-   const logout = useLogout();
+    const router = useRouter();
+  const logout = useLogout();
    const user = useSelector((state) => state.user);
    
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showNotificationPopup, setShowNotificationPopup] = useState(false);
  const [showPopup, setShowPopup] = useState(false);
+ const dispatch = useDispatch();
+
+   const handleSwitch = () => {
+    dispatch(setCurrentDashboard('buyer'));
+    router.push('/buyer/dashboard');
+  };
+ 
 
   return (
     <>
@@ -51,7 +62,10 @@ const SellerNav = () => {
             <FaBars size={22} />
           </div>
           <div className="navbar-actions">
-            <h4>Switch to buying</h4>
+           <h4 className="cursor-pointer" onClick={handleSwitch}>
+  Switch to buying
+</h4>
+
        
         <div className="nav-message-container">
       <div className="nav-icon" onClick={() => setShowPopup(!showPopup)}>

@@ -3,6 +3,7 @@ import LayoutClientWrapper from '@/components/LayoutClientWrapper';
 import LayoutContent from '@/components/LayoutContent';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import UserInitializer from './UserInitializer'; // Make sure path is correct
+import { Toaster } from 'react-hot-toast';
 
 export const metadata = {
   title: 'Service Marketplace',
@@ -20,6 +21,17 @@ export default function RootLayout({ children }) {
           <LayoutClientWrapper>
             <UserInitializer /> {/* Load user info from cookies into Redux */}
             <LayoutContent>{children}</LayoutContent>
+            {/* Place Toaster at root level */}
+            <Toaster
+              position="top-center"
+              toastOptions={{
+                duration: 3000,
+                style: {
+                  background: '#1f2a60',
+                  color: '#fff',
+                },
+              }}
+            />
           </LayoutClientWrapper>
         </GoogleOAuthProvider>
       </body>

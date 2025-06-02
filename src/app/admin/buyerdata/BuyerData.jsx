@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "./buyerdata.css";
+import { Toaster, toast } from 'react-hot-toast';
 import { baseUrl } from '@/const';
 const API_BASE = "https://backend-service-marketplace.vercel.app/api/users";
 
@@ -52,7 +53,7 @@ const BuyerData = () => {
         )
       );
     } catch (err) {
-      alert("Error: " + err.message);
+      toast.error("Error: " + err.message);
     } finally {
       setUpdatingUserId(null);
     }
@@ -71,14 +72,14 @@ const handleDelete = async (userId) => {
       if (response.ok) {
         // Remove user from UI
         setMembers((prev) => prev.filter((user) => user._id !== userId));
-        alert(data.message || "User deleted successfully.");
+        toast.success(data.message || "User deleted successfully.");
       } else {
-        alert(data.message || "Failed to delete user.");
+     toast.error(data.message || "Failed to delete user.");
       }
 
     } catch (error) {
       console.error("Error deleting user:", error);
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
   }
 };

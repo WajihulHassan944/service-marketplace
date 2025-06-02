@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { logoutUser } from '@/redux/features/userSlice';
 import { baseUrl } from '@/const';
 
+import { Toaster, toast } from 'react-hot-toast';
 const useLogout = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -18,16 +19,16 @@ const useLogout = () => {
       const data = await res.json();
 
       if (res.ok && data.success) {
-        alert('Logout successful!');
+        toast.success('Logout successful!');
         dispatch(logoutUser());
         if (typeof callback === 'function') callback();
         router.push('/');
       } else {
-        alert('Logout failed!');
+        toast.error('Logout failed!');
       }
     } catch (error) {
       console.error('Logout failed:', error);
-      alert('An error occurred while logging out.');
+      toast.error('An error occurred while logging out.');
     }
   };
 
