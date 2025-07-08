@@ -1,0 +1,78 @@
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px);
+  background-color: rgba(0, 50, 100, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.custom-modal-content {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.custom-modal-content h2 {
+  margin-bottom: 1.5rem;
+  color: #0a6ed1;
+}
+
+.custom-card-element {
+  margin-bottom: 1.2rem;
+  border: 1px solid #ccc;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  
+}
+
+.custom-modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.custom-modal-btn {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.custom-modal-btn.confirm {
+  background-color: #0a6ed1;
+  color: white;
+}
+
+.custom-modal-btn.confirm:hover {
+  background-color: #084fa1;
+}
+
+.custom-modal-btn.cancel {
+  background-color: #888;
+  color: white;
+}
+
+.custom-modal-btn.cancel:hover {
+  background-color: #666;
+}
+
+.custom-modal-error {
+  color: red;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}

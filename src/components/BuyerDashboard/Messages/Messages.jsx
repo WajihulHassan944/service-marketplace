@@ -4,42 +4,83 @@ import './Messages.css';
 import { FaSearch, FaSlidersH } from 'react-icons/fa';
 import MessageChats from './MessageChats';
 import MessageProfile from './MessageProfile';
-import { useRouter } from 'next/navigation';
-
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { baseUrl } from '@/const';
 const Messages = () => {
-  
   const [isMobile, setIsMobile] = useState(null);
-
+  const [conversations, setConversations] = useState([]);
+  const [receiverData, setReceiverData] = useState(null);
+  const user = useSelector((state) => state.user);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const receiverId = searchParams.get('receiverId');
 
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
-useEffect(() => {
-  const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-  checkMobile();
-  window.addEventListener("resize", checkMobile);
-  return () => window.removeEventListener("resize", checkMobile);
-}, []);
-
-if (isMobile === null) {
-  // Optionally render a loading state or nothing
-  return null;
-}
-  const handleImageClick = (e) => {
-    if (isMobile) {
-      e.stopPropagation(); // prevent container click from firing
-      router.push('/messages/profile');
+  // Fetch all user conversations
+  useEffect(() => {
+    if (user?._id) {
+      fetch(`${baseUrl}/messages/user-conversations/${user._id}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            setConversations(data.data);
+          }
+        });
     }
-  };
+  }, [user, receiverId]); // re-fetch if receiverId changes (new chat started)
 
-  const handleContactClick = () => {
+  // If new chat started via query param, fetch receiver details
+  useEffect(() => {
+    if (receiverId) {
+      fetch(`${baseUrl}/users/getUserById/${receiverId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            setReceiverData(data.data);
+          }
+        });
+    }
+  }, [receiverId]);
+
+  const handleContactClick = (contactId) => {
     if (isMobile) {
       router.push('/messages/chat');
+    } else {
+      router.push(`/messages?receiverId=${contactId}`);
     }
   };
+
+  if (isMobile === null) return null;
+const renderPreview = (message) => {
+  if (!message) return '';
+
+  // If it's a Zoom message
+  if (message.includes('Zoom Meeting Created')) {
+    // Extract topic and duration from the message
+    const topicMatch = message.match(/<a[^>]*>(.*?)<\/a>/);
+    const durationMatch = message.match(/<strong>Duration:<\/strong>\s?(\d+)/);
+
+    const topic = topicMatch ? topicMatch[1] : 'Zoom Meeting';
+    const duration = durationMatch ? `${durationMatch[1]} min` : '';
+
+    return `🔗 Zoom: ${topic} – ${duration}`;
+  }
+
+  // Fallback for normal messages (strip any remaining HTML if needed)
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = message;
+  return tempDiv.textContent || tempDiv.innerText || '';
+};
 
   return (
     <div className="messages-container">
-      {/* Sidebar */}
       <div className="sidebar-messages">
         <h1 className="sidebar-title-messages">Messages</h1>
         <div className="searchBarWrapper-messages">
@@ -50,38 +91,57 @@ if (isMobile === null) {
           <FaSlidersH size={23} className="filterIcon" />
         </div>
 
-        <div className="usersInMessagesWrapper">
-          <div className="contact-messages active-messages" onClick={handleContactClick}>
-            <img
-              src="/assets/users/one.png"
-              alt="Amina"
-              onClick={handleImageClick}
-            />
-            <div className="contact-info-messages">
-              <h4>Amina Okonkwo</h4>
-              <p>Data Analyst – E-commerce Insights</p>
-            </div>
-            <span className="timestamp">12:02 AM</span>
-          </div>
+<div className="usersInMessagesWrapper">
+  {receiverData && !conversations.some(conv => conv.participant._id === receiverId) && (
+    <div className="contact-messages active-messages" onClick={() => handleContactClick(receiverId)}>
+      <img
+        src={receiverData.profileUrl || '/assets/users/placeholder.png'}
+        alt={receiverData.firstName}
+      />
+      <div className="contact-info-messages">
+        <h4>{receiverData.firstName} {receiverData.lastName}</h4>
+        <p>Starting conversation...</p>
+      </div>
+      <span className="timestamp">Now</span>
+    </div>
+  )}
 
-          <div className="contact-messages" onClick={handleContactClick}>
-            <img
-              src="/assets/users/one.png"
-              alt="Amina"
-              onClick={handleImageClick}
-            />
-            <div className="contact-info-messages">
-              <h4>Amina Okonkwos</h4>
-              <p>Data Analyst – E-commerce Insights</p>
-            </div>
-            <span className="timestamp">12:02 AM</span>
-          </div>
-        </div>
+  {conversations.length === 0 && !receiverData && (
+    <p className="no-chats-message">No chats yet</p>
+  )}
+
+  {conversations.map((conv) => (
+    <div
+      key={conv.conversationId}
+      className={`contact-messages ${conv?.participant?._id === receiverId ? 'active-messages' : ''}`}
+      onClick={() => handleContactClick(conv.participant._id)}
+    >
+      <img src={conv?.participant?.profileUrl || '/assets/users/placeholder.png'} alt={conv.participant?.firstName} />
+      <div className="contact-info-messages">
+        <h4>{conv.participant?.firstName} {conv.participant?.lastName}</h4>
+        <p>{renderPreview(conv.lastMessage)}</p>
+      </div>
+      <span className="timestamp">{new Date(conv.lastMessageCreatedAt).toLocaleTimeString()}</span>
+    </div>
+  ))}
+</div>
+
       </div>
 
-      {/* Render these only if not on mobile */}
-      {!isMobile && <MessageChats />}
-      {!isMobile && <MessageProfile />}
+    {!isMobile && receiverId ? (
+  <>
+    <MessageChats senderId={user._id} receiverId={receiverId} />
+    <MessageProfile userId={receiverId} />
+  </>
+) : (
+  !isMobile && (
+    <div className="placeholder-panel">
+      <img src="/assets/message-dummy.png" alt="Select a chat" />
+      <p>Your Chat will appear here</p>
+    </div>
+  )
+)}
+
     </div>
   );
 };

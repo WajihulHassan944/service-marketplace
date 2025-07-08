@@ -1,12 +1,12 @@
-import Messages from '@/components/BuyerDashboard/Messages/Messages'
-import React from 'react'
+import React, { Suspense } from 'react';
+import Messages from '@/components/BuyerDashboard/Messages/Messages';
 
-const page = () => {
+const Page = () => {
   return (
-    <>
-     <Messages /> 
-    </>
-  )
-}
+    <Suspense fallback={<div>Loading messages...</div>}>
+      <Messages />
+    </Suspense>
+  );
+};
 
-export default page
+export default Page;

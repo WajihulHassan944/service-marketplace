@@ -1,13 +1,13 @@
 import "./Styles.css";
-export default function Header() {
+export default function Header({seller}) {
     return (
       <div className="header-container">
-        <img src="/assets/myimg.jpg" alt="Profile" className="profile-pic" />
+        <img src={seller.profileUrl} alt="Profile" className="profile-pic" />
         <div className="user-info">
-          <h2>Wajih</h2>
-          <p>@wajih2002</p>
-          <p>Level 2 Seller</p>
-          <p>Pakistan | English</p>
+          <h2>{seller.firstName} {seller.lastName}</h2>
+          <p>{seller.userName}</p>
+          <p>{seller.sellerDetails.level}</p>
+          <p>{seller.country} | English</p>
         </div>
       </div>
     );

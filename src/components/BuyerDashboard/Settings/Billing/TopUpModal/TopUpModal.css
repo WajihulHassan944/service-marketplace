@@ -1,0 +1,110 @@
+.topup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topup-container {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.topup-title {
+  margin-bottom: 0.5rem;
+}
+
+.topup-note {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.topup-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #f5f5f5;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.topup-card img {
+  width: 40px;
+  height: auto;
+}
+
+.topup-nocard {
+  color: #b00;
+  margin-bottom: 1rem;
+}
+
+.topup-input {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1.2rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.topup-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.topup-btn {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.topup-cancel {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.topup-cancel:hover {
+  background: #ccc;
+}
+
+.topup-confirm {
+  background: #007bff;
+  color: white;
+}
+
+.topup-confirm:hover {
+  background: #005dc5;
+}
+
+/* Top-up trigger button */
+.pay-now {
+  background-color: #ccc;
+  color: rgba(0, 0, 0, 0.8);
+  transition: background 0.3s;
+cursor: pointer;  
+}
+
+.pay-now:hover {
+  background-color: #005dc5;
+  color: white;
+}

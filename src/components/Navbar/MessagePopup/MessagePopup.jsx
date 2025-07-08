@@ -1,67 +1,101 @@
-import { useRouter } from "next/navigation";
-import "./MessagePopup.css";
-import { FiMessageSquare } from "react-icons/fi";
-
-const messages = [
-  {
-    username: "ulnurkhanov",
-    name: "Ul N",
-    message: "Me: Hi Sir, I hope you're doing well! I just wanted to check in and see",
-    time: "2 weeks",
-  },
-  {
-    username: "fyamilinsky",
-    name: "fyamilinsky",
-    message: "Me: Hi Sir, I hope you're doing well! I just wanted to check in and see",
-    time: "2 weeks",
-  },
-  {
-    username: "mpsconst",
-    name: "mpsconst",
-    message: "Me: construction-website-s2.vercel.app",
-    time: "2 weeks",
-  },
-  {
-    username: "industry76",
-    name: "industry76",
-    message: "Me: Got it! Once I achieve all the updates you requested then I will",
-    time: "2 weeks",
-  },
-  {
-    username: "mlrandabassag1",
-    name: "mlrandabassag1",
-    message: "Me: 👍",
-    time: "2 weeks",
-  },
-];
+'use client';
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { FiMessageSquare } from 'react-icons/fi';
+import './MessagePopup.css';
+import { baseUrl } from '@/const';
 
 const MessagePopup = ({ closePopup }) => {
   const router = useRouter();
-  const handleSeeAll = () => {
-    closePopup(); // Hide popup
-    router.push("/messages");
+  const user = useSelector((state) => state.user);
+  const [conversations, setConversations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const popupRef = useRef(null);
+
+  useEffect(() => {
+    if (user?._id) {
+      fetch(`${baseUrl}/messages/user-conversations/${user._id}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            const recentFive = data.data
+              .sort((a, b) => new Date(b.lastMessageCreatedAt) - new Date(a.lastMessageCreatedAt))
+              .slice(0, 5);
+            setConversations(recentFive);
+          }
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [user]);
+
+  // Close on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (popupRef.current && !popupRef.current.contains(e.target)) {
+        closePopup();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [closePopup]);
+
+  const handleClick = (receiverId) => {
+    closePopup();
+    router.push(`/messages?receiverId=${receiverId}`);
   };
+
+  const renderPreview = (message) => {
+    if (!message) return '';
+    if (message.includes('Zoom Meeting Created')) {
+      const topicMatch = message.match(/<a[^>]*>(.*?)<\/a>/);
+      const durationMatch = message.match(/<strong>Duration:<\/strong>\s?(\d+)/);
+      const topic = topicMatch ? topicMatch[1] : 'Zoom Meeting';
+      const duration = durationMatch ? `${durationMatch[1]} min` : '';
+      return `🔗 Zoom: ${topic} – ${duration}`;
+    }
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = message;
+    return tempDiv.textContent || tempDiv.innerText || '';
+  };
+
   return (
-    <div className="message-popup">
+    <div className="message-popup" ref={popupRef}>
       <div className="message-popup-header">
-        <span className="message-popup-title"><FiMessageSquare /> Inbox (0)</span>
+        <span className="message-popup-title"><FiMessageSquare /> Inbox ({conversations.length})</span>
       </div>
       <div className="message-popup-list">
-        {messages.map((msg, index) => (
-          <div key={index} className="message-item">
-            <img src="/assets/gigs/avatar.png" alt="avatar" className="message-avatar" />
-            <div className="message-content">
-              <div className="message-user">
-                <strong>{msg.name}</strong> @{msg.username}
+        {loading ? (
+          <p className="no-chats-message">Loading conversations...</p>
+        ) : conversations.length === 0 ? (
+          <p className="no-chats-message">No recent messages</p>
+        ) : (
+          conversations.map((conv) => (
+            <div key={conv.conversationId} className="message-item" onClick={() => handleClick(conv.participant._id)}>
+              <img
+                src={conv.participant?.profileUrl || '/assets/users/placeholder.png'}
+                alt={conv.participant?.firstName}
+                className="message-avatar"
+              />
+              <div className="message-content">
+                <div className="message-user">
+                  <strong>{conv.participant?.firstName} {conv.participant?.lastName}</strong>
+                </div>
+                <div className="message-text">
+                  {renderPreview(conv.lastMessage).slice(0, 40)}...
+                </div>
+                <div className="message-time">
+                  {new Date(conv.lastMessageCreatedAt).toLocaleTimeString()}
+                </div>
               </div>
-              <div className="message-text">{msg.message.length > 60 ? msg.message.slice(0, 30) + "..." : msg.message}</div>
-              <div className="message-time">{msg.time}</div>
             </div>
-            <div className="message-status-dot" />
-          </div>
-        ))}
+          ))
+        )}
       </div>
-      <div className="message-popup-footer" onClick={handleSeeAll}>
+      <div className="message-popup-footer" onClick={() => {
+        closePopup();
+        router.push("/messages");
+      }}>
         See All In Inbox
       </div>
     </div>

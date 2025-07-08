@@ -1,12 +1,12 @@
-import Navbar from '@/components/SellerDashboard/CreateGig/Navbar'
-import React from 'react'
+import React, { Suspense } from 'react';
+import Navbar from '@/components/SellerDashboard/CreateGig/Navbar';
 
-const page = () => {
+const Page = () => {
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <Navbar />
-    </>
-  )
-}
+    </Suspense>
+  );
+};
 
-export default page
+export default Page;

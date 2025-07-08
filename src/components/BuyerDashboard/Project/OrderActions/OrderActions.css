@@ -1,0 +1,374 @@
+.orderactionheader {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 15px;
+}
+
+.order-actions-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-left: 15px;
+}
+
+.order-actions-links .action-of-order {
+  color: #1f2a60;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif !important;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.order-actions-links .action-of-order:hover {
+  color: #888;
+}
+
+.review-action-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-action-wrapper button[disabled] {
+  cursor: default;
+  opacity: 1; /* keep color normal */
+}
+
+.review-dropdown-icon {
+  cursor: pointer;
+  transition: transform 0.25s ease;
+  color: #1f2a60;
+}
+
+.review-dropdown-icon:hover {
+  color: #555;
+}
+
+.review-dropdown-icon.open {
+  transform: rotate(180deg);
+}
+
+.submitted-review-box {
+  background: #f9f9f9;
+  border-left: 4px solid #1f2a60;
+  padding: 12px 15px;
+  margin-top: 8px;
+  border-radius: 6px;
+  max-width: 420px;
+  font-size: 14px;
+}
+
+.submitted-review-label {
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.submitted-review-text {
+  line-height: 1.5;
+  color: #444;
+  white-space: pre-wrap;
+}
+
+.overall-badge {
+  background-color: #1f2a60;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.overall-badge .star {
+  color: white;
+}
+
+.review-category {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.star-icon {
+  color: #ccc;
+  font-size: 16px;
+}
+
+.star-icon.filled {
+  color: #1f2a60;
+}
+.coworker-dropdown-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.coworker-list {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #f8f8f8;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.coworker-card {
+  display: flex;
+  gap: 14px;
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+  align-items: center;
+}
+
+.coworker-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #e5e7eb;
+}
+
+.coworker-details {
+  flex: 1;
+}
+
+.coworker-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.coworker-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.status-badge {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 5px;
+  text-transform: capitalize;
+}
+
+.status-badge.accepted {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.status-badge.pending {
+  background-color: #fef9c3;
+  color: #b45309;
+}
+
+.status-badge.rejected {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.coworker-comp {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.coworker-card {
+  display: flex;
+  gap: 14px;
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.coworker-details {
+  flex: 1;
+  min-width: 200px;
+}
+
+.message-button {
+  background-color: #000;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.message-button:hover {
+  background-color: #1f1f1f;
+}
+.resolution-center-box {
+  background-color: #f0f6ff;
+  border: 1px solid #cce0ff;
+  padding: 16px;
+  margin-top: 10px;
+  border-radius: 8px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.resolution-label {
+  font-weight: 500;
+  color: #003366;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.resolution-message {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px;
+  border: 1px solid #99c2ff;
+  border-radius: 4px;
+  resize: vertical;
+  margin-bottom: 12px;
+  font-family: inherit;
+  color: #003366;
+}
+
+.resolution-submit-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.resolution-submit-btn:hover {
+  background-color: #005fcc;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.custom-select-wrapper {
+  margin-bottom: 12px;
+}
+
+.custom-select {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-element {
+  width: 100%;
+  padding: 10px 40px 10px 12px;
+  font-size: 14px;
+  border: 1px solid #99c2ff;
+  border-radius: 6px;
+  background-color: white;
+  color: #003366;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+.select-dropdown-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #003366;
+  pointer-events: none;
+}
+.resolution-seller-box {
+  border: 1px solid #ddd;
+  background: #fffefc;
+  padding: 20px;
+  margin-top: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.resolution-header {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+.resolution-item {
+  font-size: 0.95rem;
+  margin: 8px 0;
+  color: #555;
+}
+
+.resolution-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.resolution-accept-btn,
+.resolution-reject-btn,
+.resolution-msg-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.resolution-accept-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.resolution-reject-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.resolution-msg-btn {
+  background-color: #2196f3;
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resolution-msg-btn:hover,
+.resolution-reject-btn:hover,
+.resolution-accept-btn:hover {
+  opacity: 0.9;
+}
+
+.resolution-no-request {
+  font-size: 0.95rem;
+  margin-top: 10px;
+  color: #777;
+  padding: 10px;
+  border-radius: 6px;
+  background: #f9f9f9;
+}

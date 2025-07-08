@@ -5,10 +5,12 @@ import { FiBell, FiMoreVertical } from "react-icons/fi";
 import { MdArrowDropDown } from 'react-icons/md';
 import { HiOutlineChatBubbleLeftRight } from 'react-icons/hi2';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 
 const TopNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const user = useSelector((state) => state.user);
 
   return (
     <header className="topnav">

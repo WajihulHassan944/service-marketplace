@@ -2,16 +2,59 @@
 import React, { useState } from 'react';
 import { FaCalendarAlt, FaTrash, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import './manageJobs.css';
+import { useRouter } from 'next/navigation';
 
-const JobCard = ({ title, postedDate, expiryDate, status, candidates, sellerName, sellerImage }) => {
-  const [showPopup, setShowPopup] = useState(false);
+const JobCard = ({ gigId, title, postedDate, status, sellerName, sellerImage, refreshGigs }) => {
+  const [message, setMessage] = useState('');
+ const router = useRouter();
 
-  const togglePopup = () => {
-    setShowPopup(!showPopup);
-  };
+  const handleAction = async (type) => {
+  const baseUrl = 'https://backend-service-marketplace.vercel.app/api/gigs';
+  let url = '';
+
+  if (type === 'approve' || type === 'reject') {
+    url = `${baseUrl}/status/${type}/${gigId}`;
+  } else if (type === 'delete') {
+    url = `${baseUrl}/delete/${gigId}`;
+  }
+
+  try {
+    const res = await fetch(url, {
+      method: type === 'delete' ? 'DELETE' : 'GET',
+    });
+
+    if (type === 'delete') {
+      const data = await res.json();
+      if (data.success) {
+        setMessage(`Gig deleted successfully.`);
+        refreshGigs();
+      } else {
+        setMessage(`Failed to delete gig: ${data.message}`);
+      }
+    } else {
+      const text = await res.text(); // HTML response
+      const cleanText = text.replace(/<[^>]+>/g, '').trim(); // Strip HTML tags
+      if (res.ok) {
+        setMessage(`${cleanText}`);
+        refreshGigs();
+      } else {
+        setMessage(`${cleanText}`);
+      }
+    }
+
+    setTimeout(() => setMessage(''), 3000);
+  } catch (error) {
+    console.error(`Error during ${type}:`, error);
+    setMessage(`Error performing ${type} action.`);
+    setTimeout(() => setMessage(''), 3000);
+  }
+};
 
   return (
     <div className="job-card">
+      {/* Alert Message */}
+      {message && <div className="alert">{message}</div>}
+
       {/* Seller Info */}
       <div className="job-seller">
         <img src={sellerImage} alt={sellerName} className="seller-img" />
@@ -21,7 +64,7 @@ const JobCard = ({ title, postedDate, expiryDate, status, candidates, sellerName
       {/* Job Title and Status */}
       <div className="job-header">
         <h3 className="title-class">{title}</h3>
-        <span className={`status ${status.toLowerCase().replace(' ', '-')}`}>{status}</span>
+        <span className={`status ${status.toLowerCase().replace(/\s+/g, '-')}`}>{status}</span>
       </div>
 
       {/* Posted Date */}
@@ -31,37 +74,23 @@ const JobCard = ({ title, postedDate, expiryDate, status, candidates, sellerName
 
       {/* Action Buttons */}
       <div className="job-actions">
-        <button className="btn-approve">
+        <button className="btn-approve" onClick={() => handleAction('approve')}>
           <FaCheckCircle className="icon" color="#fff" /> Approve
         </button>
-        <button className="btn-disapprove">
+        <button className="btn-disapprove" onClick={() => handleAction('reject')}>
           <FaTimesCircle className="icon" color="#fff" /> Disapprove
         </button>
-        
-        <button className="btn-view-details" onClick={togglePopup}>
-          View Details
-        </button>
-        <button className="btn-icon">
+      <button
+  className="btn-view-details"
+  onClick={() => window.open(`/services-details?gigId=${gigId}&admin=true`, '_blank')}
+  style={{ cursor: 'pointer' }}
+>
+  View Details
+</button>
+        <button className="btn-icon" onClick={() => handleAction('delete')}>
           <FaTrash className="icon" />
         </button>
       </div>
-
-      {/* Popup */}
-      {showPopup && (
-        <div className="popup-overlay" onClick={togglePopup}>
-          <div className="popup-content" onClick={e => e.stopPropagation()}>
-<h2>About this service</h2>
-            <h3>Personal Portfolio Website & Business Website | 100+ Projects Completed</h3>
-            <p>
-              Looking for a <strong>stunning personal portfolio website</strong> or a <strong>professional business presence online</strong>?
-            </p>
-            <p>
-              Hi, I'm Hossain, a <strong>skilled web developer</strong> with <strong>7+ years of experience</strong> and <strong>100+ successful projects</strong> delivered. I specialize in creating <strong>SEO-optimized, W3-validated, and fully responsive</strong> digital platforms.
-            </p>
-            <button className="btn-close-popup" onClick={togglePopup}>Close</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

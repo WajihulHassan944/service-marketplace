@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Inter', sans-serif;
+   font-family: 'Suisse Int\'l', 'Plus Jakarta Sans', sans-serif;
   border-radius: 20px;
 }
 
@@ -162,4 +162,20 @@
 .search-icon {
   font-size: 0.8rem;
 }
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

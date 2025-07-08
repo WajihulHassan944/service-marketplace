@@ -1,12 +1,12 @@
-import SignupForm from '@/components/SignUp/Signup'
-import React from 'react'
+import React, { Suspense } from 'react';
+import SignupForm from '@/components/SignUp/Signup';
 
-const page = () => {
+const Page = () => {
   return (
-    <>
-     <SignupForm /> 
-    </>
-  )
-}
+    <Suspense fallback={<div>Loading signup form...</div>}>
+      <SignupForm />
+    </Suspense>
+  );
+};
 
-export default page
+export default Page;

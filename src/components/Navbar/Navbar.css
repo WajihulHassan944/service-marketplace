@@ -40,8 +40,8 @@
     font-size: 15px;
   }
   
-  .dropdown:hover .dropdown-menu {
-    display: block;
+  .public-navbar-menu .dropdown:hover .dropdown-menu {
+    display: block !important;
   }
   
   .arrow {
@@ -49,8 +49,8 @@
     margin-left: 4px;
   }
   
-  .dropdown-menu {
-    display: none;
+  .public-navbar-menu .dropdown-menu {
+    display: none !important;
     position: absolute;
     top: 100%;
     left: 0;
@@ -166,12 +166,12 @@
   .dropdown-menu-user {
     position: fixed;
     right: 2.7%;
-    top: 60px;
+    top: 70px;
     width: 250px;
     background: white;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
-    z-index: 10;
+    z-index: 9999;
     padding: 16px;
   }
   

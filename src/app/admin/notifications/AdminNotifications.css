@@ -1,6 +1,6 @@
 .admin-notifications {
   padding: 20px 4%;
-  
+  min-height: 87vh;
   font-family: "Plus Jakarta Sans", sans-serif !important;
   background: #fafafa;
 }
@@ -194,4 +194,14 @@ input:checked + .slider:before {
 
 .icon {
   font-size: 16px;
+}
+
+
+.refresh-icon-admin.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

@@ -1,39 +1,26 @@
-import React, { useState, useRef } from 'react';
+'use client';
+
+import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCategories } from '@/redux/features/categorySlice';
+import { useRouter } from 'next/navigation';
 import './SubNavbar.css';
 
-const categoriesData = [
-  {
-    name: 'Web, Mobile & Software Dev',
-    subcategories: ['Frontend Development', 'Backend Development', 'Mobile Apps', 'Full Stack', 'DevOps']
-  },
-  {
-    name: 'AI Services',
-    subcategories: ['AI Chatbots', 'Machine Learning', 'Data Annotation', 'Computer Vision']
-  },
-  {
-    name: 'Design & Creative',
-    subcategories: ['Logo Design', 'UI/UX', 'Game Design', 'Animation', 'Branding']
-  },
-  {
-    name: 'Writing',
-    subcategories: ['Copywriting', 'Technical Writing', 'Blogs & Articles', 'Editing', 'Proofreading']
-  },
-  {
-    name: 'Sales & Marketing',
-    subcategories: ['SEO', 'Social Media Marketing', 'Email Campaigns', 'PPC Ads']
-  },
-  {
-    name: 'More',
-    subcategories: ['Translation', 'Legal Services', 'Accounting', 'Customer Support']
-  }
-];
-
 const SubNavbar = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { categories, status, error } = useSelector((state) => state.categories);
+
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const timeoutRef = useRef(null);
 
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchCategories());
+    }
+  }, [dispatch, status]);
+
   const handleMouseEnter = (index) => {
-    // Cancel any pending close timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
@@ -42,22 +29,40 @@ const SubNavbar = () => {
   };
 
   const handleMouseLeave = () => {
-    // Set a delay to hide the popup
     timeoutRef.current = setTimeout(() => {
       setHoveredCategory(null);
-    }, 1500);
+    }, 500);
   };
+
+  const handleCategoryClick = (category) => {
+    router.push(`/services?category=${encodeURIComponent(category)}`);
+  };
+
+  const handleSubCategoryClick = (category, subCategory) => {
+    router.push(
+      `/services?category=${encodeURIComponent(category)}&subCategory=${encodeURIComponent(subCategory)}`
+    );
+  };
+
+  if (status === 'loading') return <div className="sub-navbar">Loading categories...</div>;
+  if (status === 'failed') return <div className="sub-navbar">Error: {error}</div>;
 
   return (
     <div className="sub-navbar">
-      {categoriesData.map((category, index) => (
+      {categories.map((category, index) => (
         <div
-          key={index}
+          key={category._id}
           className="category-item"
           onMouseEnter={() => handleMouseEnter(index)}
           onMouseLeave={handleMouseLeave}
         >
-          {category.name}
+          <span
+            onClick={() => handleCategoryClick(category.name)}
+            style={{ cursor: 'pointer' }}
+          >
+            {category.name}
+          </span>
+
           {hoveredCategory === index && (
             <div
               className="popup"
@@ -65,8 +70,14 @@ const SubNavbar = () => {
               onMouseLeave={handleMouseLeave}
             >
               <ul>
-                {category.subcategories.map((sub, i) => (
-                  <li key={i}>{sub}</li>
+                {category.subcategories?.map((sub, i) => (
+                  <li
+                    key={i}
+                    onClick={() => handleSubCategoryClick(category.name, sub)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {sub}
+                  </li>
                 ))}
               </ul>
             </div>

@@ -43,7 +43,29 @@
     cursor: pointer;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
-  
+  .heart-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heart-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* light hover effect */
+  color: red;
+}
+
+.heart-btn.wishlisted:hover {
+  background-color: rgba(224, 36, 94, 0.1); /* subtle red-ish hover for wishlisted */
+}
+
   .gig-info {
     padding: 12px;
   }
@@ -61,6 +83,8 @@
     height: 24px !important;
     border-radius: 50%;
     background-color: #ccc;
+    object-fit: cover;
+    object-position: top;
   }
   
   .seller-name {

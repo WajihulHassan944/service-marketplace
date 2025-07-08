@@ -1,0 +1,154 @@
+/* Overlay */
+.swp-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Modal Box (larger) */
+.swp-modal {
+  background: #fff;
+  width: 720px;
+  border-radius: 14px;
+  padding: 36px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Header */
+.swp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+  
+}
+
+.swp-title {
+  font-size: 26px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.swp-close-btn {
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Label & Textarea */
+.swp-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 12px;
+  font-size: 17px;
+  color: #333;
+}
+
+.swp-textarea {
+  width: 100%;
+  height: 130px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 15px;
+  resize: none;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Placeholder Font Style */
+.swp-textarea::placeholder {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #999;
+  font-size: 15px;
+}
+
+/* Character Counter */
+.swp-char-count {
+  font-size: 13px;
+  color: #888;
+  margin-top: 6px;
+  text-align: right;
+}
+
+/* File Upload */
+.swp-upload-section {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 26px 0;
+}
+
+.swp-attach {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #007bff;
+  border: 1.4px solid #007bff;
+  padding: 8px 15px;
+  border-radius: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.swp-max-size {
+  font-size: 13px;
+  color: #666;
+  margin-left: 8px;
+}
+
+/* Buttons */
+.swp-footer-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 18px;
+}
+
+.swp-cancel {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.swp-submit {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 28px;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.swp-submit:hover {
+  background-color: #005dc1;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

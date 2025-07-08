@@ -5,10 +5,18 @@ import "./Dashboard.css";
 import { FiMoreHorizontal, FiCreditCard, FiUsers, FiFolder, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import Link from "next/link";
 import SellerProfile from "./SellerProfile/SellerProfile";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const [openFAQ, setOpenFAQ] = useState(null); // 0: first one open by default
-
+const user = useSelector((state) => state.user);
+ const {
+    activeOrdersCount,
+    totalOrderValue,
+    ordersCompletedCount,
+    chatsCount,
+    notificationsCount
+  } = user.sellerDetails.analytics || {};
   const toggleFAQ = (index) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
@@ -64,32 +72,34 @@ const Dashboard = () => {
         <div className="left-column-buyer">
      <div className="dashboard-seller-header">
           <div>
-            <h2>Bob’s Deli Rebrand <span className="tag">Level 2 Seller</span></h2>
+            <h2>{user.firstName} {user.lastName} <span className="tag">{user.sellerDetails.level}</span></h2>
             <p className="subtext">
-              @wajih2002
+              {user.userName}
             </p>
           </div>
         </div>
 
-          <div className="card-buyer">
-            <div className="card-header-buyer">
-              <h3>Your Analytics</h3>
-              <a href="#">See all orders</a>
-            </div>
-            <div className="posting-card-buyer">
-              <div className="posting-title-buyer">
-                <strong>Active Order(1)</strong>
-                <FiMoreHorizontal className="icon-btn" />
-              </div>
-              <p className="posting-sub">Public - Hourly - $200</p>
-              <div className="posting-stats">
-                <span>0<br />Notifications</span>
-                <span>0<br />Messages</span>
-                <span>0<br />Orders</span>
-              </div>
-            </div>
-          </div>
+         <div className="card-buyer">
+      <div className="card-header-buyer">
+        <h3>Your Analytics</h3>
+        <Link href="/orders">See all orders</Link>
+      </div>
 
+      <div className="posting-card-buyer">
+        <div className="posting-title-buyer">
+          <strong>Active Orders ({activeOrdersCount || 0})</strong>
+          <FiMoreHorizontal className="icon-btn" />
+        </div>
+
+       {activeOrdersCount === 0 ? "" :  <p className="posting-sub">Public - {totalOrderValue || '$0'}</p>}
+
+        <div className="posting-stats">
+          <span>{notificationsCount || 0}<br />Notifications</span>
+          <span>{chatsCount || 0}<br />Chats</span>
+          <span>{ordersCompletedCount || 0}<br />Orders Completed</span>
+        </div>
+      </div>
+    </div>
           <div className="card-buyer" style={{marginBottom:'45px'}}>
             <div className="card-header-buyer">
               <h3>How to work with Clients</h3>
@@ -137,7 +147,7 @@ const Dashboard = () => {
 
   
 
-  <Link href="/buyer/notifications" className="see-all">See All ↝</Link>
+  <Link href="/notifications" className="see-all">See All ↝</Link>
 </div>
 
 

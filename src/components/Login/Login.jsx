@@ -34,8 +34,7 @@ const LoginPage = () => {
       });
 
       const data = await res.json();
-      console.log('Login response:', data);
-
+     
       if (res.ok && data.success && Array.isArray(data.user?.role)) {
         const userDetailsRes = await fetch(`${baseUrl}/users/userdetails`, {
           method: 'GET',
@@ -44,8 +43,16 @@ const LoginPage = () => {
 
         const userDetailsData = await userDetailsRes.json();
 
+
         if (userDetailsRes.ok && userDetailsData.success) {
-          dispatch(loginUser(userDetailsData.user));
+        const userWithWallet = {
+    ...userDetailsData.user,
+    wallet: userDetailsData.wallet,
+    buyerReviews: userDetailsData.buyerReviews,
+    sellerReviews: userDetailsData.sellerReviews,
+  };
+
+  dispatch(loginUser(userWithWallet));
         } else {
           setError('Failed to fetch user details.');
           setLoading(false);

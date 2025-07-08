@@ -4,52 +4,70 @@ import "./login.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { baseUrl } from "@/const";
-
+import { loginUser, setCurrentDashboard } from "@/redux/features/userSlice";
+import { useDispatch } from "react-redux";
 const Login = () => {
   const router = useRouter();
-
+const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
+const handleLogin = async (e) => {
+  e.preventDefault();
+  setError("");
 
-    try {
-      const res = await fetch(
-        `${baseUrl}/users/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include", // send and receive cookies
-          body: JSON.stringify({ email: username, password }),
-        }
-      );
+  try {
+    const res = await fetch(`${baseUrl}/users/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ email: username, password }),
+    });
 
-      const data = await res.json();
-      console.log("Admin login response:", data);
+    const data = await res.json();
+    console.log("Admin login response:", data);
 
-      if (
-        res.ok &&
-        data.success &&
-        Array.isArray(data.user?.role) &&
-        (data.user.role.includes("admin") || data.user.role.includes("superadmin"))
-      ) {
-        // Store user info if you want, token is in HttpOnly cookie so not accessible via JS
-        localStorage.setItem("user", JSON.stringify(data.user));
+    if (
+      res.ok &&
+      data.success &&
+      Array.isArray(data.user?.role) &&
+      (data.user.role.includes("admin") || data.user.role.includes("superadmin"))
+    ) {
+      const userDetailsRes = await fetch(`${baseUrl}/users/userdetails`, {
+        method: "GET",
+        credentials: "include",
+      });
 
+      const userDetailsData = await userDetailsRes.json();
+
+      if (userDetailsRes.ok && userDetailsData.success) {
+        // Dispatch Redux user
+        dispatch(loginUser(userDetailsData.user));
+
+        // Determine top role
+        const validRoles = data.user.role.filter((r) =>
+          ["admin", "superadmin"].includes(r)
+        );
+        const rolePriority = { superadmin: 1, admin: 2 };
+        const sortedRoles = validRoles.sort((a, b) => rolePriority[a] - rolePriority[b]);
+        const topRole = sortedRoles[0];
+        dispatch(setCurrentDashboard(topRole));
         router.push("/admin");
       } else {
-        setError("Invalid credentials or unauthorized role.");
+        setError("Failed to fetch user details.");
       }
-    } catch (err) {
-      console.error("Login error:", err);
-      setError("Something went wrong. Please try again.");
+    } else {
+      setError("Invalid credentials or unauthorized role.");
     }
-  };
+  } catch (err) {
+    console.error("Login error:", err);
+    setError("Something went wrong. Please try again.");
+  }
+};
+
 
   return (
     <div className="login-container-admin">

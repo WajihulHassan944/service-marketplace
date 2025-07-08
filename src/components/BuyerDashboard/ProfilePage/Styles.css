@@ -38,21 +38,23 @@
   justify-content: space-between;
   align-items: flex-start;
 }
+.no-gig-message {
+  margin-top: 20px;
+  font-weight: 400;
+  color: #666;
+  font-style: italic;
+}
 
 .user {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  text-align: left;
+  gap: 20px;
 }
 
 .user-avatar {
   border-radius: 100%;
   object-fit: cover;
-}
-
-.user-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
 }
 
 .user-info strong {
@@ -475,4 +477,21 @@
     width: 100%;
     height: auto;
   }
+}
+.website-title-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7f7f7;
+  color: #333;
+  padding: 2rem;
+  text-align: center;
+  border: 1px dashed #ccc;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.thumbnail-wrapper .website-title-preview {
+  padding: 1rem;
+  font-size: 0.95rem;
 }

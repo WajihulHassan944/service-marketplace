@@ -1,0 +1,67 @@
+.breadcrumb-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #edf4ff;
+  padding: 35px 1.5rem;
+   margin-top: 20px;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.breadcrumb-text h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #1c1c1c;
+  font-weight: 500;
+}
+
+.breadcrumb-path {
+  display: flex;
+  align-items: center;
+  margin-top: 0.3rem;
+  color: #617397;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.breadcrumb-path .dot {
+  margin: 0 0.5rem;
+  font-size: 1rem;
+}
+
+.breadcrumb-container .breadcrumb-image {
+  position: absolute;
+bottom: -60px;
+right: 70px;
+}
+@media (max-width: 768px) {
+  .breadcrumb-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 25px 1rem;
+  }
+
+  .breadcrumb-text h2 {
+    font-size: 1.2rem;
+  }
+
+  .breadcrumb-path {
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+  }
+
+  .breadcrumb-path .dot {
+    margin: 0 0.4rem;
+    font-size: 0.9rem;
+  }
+
+  .breadcrumb-container .breadcrumb-image {
+    position: absolute;
+    right: 10px;
+    bottom: -40px;
+    width: 100px;
+  }
+}

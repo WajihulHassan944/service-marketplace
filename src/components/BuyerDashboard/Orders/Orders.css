@@ -108,7 +108,7 @@
     text-align: center;
   }
   
-  .orders-container  .order-title {
+  .orders-container  .order-title-in-orders {
     color: #444;
   }
   
@@ -180,7 +180,7 @@
     margin-bottom: 8px;
   }
 
-  .orders-container .order-title {
+  .orders-container .order-title-in-orders {
     font-size: 15px;
     font-weight: 500;
     color: #222;

@@ -8,6 +8,7 @@
   font-weight: 700;
   display: flex;
   align-items: center;
+  text-transform: capitalize;
 }
 .dashboard-seller-header .tag {
   background-color: #e4e8f3;

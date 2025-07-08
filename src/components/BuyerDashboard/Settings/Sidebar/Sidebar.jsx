@@ -2,22 +2,31 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FaUser, FaLock, FaCalendarAlt, FaBuilding, FaLink as FaLinkIcon, FaArrowLeft } from 'react-icons/fa';
+import { FaUser, FaBuilding, FaLock, FaCalendarAlt, FaPlusCircle, FaFolderOpen, FaMoneyCheckAlt , FaArrowLeft} from 'react-icons/fa';
 import "../Billing/billing.css";
+import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
+   const user = useSelector((state) => state.user);
   const pathname = usePathname();
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+const isSeller = user?.currentDashboard === "seller";
 
-  const menuItems = [
-    { path: '/buyer/settings/myinfo', icon: <FaUser />, label: 'My info' },
-    { path: '/buyer/settings/billing', icon: <FaBuilding />, label: 'Billing & Payments' },
-    { path: '/buyer/settings/reset-password', icon: <FaLock />, label: 'Password & Security' },
-    { path: '/buyer/settings/reviews', icon: <FaCalendarAlt />, label: 'My Reviews' },
-    { path: '/seller/create-portfolio', icon: <FaLinkIcon />, label: 'My Portfolio' },
-  ];
-
+  
+const menuItems = [
+  { path: '/settings/myinfo', icon: <FaUser />, label: 'My info' },
+  { path: '/settings/billing', icon: <FaBuilding />, label: 'Billing & Payments' },
+  { path: '/settings/reset-password', icon: <FaLock />, label: 'Password & Security' },
+  { path: '/settings/reviews', icon: <FaCalendarAlt />, label: 'My Reviews' },
+  ...(isSeller
+    ? [
+        { path: '/seller/create-portfolio', icon: <FaPlusCircle />, label: 'Create Portfolio' },
+        { path: '/seller/my-portfolio', icon: <FaFolderOpen />, label: 'My Portfolio' },
+        { path: '/seller/payout', icon: <FaMoneyCheckAlt />, label: 'Withdraw' },
+      ]
+    : []),
+];
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -42,7 +51,17 @@ const Sidebar = () => {
       <aside className={`sidebar ${isMobile ? (isOpen ? 'show' : 'hide') : ''}`}>
         <ul>
           {menuItems.map((item) => (
-            <li key={item.path} className={pathname === item.path ? 'active' : ''}>
+            <li
+  key={item.path}
+  className={
+    (item.path === '/seller/my-portfolio' &&
+      (pathname === '/seller/my-portfolio' || pathname === '/seller/portfolio-details'))
+      ? 'active'
+      : pathname === item.path
+        ? 'active'
+        : ''
+  }
+>
               <Link href={item.path} className="sidebar-link">
                 {item.icon} <span>{item.label}</span>
               </Link>

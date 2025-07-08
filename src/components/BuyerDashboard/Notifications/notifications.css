@@ -3,6 +3,7 @@
   background-color: #fff;
   color: #333;
   padding-top: 10px;
+  min-height: 87vh;
 }
 
 .notifications-wrapper-buyer .card {
@@ -76,4 +77,26 @@
   padding: 30px 7%;
   padding-top: 10px;
 }
+}
+
+.notification-item .notif-actions {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.notification-item:hover .notif-actions {
+  opacity: 1;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.icon{
+  cursor: pointer;
+  font-weight: 900;
+  color: #00b22d;
 }

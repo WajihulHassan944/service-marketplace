@@ -1,5 +1,15 @@
+.payout-wrapper{
+  display: flex;
+  padding: 5px 10%;
+  color: #1c1c1c;
+  width: 100%;
+ margin-bottom: 60px;
+  gap: 30px;
+  font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+}
 .payout-container {
-  margin: 40px 10%;
+  margin: 40px 0;
+  flex: 1;
   margin-top: 20px;
   padding: 0;
   border: 1px solid #ddd;

@@ -1,16 +1,17 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import './GigCard.css';
 import { useRouter } from 'next/navigation';
-
-export default function GigCard({ data, index = 0 }) {
+import { useSelector } from 'react-redux';
+import { baseUrl } from '@/const';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+export default function GigCard({ data }) {
   const router = useRouter();
-
-  const handleClick = () => {
-    router.push('/services-details');
-  };
+  const user = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
 
   const fallbackData = {
+    gigId: 'sample123',
     image: '/assets/gigs/dummy.png',
     avatar: '/assets/gigs/avatar.png',
     sellerName: 'Kaushal',
@@ -24,11 +25,60 @@ export default function GigCard({ data, index = 0 }) {
 
   const gig = data || fallbackData;
 
+  // 🔍 Check if this gig is wishlisted
+  const isWishlisted = user?.wishlist?.includes(gig.gigId);
+
+  const handleClick = () => {
+    router.push(`/services-details?gigId=${gig.gigId}`);
+  };
+
+  const toggleWishlist = async (e) => {
+    e.stopPropagation(); // prevent card click
+
+    if (!user?._id) {
+      alert("Please log in to use the wishlist.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await fetch(`${baseUrl}/users/toggle-wishlist`, {
+        method: 'POST',
+       credentials: 'include',
+headers: {
+  'Content-Type': 'application/json',
+}
+,
+        body: JSON.stringify({ gigId: gig.gigId }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert(data.message);
+        window.location.reload();
+      } else {
+        alert(data.message || "Something went wrong.");
+      }
+    } catch (err) {
+      console.error("Toggle wishlist error:", err);
+      alert("Error toggling wishlist.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="gig-card" onClick={handleClick} style={{ cursor: 'pointer' }}>
       <div className="gig-image-wrapper">
         <img src={gig.image} alt="Gig thumbnail" className="gig-image" />
-        <button className="heart-btn">♡</button>
+       <button
+  className={`heart-btn ${isWishlisted ? 'wishlisted' : ''}`}
+  onClick={toggleWishlist}
+  disabled={loading}
+>
+  {isWishlisted ? <AiFillHeart size={20} color="#e0245e" /> : <AiOutlineHeart size={20} />}
+</button>
+
       </div>
 
       <div className="gig-info">

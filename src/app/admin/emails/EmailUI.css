@@ -105,12 +105,17 @@
   margin-bottom: 10px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   cursor: pointer;
   transition: background 0.2s ease;
   border: 1px solid transparent;
 }
-
+.email-item div{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .email-item:hover {
   background-color: #f1f5f9;
 }
@@ -125,6 +130,7 @@
   font-size: 14px;
   color: #0f172a;
   font-weight: 500;
+  margin-top: -1.9px;
 }
 
 .email-item p {

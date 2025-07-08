@@ -6,7 +6,7 @@ const initialState = {
   profileUrl: null,
   email: null,
   country: null,
-  role: ['buyer'],
+  role: [],
   verified: false,
   sellerStatus: false,
   blocked: false,

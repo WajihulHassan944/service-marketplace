@@ -2,6 +2,7 @@
   padding: 20px;
   max-width: 1000px;
   margin: auto;
+  margin-top: 20px;
   font-family: "Plus Jakarta Sans", sans-serif !important;
 }
 
@@ -10,21 +11,70 @@
   flex-direction: row;
   justify-content: space-between;
 }
+.breadcrumb-dropdown-special {
+  position: relative;
+  width: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .breadcrumb {
   background-color: #222;
   color: white;
   padding: 10px 15px;
   border-radius: 8px;
-  margin-bottom: 20px;
   font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.dropdown-menu-special {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  background-color: #333;
+  border-radius: 8px;
+  margin-top: 4px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  z-index: 100;
+  overflow: hidden;
+  width: 100%;
+}
+
+.dropdown-item-special {
+  padding: 10px 15px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dropdown-item-special:hover,
+.dropdown-item-special.active {
+  background-color: #444;
 }
 
 .job-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: 30px;
 }
+.dropdown-arrow.rotate {
+  transform: rotate(180deg);
+}
+
+.dropdown-arrow {
+  transition: transform 0.3s ease;
+}
+
+
+
+
+
 
 .job-card {
   border: 1px solid #ddd;
@@ -210,6 +260,15 @@
 
 .btn-close-popup:hover {
   background-color: #c82333;
+}
+.alert {
+  background-color: #e6f7ff;
+  color: #0070f3;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-left: 4px solid #0070f3;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 @keyframes fadeIn {

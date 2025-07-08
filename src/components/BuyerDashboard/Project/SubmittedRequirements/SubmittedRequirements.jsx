@@ -1,39 +1,51 @@
 import React from "react";
 import "./SubmittedRequirements.css";
 
-const SubmittedRequirements = () => {
+export default function SubmittedRequirements({ order }) {
+  if (!order) return null;
+
+  const requirementText = order.requirements;
+  const uploadedFiles = Array.isArray(order.files) ? order.files : [];
+
   return (
     <div className="requirements-container">
       <div className="requirements-header">
         <span>Submitted Requirements</span>
         <span className="arrow">▾</span>
       </div>
+
       <div className="requirement">
         <p>
-          <strong>1. Please upload a document with the specific content you would like this presentation to include.</strong>
+          <strong>Requirement:</strong>
           <br />
-          I’ve uploaded my presentation material!
-        </p>
-        <a href="/files/contracts.csv" className="file-link" download>
-          📄 contracts.csv
-        </a>
-      </div>
-      <div className="requirement">
-        <p>
-          <strong>2. Do you have any branding or graphic design requirements?</strong>
-          <br />
-          Yes, please follow the branding on my company website.
+          {requirementText ? (
+            <span>{requirementText}</span>
+          ) : (
+            <span style={{ color: "#999" }}>No requirements submitted.</span>
+          )}
         </p>
       </div>
+
       <div className="requirement">
         <p>
-          <strong>3. Any images or charts to include?</strong>
-          <br />
-          Nope!
+          <strong>Attached File(s):</strong>
         </p>
+        {uploadedFiles.length > 0 ? (
+          uploadedFiles.map((file, i) => (
+            <a
+              key={file._id || i}
+              href={file.url}
+              className="file-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              📄 Requirements File
+            </a>
+          ))
+        ) : (
+          <p style={{ color: "#999" }}>No files attached.</p>
+        )}
       </div>
     </div>
   );
-};
-
-export default SubmittedRequirements;
+}

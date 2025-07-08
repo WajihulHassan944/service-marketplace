@@ -132,6 +132,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .username {
@@ -205,4 +206,9 @@ width: 100% !important;
   .nav-sections::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Edge */
   }
+}
+.disabled-link {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
 }

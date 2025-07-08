@@ -131,12 +131,14 @@
   .pay-now {
     background-color: #e5e5e5;
     border: none;
-    color: #888;
+    color: rgba(0,0,0,0.7);
     padding: 10px 20px;
     border-radius: 20px;
-    font-weight: bold;
-    cursor: not-allowed;
+    cursor: pointer;
     margin-top: 20px;
+    font-weight: 500;
+    font-size: 15px;
+    text-decoration: none;
   }
   
   .manage-billing {

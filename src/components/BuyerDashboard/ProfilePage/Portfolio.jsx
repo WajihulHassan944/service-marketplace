@@ -1,60 +1,82 @@
 import Link from "next/link";
 import "./Styles.css";
 
-const portfolioItems = [
-  {
-    image: "/assets/portfolio/one.png",
-    title: "Construction website",
-    description: "It's a portfolio construction website.",
-    tag: "Website Development",
-  },
-  {
-    image: "/assets/gigs/dummytwo.png",
-    title: "E-commerce Platform",
-  },
-  {
-    image: "/assets/portfolio/two.png",
-    title: "Portfolio Landing Page",
-  },
-  {
-    image: "/assets/portfolio/three.png",
-    title: "Marketing Agency",
-  },
-  // Add more items as needed
-];
+export default function Portfolio({ portfolios, id, name }) {
+  if (!portfolios || portfolios.length === 0) {
+    return (
+      <div className="portfolio-container">
+        <h3>Portfolio</h3>
+        <p className="no-gig-message">No portfolio projects available.</p>
+      </div>
+    );
+  }
 
-export default function Portfolio() {
-  const featured = portfolioItems[0];
-  const galleryItems = portfolioItems.slice(1, 4); // only 3 shown thumbnails
+  const featured = portfolios[0];
+  const galleryItems = portfolios.slice(1, 4);
+
+  const renderPreview = (item, className = "") => {
+    if (item.previewType === "image") {
+      return <img src={item.imageUrl} alt={item.title} className={className} />;
+    }
+
+    if (item.previewType === "link" || item.previewType === "iframe") {
+      return (
+        <a
+          href={item.websiteLink || "#"}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`website-title-preview ${className}`}
+        >
+          <strong>{item.title}</strong>
+        </a>
+      );
+    }
+
+    return (
+      <div className="no-preview">
+        <p>No valid preview available</p>
+      </div>
+    );
+  };
 
   return (
     <div className="portfolio-container">
       <h3>Portfolio</h3>
+
       <div className="portfolio-main">
         <div className="featured-project">
-          <img src={featured.image} alt={featured.title} />
+          {renderPreview(featured)}
           <div className="project-details">
             <h4>{featured.title}</h4>
             <p>{featured.description}</p>
-            <span className="tag">{featured.tag}</span>
+            <span className="tag">
+              {featured.previewType === "image"
+                ? "Image Project"
+                : "Website Link"}
+            </span>
           </div>
         </div>
+
         <div className="project-gallery">
           {galleryItems.map((item, idx) => (
-            <img
-              key={idx}
-              src={item.image}
-              alt={item.title}
-              className="thumbnail"
-            />
+            <div key={idx} className="thumbnail-wrapper">
+              {renderPreview(item, "thumbnail")}
+            </div>
           ))}
-         <Link className="link" href="/seller/portfolio"> <div className="more-projects">+{portfolioItems.length - 1} Projects</div></Link>
+
+          {portfolios.length > 1 && (
+            <Link className="link" href={`/seller/portfolio?id=${id}&name=${name}`}>
+              <div className="more-projects">
+                +{portfolios.length - 1} Projects
+              </div>
+            </Link>
+          )}
         </div>
       </div>
-   <Link className="link" href="/seller/portfolio">  <button className="view-gig">View all projects</button></Link>
-      
-      
-   
+
+      <Link className="link" href={`/seller/portfolio?id=${id}&name=${name}`}>
+        <button className="view-gig">View all projects</button>
+      </Link>
     </div>
   );
 }

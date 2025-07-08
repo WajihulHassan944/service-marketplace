@@ -154,11 +154,11 @@ const SellersData = () => {
                       Delete
                     </button>
                     <button
-                      className={`approve-btn ${member.verified ? "approved" : "approve"}`}
+                      className={`approve-btn ${member.sellerStatus ? "approved" : "approve"}`}
                       onClick={() => handleApprove(member._id)}
-                      disabled={member.verified}
+                      disabled={member.sellerStatus}
                     >
-                      {member.verified ? "Approved" : "Approve"}
+                      {member.sellerStatus ? "Approved" : "Approve"}
                     </button>
                   </div>
                 </td>

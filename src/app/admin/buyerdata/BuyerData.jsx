@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./buyerdata.css";
 import { Toaster, toast } from 'react-hot-toast';
 import { baseUrl } from '@/const';
-const API_BASE = "https://backend-service-marketplace.vercel.app/api/users";
+import { useSelector } from "react-redux";
 
 const BuyerData = () => {
   const [members, setMembers] = useState([]);
@@ -14,7 +14,7 @@ const BuyerData = () => {
   useEffect(() => {
     const fetchBuyers = async () => {
       try {
-        const res = await fetch(`${API_BASE}/buyers`, {
+        const res = await fetch(`${baseUrl}/users/buyers`, {
           method: "GET",
           credentials: "include", // sends cookies
         });

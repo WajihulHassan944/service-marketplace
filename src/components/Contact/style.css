@@ -197,3 +197,31 @@
     padding: 0.75rem;
   }
 }
+.success-msg,
+.error-msg {
+  margin: 10px 0;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 500;
+ width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Green for success */
+.success-msg {
+  background-color: #e6f9f0;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+/* Red for error */
+.error-msg {
+  background-color: #ffeaea;
+  color: #d32f2f;
+  border: 1px solid #ef9a9a;
+}
+.success-msg,
+.error-msg {
+  transition: all 0.3s ease-in-out;
+}

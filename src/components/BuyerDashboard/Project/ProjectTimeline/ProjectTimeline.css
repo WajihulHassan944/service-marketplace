@@ -119,4 +119,34 @@
       font-size: 0.85rem;
     }
   }
-  
+  .success-popup {
+  margin-top: 1.5rem;
+  background: #e9f4ff;
+  border: 1px solid #b3daff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.success-popup .review-btn {
+  margin-top: 1rem;
+  background-color: #252525;
+  color: #fff;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s;
+}
+
+.success-popup .review-btn:hover {
+  background-color: #000;
+}
+
+.success-popup svg {
+  vertical-align: middle;
+}

@@ -1,218 +1,248 @@
+'use client';
 import Image from "next/image";
 import styles from "./GigDetails.module.css";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { baseUrl } from "@/const";
+import { useSelector } from "react-redux";
+import Link from "next/link";
 
 const GigDetails = () => {
+  const searchParams = useSearchParams();
+  const gigIdParam = searchParams.get("gigId");
+  const [showPopup, setShowPopup] = useState(false);
+  const [textInfo, setTextInfo] = useState('');
+  const [file, setFile] = useState(null);
+  const [packageType, setpackageType] = useState('basic');
+  const [gig, setGig] = useState(null);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [loadingOrder, setLoadingOrder] = useState(false);
+
+  const buyer = useSelector((state) => state.user);
+  const buyerId = buyer?._id;
+const [paymentMethod, setPaymentMethod] = useState("balance");
+
+  useEffect(() => {
+    if (gigIdParam) {
+      fetch(`${baseUrl}/gigs/getGigById/${gigIdParam}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setGig(data.gig);
+            setUser(data.user);
+          }
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Error fetching gig:", err);
+          setLoading(false);
+        });
+    }
+  }, [gigIdParam]);
+
+  if (loading) return <p>Loading gig details...</p>;
+  if (!gig) return <p>No gig found</p>;
+  const pkg = gig?.packages?.[packageType];
+
   return (
     <div className={styles.containerGigDetails}>
       <nav className={styles.breadcrumb}>
-        <span>🏠 / Programming & Tech</span> / <span>Software Development</span> / <span>Web Application</span>
+        <span>🏠 / {gig.category}</span> / <span>{gig.subcategory}</span>
       </nav>
 
-      <h1 className={styles.title}>
-        I will create a personal portfolio website or business website
-      </h1>
+      <h1 className={styles.title}>{gig.gigTitle}</h1>
 
       <div className={styles.sellerInfo}>
-        <Image src="/assets/gigs/avatar.png" alt="Hossain Rabbi" width={50} height={50} className={styles.profileImage} />
+        <Image src={user.profileUrl} alt="Seller Profile" width={50} height={50} className={styles.profileImage} />
         <div>
-          <strong>Hossain Rabbi</strong> <span className={styles.level}>Level 1</span>
-          <div className={styles.rating}>★★★★★ <span>(37 reviews)</span></div>
+          <strong>{user.firstName} {user.lastName}</strong> <span className={styles.level}>New seller</span>
+          <div className={styles.rating}>★★★★★ <span>(No reviews)</span></div>
         </div>
       </div>
 
       <div className={styles.mainContent}>
         <div className={styles.leftContent}>
           <div className={styles.imageSlider}>
-            <Image src="/assets/gigs/dummy.png" alt="Gig Image" width={800} height={500} className={styles.gigheaderImage} />
+            <Image src={gig.images?.[0]?.url} alt="Gig Image" width={800} height={500} className={styles.gigheaderImage} />
           </div>
 
           <section className={styles.aboutSection}>
             <h2>About this gig</h2>
-            <h3>Personal Portfolio Website & Business Website | 100+ Projects Completed</h3>
-            <p>
-              Looking for a <strong>stunning personal portfolio website</strong> or a <strong>professional business presence online</strong>?
-            </p>
-            <p>
-              Hi, I'm Hossain, a <strong>skilled web developer</strong> with <strong>7+ years of experience</strong> and <strong>100+ successful projects</strong> delivered. I specialize in creating <strong>SEO-optimized, W3-validated, and fully responsive</strong> digital platforms.
-            </p>
+            <h3>{gig.gigTitle} | No Projects Completed</h3>
+            <p>{gig.gigDescription}</p>
+            <h5 style={{margin:'15px 0', fontSize:'17px'}}>About Seller</h5>
+            <p>Hi, I'm {user.firstName}, a <strong>skilled web developer</strong> with <strong>7+ years of experience</strong> and <strong>100+ successful projects</strong> delivered...</p>
           </section>
 
           <section className={styles.techStack}>
             <div>
-              <h4>Programming language</h4>
-              <p>HTML & CSS</p>
+              <h4>Search Tag</h4>
+              <p>#{gig.searchTag}</p>
             </div>
             <div>
-              <h4>Expertise</h4>
-              <p>Algorithms & Data structures, Debugging, Performance, Design, Source control</p>
-            </div>
-            <div>
-              <h4>Frontend framework</h4>
-              <p>React.js, Bootstrap, Semantic-UI, Tailwind CSS</p>
-            </div>
-            <div>
-              <h4>Backend framework</h4>
-              <p>Django, Express.js, Node.js, Next.js</p>
+              <h4>Positive Keywords</h4>
+              <p>{gig.positiveKeywords?.join(", ")}</p>
             </div>
           </section>
-
-          <section className={styles.packageComparison}>
-  <h2>Compare packages</h2>
-  <div className={styles.packageTable}>
-    <div className={`${styles.row} ${styles.headerRow}`}>
-      <div className={styles.cellSpecial}>Package</div>
-      <div className={styles.cell}>
-        <span className="pricingTitleInPackage">PKR 4,439</span><br />
-        <span className={styles.packageTitle}>GOLD</span><br />
-        <span className={styles.packageDesc}>1 page max 5 Sections + Responsive *no animations included</span>
-      </div>
-      <div className={styles.cell}>
-        <span className="pricingTitleInPackage">PKR 8,878</span><br />
-        <span className={styles.packageTitle}>DIMOND</span><br />
-        <span className={styles.packageDesc}>1 page max 8 Sections + counter + slider + basic animations</span>
-      </div>
-      <div className={styles.cell}>
-        <span className="pricingTitleInPackage">PKR 17,755</span><br />
-        <span className={styles.packageTitle}>PLATINUM</span><br />
-        <span className={styles.packageDesc}>1 page as many sections need + counter + slider + reviews + contact form + map + animations & effect</span>
-      </div>
-    </div>
-
-    <div className={styles.row}>
-      <div className={styles.cell}>Design customization</div>
-      <div className={styles.cell}>✔</div>
-      <div className={styles.cell}>✔</div>
-      <div className={styles.cell}>✔</div>
-    </div>
-    <div className={styles.row}>
-      <div className={styles.cell}>Content upload</div>
-      <div className={styles.cell}></div>
-      <div className={styles.cell}>✔</div>
-      <div className={styles.cell}>✔</div>
-    </div>
-    <div className={styles.row}>
-      <div className={styles.cell}>Responsive design</div>
-      <div className={styles.cell}>✔</div>
-      <div className={styles.cell}>✔</div>
-      <div className={styles.cell}>✔</div>
-    </div>
-    <div className={styles.row}>
-      <div className={styles.cell}>Include source code</div>
-      <div className={styles.cell}>✔</div>
-      <div className={styles.cell}>✔</div>
-      <div className={styles.cell}>✔</div>
-    </div>
-    <div className={styles.row}>
-      <div className={styles.cell}>Detailed code comments</div>
-      <div className={styles.cell}>✔</div>
-      <div className={styles.cell}>✔</div>
-      <div className={styles.cell}>✔</div>
-    </div>
-  </div>
-</section>
-<section className={styles.reviewsSection}>
-  <h2>Reviews</h2>
-
-  <div className={styles.reviewSummary}>
-    <div className={styles.leftStats}>
-      <p><strong>37 reviews for this Gig</strong></p>
-      <div className={styles.ratingRow}><span>5 Stars</span><div className={styles.bar}><div className={styles.filled} style={{width: '97%'}}></div></div><span>(36)</span></div>
-      <div className={styles.ratingRow}><span>4 Stars</span><div className={styles.bar}><div className={styles.filled} style={{width: '3%'}}></div></div><span>(1)</span></div>
-      <div className={styles.ratingRow}><span>3 Stars</span><div className={styles.bar}></div><span>(0)</span></div>
-      <div className={styles.ratingRow}><span>2 Stars</span><div className={styles.bar}></div><span>(0)</span></div>
-      <div className={styles.ratingRow}><span>1 Star</span><div className={styles.bar}></div><span>(0)</span></div>
-    </div>
-
-    <div className={styles.rightStats}>
-      <div className={styles.totalStars}>
-        <span>★★★★★</span> <strong>5.0</strong>
-      </div>
-      <div className={styles.breakdown}>
-  <div className={styles.breakdownRow}>
-    <span>Seller communication level</span>
-    <span>★ 5</span>
-  </div>
-  <div className={styles.breakdownRow}>
-    <span>Quality of delivery</span>
-    <span>★ 4.9</span>
-  </div>
-  <div className={styles.breakdownRow}>
-    <span>Value of delivery</span>
-    <span>★ 4.9</span>
-  </div>
-</div>
-
-    </div>
-  </div>
-
-  <div className={styles.reviewFilters}>
-    <input type="text" placeholder="Search reviews" />
-    <button>🔍</button>
-    <select>
-      <option>Most relevant</option>
-    </select>
-   </div>
-
-  <div className={styles.reviewCard}>
-    <div className={styles.userInfo}>
-      <img src="/assets/gigs/avatar.png" alt="avatar" />
-      <div>
-        <strong>omega_web_inv</strong>
-        <div className={styles.location}>🇺🇸 United States</div>
-      </div>
-    </div>
-    <div className={styles.stars}>★★★★★ <span>5</span> • 2 weeks ago</div>
-    <p>
-      This was for a personal portfolio and I love the way it came out. He explained everything he was going to do and went above and beyond. I highly recommend this freelancer.
-    </p>
-  </div>
-
-  <div className={styles.messageOverlay}>
-    <img src="/assets/gigs/avatar.png" alt="Profile" />
-    <div>
-      <strong>Message Hossain Rabbi</strong><br />
-      <span>Away • Avg. response time: 1 Hour</span>
-    </div>
-  </div>
-</section>
-
         </div>
 
-    <div className={styles.packageCard}>
-      <div className={styles.tabs}>
-        <span>Basic</span>
-        <span>Standard</span>
-        <span className={styles.active}>Premium</span>
+        <div className={styles.packageCard}>
+          <div className={styles.tabs}>
+            {['basic', 'standard', 'premium'].map((pkgName) => (
+              <span
+                key={pkgName}
+                className={packageType === pkgName ? styles.active : ''}
+                onClick={() => setpackageType(pkgName)}
+              >
+                {pkgName.charAt(0).toUpperCase() + pkgName.slice(1)}
+              </span>
+            ))}
+          </div>
+
+          <div className={styles.packageCardPadded}>
+            <div className={styles.price}>${pkg.price}</div>
+            <p className={styles.subscription}>Save up to 20% with <span className={styles.subscribeLink}>Subscribe to Save</span></p>
+            <p className={styles.desc}><strong>{pkg.packageName}</strong> — {pkg.description}</p>
+
+            <div className={styles.meta}>
+              <span>⏱ {pkg.deliveryTime} Day{pkg.deliveryTime > 1 ? 's' : ''} Delivery</span>
+              <span>⟳ {pkg.revisions === -1 ? 'Unlimited' : `${pkg.revisions} Revisions`}</span>
+            </div>
+
+            <div className={styles.included}><span>What's Included</span><span>▾</span></div>
+
+            <button className={styles.continueBtn} onClick={() => setShowPopup(true)}>
+              Purchase →
+            </button>
+
+            <p className={styles.compare}>Compare Packages</p>
+            <Link  href={`/messages?receiverId=${gig.userId}`}><button className={styles.contactBtn}>Contact Seller</button></Link>
+          </div>
+        </div>
       </div>
-<div className={styles.packageCardPadded}>
-      <div className={styles.price}>$165</div>
 
-      <p className={styles.subscription}>
-        Save up to 20% with <span className={styles.subscribeLink}>Subscribe to Save</span>
-      </p>
+      
+      {showPopup && (
+  <div className={styles.popupOverlay}>
+    <div className={styles.popupContent}>
+      <h3>Provide Additional Information</h3>
 
-      <p className={styles.desc}>
-        <strong>Mountain Package – For Pros !</strong> 5 Highly Professional
-        variations JPEG PNG + STATIONARY & SOCIAL MEDIA DESIGN + Source files for logo
-      </p>
+      <label>Enter any additional requirements:</label>
+      <textarea
+        value={textInfo}
+        onChange={(e) => setTextInfo(e.target.value)}
+        placeholder="Type here..."
+      />
 
-      <div className={styles.meta}>
-        <span>⏱ 3 Days Delivery</span>
-        <span>⟳ Unlimited Revisions</span>
+      <label className={styles.fileLabel}>Upload Document (PDF/DOC):</label>
+      <input
+        type="file"
+        accept=".pdf,.doc,.docx"
+        className={styles.fileInputStyled}
+        onChange={(e) => setFile(e.target.files[0])}
+      />
+
+      <div className={styles.paymentOptions}>
+        <h4>Select Payment Method</h4>
+
+        {/* Balance option */}
+        <label className={styles.paymentOption}>
+          <input
+            type="radio"
+            name="paymentMethod"
+            value="balance"
+            checked={paymentMethod === "balance"}
+            onChange={(e) => setPaymentMethod(e.target.value)}
+          />
+          Pay with balance (${buyer.wallet.balance})
+        </label>
+
+        {/* Card option */}
+        {buyer.wallet?.cards?.length > 0 ? (
+          <label className={styles.paymentOption}>
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="card"
+              checked={paymentMethod === "card"}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+            Pay with card:
+            <span className={styles.cardDetails}>
+              <img
+                src={
+                  buyer.wallet.cards.find((c) => c.isPrimary)?.brand === "mastercard"
+                    ? "/assets/mastercard.png"
+                    : "/assets/visa.png"
+                }
+                alt="Card"
+              />
+              **** {buyer.wallet.cards.find((c) => c.isPrimary)?.last4}
+            </span>
+          </label>
+        ) : (
+          <p>No card available</p>
+        )}
       </div>
 
-      <div className={styles.included}>
-        <span>What's Included</span>
-        <span>▾</span>
+      <div className={styles.popupActions}>
+        <button className={styles['popupActions-btn']} onClick={() => setShowPopup(false)}>Cancel</button>
+
+<button
+  className={styles['popupActions-btn']}
+  onClick={async () => {
+    setLoadingOrder(true);
+    try {
+      const formData = new FormData();
+      formData.append("gigId", gig._id);
+      formData.append("sellerId", gig.userId);
+      formData.append("buyerId", buyerId);
+      formData.append("packageType", packageType);
+      formData.append("totalAmount", pkg.price);
+      formData.append("requirements", textInfo);
+      formData.append("paymentMethod", paymentMethod);
+
+      if (file) formData.append("file", file);
+
+      const response = await fetch(`${baseUrl}/orders/create`, {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        alert("Order placed successfully!");
+        setShowPopup(false);
+        window.location.reload();
+      } else {
+        alert(result.message || "Failed to place order");
+      }
+    } catch (err) {
+      console.error("Order error:", err);
+      alert("Something went wrong.");
+    } finally {
+      setLoadingOrder(false);
+    }
+  }}
+  disabled={loading}
+>
+  {loadingOrder ? "Submitting..." : "Submit"}
+</button>
+
       </div>
-
-      <button className={styles.continueBtn}>Continue →</button>
-
-      <p className={styles.compare}>Compare Packages</p>
-
-      <button className={styles.contactBtn}>Contact Seller</button>
     </div>
-      </div></div>
+  </div>
+)}
+
+
+
+
+
+
+
+
+
     </div>
   );
 };

@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.notepad-wrapper {
+  padding: 0 10%;
+  padding-bottom: 70px;
+  min-height: 85vh;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0;
+  margin-bottom: 15px;
+  box-shadow: rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
+  padding: 15px;
+  border-radius: 7px;
+}
+
+.tabs {
+  display: flex;
+  gap: 20px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #222;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tab.active {
+  background-color: #3A5AFE;
+  color: white;
+}
+
+.add-notes {
+  background-color: #3A5AFE;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.notes-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.note-card {
+  position: relative;
+  background: white;
+  border-radius: 7px;
+ box-shadow: rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
+  
+  width: calc(33.33% - 14px);
+  min-height: 220px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+}
+
+.note-stripe {
+  position: absolute;
+  top: 33px;
+  left: 0;
+  width: 3px;
+  height: 42px;
+  border-radius: 2px;
+}
+
+.note-content {
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.note-content h4 {
+  font-size: 15px;
+  font-weight: 500;
+  color: #2a3547;
+}
+
+.note-date {
+  font-size: 13px;
+  color: #5a6a85;
+  margin-bottom: 15px;
+  font-weight: 200;
+}
+
+.note-desc {
+  font-size: 14px;
+  color: #5a6a85;
+  margin-bottom: 25px;
+  font-weight: 400;
+}
+
+.note-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icon {
+  font-size: 16px;
+  color: #222;
+  cursor: pointer;
+}
+
+.icon.delete {
+  color: #f44336;
+}
+
+.icon.tick {
+  color: #4CAF50;
+}
+@media (max-width: 768px) {
+  .notepad-wrapper {
+    padding: 0 5%;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .tab {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .add-notes {
+    align-self: stretch;
+    justify-content: center;
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .notes-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .note-card {
+    width: 100%;
+  }
+
+  .note-content h4 {
+    font-size: 15px;
+  }
+
+  .note-desc {
+    font-size: 13px;
+  }
+}
+.edit-icon {
+  color: #4a90e2; /* soft blue */
+margin-left: 4px;
+}
+.icon.important {
+  color: #FFD700; /* Bright Yellow */
+}

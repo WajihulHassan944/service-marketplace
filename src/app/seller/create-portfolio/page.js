@@ -1,12 +1,12 @@
-import CreatePortfolio from '@/components/BuyerDashboard/Settings/CreatePortfolio/CreatePortfolio'
-import React from 'react'
+import React, { Suspense } from 'react';
+import CreatePortfolio from '@/components/BuyerDashboard/Settings/CreatePortfolio/CreatePortfolio';
 
-const page = () => {
+const Page = () => {
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <CreatePortfolio />
-    </>
-  )
-}
+    </Suspense>
+  );
+};
 
-export default page
+export default Page;

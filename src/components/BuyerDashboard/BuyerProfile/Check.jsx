@@ -4,16 +4,14 @@ import { FaCheckCircle, FaWrench } from "react-icons/fa";
 const ProfileChecklist = () => {
   return (
     <div className="checklist">
-      <h2>👋 Let’s help freelancers get to know you</h2>
-      <p>Get the most out of Todo by sharing more about yourself.</p>
+      <h2>👋 Get to know this buyer</h2>
+      <p>This buyer is new—here’s what we know so far.</p>
 
       <ul className="checklist-items">
         <li className="completed">
-          <FaCheckCircle color="green" /> Share how you plan to use Todo
+          <FaCheckCircle color="green" /> Shared how they plan to use the platform
         </li>
-        <li>
-          <FaWrench color="#999" /> Set your communication preferences <span>50%</span>
-        </li>
+      
       </ul>
     </div>
   );

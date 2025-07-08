@@ -1,196 +1,262 @@
 'use client';
+
 import React, { useState, useEffect } from 'react';
 import './EmailUI.css';
 import {
-  MdInbox, MdSend, MdDrafts, MdReport, MdDelete, MdLabel, MdStar,
-  MdSecurity, MdOutlineReply, MdForward
+  MdInbox, MdSend, MdDrafts, MdDelete, MdStar,
+  MdSecurity, MdOutlineReply, MdMoreVert
 } from 'react-icons/md';
-import { AiFillFilePdf, AiOutlineFileZip } from 'react-icons/ai';
-import { GiHamburgerMenu } from 'react-icons/gi';
 import { FaTimes } from 'react-icons/fa';
-
-const emailData = [
-  {
-    id: 1,
-    name: 'James Smith',
-    subject: 'Kindly check this latest updated',
-    time: '04:00pm',
-    label: 'Promotional',
-    content: `Hello Andrew,\n\nLorem ipsum dolor sit amet...`,
-    attachments: [
-      { name: 'service-task.pdf', type: 'pdf', size: '2 MB', date: '2 Dec 2024' },
-      { name: 'work-project.zip', type: 'zip', size: '2 MB', date: '2 Dec 2024' }
-    ]
-  },
-  {
-    id: 2,
-    name: 'Katherine Flintoff',
-    subject: 'Newsletter from AdminMart Team',
-    time: '04:00pm',
-    label: 'Social'
-  },
-  {
-    id: 3,
-    name: 'Bianca Macdowells',
-    subject: 'Kindly check this latest updated',
-    time: '04:00pm',
-    label: 'Health'
-  },
-  {
-    id: 4,
-    name: 'Michael Knight',
-    subject: 'Developer Community needs help',
-    time: '04:00pm',
-    label: 'Social'
-  }
-];
+import { baseUrl } from '@/const';
 
 const EmailUI = () => {
-  const [selectedId, setSelectedId] = useState(1);
-  const [selectedEmails, setSelectedEmails] = useState([]);
+  const [emails, setEmails] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [selectedFolder, setSelectedFolder] = useState('Inbox');
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [isComposeMode, setIsComposeMode] = useState(false);
+  const [isReplyMode, setIsReplyMode] = useState(false);
+  const [composeForm, setComposeForm] = useState({ subject: '', body: '' });
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [viewMode, setViewMode] = useState('list'); // 'list' | 'content'
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => {
-      const mobile = window.innerWidth <= 768;
-      setIsMobile(mobile);
-      if (!mobile) {
-        setSidebarOpen(false);
-        setViewMode('all');
-      }
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    fetchEmails(selectedFolder);
+  }, [selectedFolder]);
+
+  useEffect(() => {
+    fetch(`${baseUrl}/users/all`)
+      .then(res => res.json())
+      .then(data => setUsers(data.users));
   }, []);
 
-  const toggleSidebar = () => setSidebarOpen(prev => !prev);
-  const handleEmailSelect = (id) => {
-    setSelectedId(id);
-    if (isMobile) setViewMode('content');
-  };
-  const handleBack = () => setViewMode('list');
+const markAsImportant = async (emailId) => {
+  await fetch(`${baseUrl}/email/important/${emailId}`, {
+    method: 'PATCH'
+  });
+  fetchEmails(selectedFolder);
+};
 
-  const allSelected = selectedEmails.length === emailData.length;
-  const toggleSelectAll = () => {
-    setSelectedEmails(allSelected ? [] : emailData.map(email => email.id));
+const markAsStarred = async (emailId) => {
+  await fetch(`${baseUrl}/email/starred/${emailId}`, {
+    method: 'PATCH'
+  });
+  fetchEmails(selectedFolder);
+};
+
+
+const fetchEmails = async (folder) => {
+  let res;
+  let data;
+
+  if (folder === 'Starred' || folder === 'Important') {
+    // Get all emails for custom filters
+    res = await fetch(`${baseUrl}/email`);
+    data = await res.json();
+
+    if (folder === 'Starred') {
+      data = data.filter(email => email.isStarred);
+    } else if (folder === 'Important') {
+      data = data.filter(email => email.isImportant);
+    }
+  } else {
+    // Built-in folders: Inbox, Sent, Trash, Draft
+    res = await fetch(`${baseUrl}/email?folder=${folder}`);
+    data = await res.json();
+  }
+
+  setEmails(data);
+  setSelectedEmail(data[0] || null);
+};
+
+  const toggleSidebar = () => setSidebarOpen(prev => !prev);
+  const handleFolderClick = (folder) => {
+    setSelectedFolder(folder);
+    setIsComposeMode(false);
+    setIsReplyMode(false);
   };
-  const toggleEmailSelection = (id) => {
-    setSelectedEmails(prev =>
-      prev.includes(id) ? prev.filter(eid => eid !== id) : [...prev, id]
+
+  const handleEmailClick = (email) => {
+    setSelectedEmail(email);
+    setIsComposeMode(false);
+    setIsReplyMode(false);
+  };
+
+  const toggleUserSelect = (id) => {
+    setSelectedUsers(prev =>
+      prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id]
     );
   };
 
-  const selectedEmail = emailData.find(email => email.id === selectedId);
+  const handleSend = async () => {
+    // Determine whether it's a reply or a new message
+    if (isReplyMode && selectedEmail) {
+      const extractedEmail = selectedEmail.isContactForm
+        ? selectedEmail.body.match(/\(([^)]+)\)/)?.[1] || ''
+        : selectedEmail.sender?.email;
+
+      await fetch(`${baseUrl}/email/reply/${extractedEmail}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          senderId: "6836a8ab3503274446274b32",
+          message: composeForm.body || 'Thanks for contacting us!'
+        })
+      });
+    } else {
+      await fetch(`${baseUrl}/email/send`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          senderId: "6836a8ab3503274446274b32",
+          recipientIds: selectedUsers,
+          subject: composeForm.subject,
+          body: composeForm.body
+        })
+      });
+    }
+
+    setComposeForm({ subject: '', body: '' });
+    setIsComposeMode(false);
+    setIsReplyMode(false);
+    fetchEmails('Sent');
+  };
+
+  const handleReply = () => {
+    setIsComposeMode(true);
+    setIsReplyMode(true);
+    setComposeForm({ subject: `Re: ${selectedEmail.subject}`, body: '' });
+  };
+
+  const moveToTrash = async (emailId) => {
+    await fetch(`${baseUrl}/email/trash/${emailId}`, { method: 'PATCH' });
+    fetchEmails(selectedFolder);
+  };
+
+  const renderEmailList = () => (
+    <section className="email-list">
+      {isComposeMode && !isReplyMode ? (
+        <>
+          <div className="select-all">
+            <input
+              type="checkbox"
+              checked={selectedUsers.length === users.length}
+              onChange={() =>
+                setSelectedUsers(selectedUsers.length === users.length ? [] : users.map(u => u._id))
+              }
+            /> Select All
+          </div>
+          {users.map(user => (
+            <div key={user._id} className="email-item">
+              <input
+                type="checkbox"
+                checked={selectedUsers.includes(user._id)}
+                onChange={() => toggleUserSelect(user._id)}
+              />
+              <strong>{user.firstName}</strong>
+              <span>{user.email}</span>
+            </div>
+          ))}
+        </>
+      ) : emails.length ? (
+        emails.map(email => (
+          <div
+            key={email._id}
+            className={`email-item ${selectedEmail?._id === email._id ? 'active' : ''}`}
+            onClick={() => handleEmailClick(email)}
+          >
+            <strong>{email.isContactForm ? email.body.split('(')[0] : email.sender?.firstName || 'Anonymous'}</strong>
+            <span>{new Date(email.createdAt).toLocaleTimeString()}</span>
+          </div>
+        ))
+      ) : (
+        <p className="empty-folder">No messages found in {selectedFolder}</p>
+      )}
+    </section>
+  );
+
+  const renderEmailContent = () => (
+    <section className="email-content">
+      <header>
+        <h2>{selectedEmail.subject}</h2>
+        <div className="sender">
+          <img src={selectedEmail.sender?.profileUrl || '/assets/myimg.jpg'} alt="avatar" className="avatar" />
+          <div>
+            <strong>{selectedEmail.isContactForm ? selectedEmail.body.split('(')[0] : selectedEmail.sender?.firstName}</strong>
+            <p>{selectedEmail.isContactForm
+              ? selectedEmail.body.match(/\(([^)]+)\)/)?.[1]
+              : selectedEmail.sender?.email}</p>
+          </div>
+        </div>
+        <div className="dropdown">
+  <MdMoreVert onClick={() => setDropdownOpen(!dropdownOpen)} />
+  {dropdownOpen && selectedEmail && (
+    <div className="dropdown-menu-emails">
+      <button onClick={() => moveToTrash(selectedEmail._id)}>Move to Trash</button>
+      <button onClick={() => markAsImportant(selectedEmail._id)}>Mark as Important</button>
+      <button onClick={() => markAsStarred(selectedEmail._id)}>Mark as Starred</button>
+    </div>
+  )}
+</div>
+ </header>
+      <pre>{selectedEmail.body}</pre>
+      <div className="actions">
+        <button onClick={handleReply}><MdOutlineReply /> Reply</button>
+      </div>
+    </section>
+  );
+
+  const renderCompose = () => (
+    <section className="email-content">
+      <h2>{isReplyMode ? 'Reply to Message' : 'Compose Email'}</h2>
+      {!isReplyMode && (
+        <input
+          type="text"
+          placeholder="Subject"
+          value={composeForm.subject}
+          onChange={e => setComposeForm({ ...composeForm, subject: e.target.value })}
+        />
+      )}
+      <textarea
+        placeholder="Message"
+        value={composeForm.body}
+        onChange={e => setComposeForm({ ...composeForm, body: e.target.value })}
+      ></textarea>
+      <button className="btn-primary" onClick={handleSend}>Send</button>
+    </section>
+  );
 
   return (
     <div className="email-ui">
-      {/* Mobile Header */}
-      {isMobile && (
-        <div className="mobile-header-email">
-          <GiHamburgerMenu onClick={toggleSidebar} size={24} style={{ cursor: 'pointer' }} />
-          <h2>Inbox</h2>
-        </div>
-      )}
-
-      {/* Sidebar */}
       <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
-  {isMobile && (
-       <FaTimes onClick={toggleSidebar} size={24} style={{ cursor: 'pointer' }} />
-  )}
-        <button className="compose-btn">Compose</button>
+        {isMobile && (
+          <FaTimes onClick={toggleSidebar} size={24} style={{ cursor: 'pointer' }} />
+        )}
+        <button className="compose-btn" onClick={() => {
+          setIsComposeMode(true);
+          setIsReplyMode(false);
+          setComposeForm({ subject: '', body: '' });
+        }}>
+          Compose
+        </button>
         <nav>
           <ul>
-            <li><MdInbox /> Inbox</li>
-            <li><MdSend /> Sent</li>
-            <li><MdDrafts /> Draft</li>
-            <li><MdReport /> Spam</li>
-            <li><MdDelete /> Trash</li>
+            <li onClick={() => handleFolderClick('Inbox')}><MdInbox /> Inbox</li>
+            <li onClick={() => handleFolderClick('Sent')}><MdSend /> Sent</li>
+            <li onClick={() => handleFolderClick('Trash')}><MdDelete /> Trash</li>
           </ul>
           <h4>IMPORTANT</h4>
           <ul>
-            <li><MdStar /> Starred</li>
-            <li><MdSecurity /> Important</li>
-          </ul>
-          <h4>LABELS</h4>
-          <ul>
-            <li className="label label-promo"><MdLabel /> Promotional</li>
+            <li onClick={() => handleFolderClick('Starred')}><MdStar /> Starred</li>
+            <li onClick={() => handleFolderClick('Important')}><MdSecurity /> Important</li>
           </ul>
         </nav>
       </aside>
 
-      {/* Email List */}
-      {(viewMode === 'list' || viewMode === 'all') && (
-        <section className="email-list">
-          <div className="select-all">
-            <input type="checkbox" checked={allSelected} onChange={toggleSelectAll} /> Select All
-          </div>
-          {emailData.map(email => (
-            <div
-              key={email.id}
-              className={`email-item ${selectedId === email.id ? 'active' : ''}`}
-              onClick={() => handleEmailSelect(email.id)}
-            >
-              <input
-                type="checkbox"
-                checked={selectedEmails.includes(email.id)}
-                onChange={(e) => {
-                  e.stopPropagation();
-                  toggleEmailSelection(email.id);
-                }}
-              />
-              <div>
-                <strong>{email.name}</strong>
-              </div>
-              <span className={`label label-${email.label.toLowerCase()}`}>{email.label}</span>
-              <span>{email.time}</span>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {/* Email Content */}
-      {(viewMode === 'content' || viewMode === 'all') && selectedEmail && (
-        <section className="email-content">
-          {isMobile && <button className="back-btn" onClick={handleBack}>← Back</button>}
-          <header>
-            <h2>{selectedEmail.subject}</h2>
-            <div className="sender">
-              <img src="/assets/myimg.jpg" alt="avatar" className="avatar" />
-              <div>
-                <strong>{selectedEmail.name}</strong>
-                <p>hello@loremipsum.com</p>
-              </div>
-              <span className={`label label-${selectedEmail.label.toLowerCase()}`}>{selectedEmail.label}</span>
-            </div>
-          </header>
-          <pre>{selectedEmail.content}</pre>
-          {selectedEmail.attachments?.length > 0 && (
-            <footer>
-              <h4>Attachments</h4>
-              <div className="attachments">
-                {selectedEmail.attachments.map((file, idx) => (
-                  <div key={idx} className="attachment">
-                    <div className="file-icon">
-                      {file.type === 'pdf' ? <AiFillFilePdf size={32} /> : <AiOutlineFileZip size={32} />}
-                    </div>
-                    <div>
-                      <p>{file.name}</p>
-                      <small>{file.size} • {file.date}</small>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </footer>
-          )}
-          <div className="actions">
-            <button><MdOutlineReply /> Reply</button>
-            <button><MdForward /> Forward</button>
-          </div>
-        </section>
-      )}
+      {renderEmailList()}
+      {isComposeMode ? renderCompose() : selectedEmail && renderEmailContent()}
     </div>
   );
 };

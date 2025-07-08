@@ -1,6 +1,6 @@
 .sub-navbar {
   display: flex;
-  gap: 20px;
+  gap: 15px;
   padding: 10px 10%;
   padding-left: 10.5%;
   font-family: Arial, sans-serif;
@@ -8,6 +8,7 @@
   font-weight: 500;
   position: relative;
   z-index: 10;
+  width: max-content;
 }
 
 .category-item {

@@ -1,3 +1,4 @@
+// buyer's
 "use client";
 
 import React, { useState } from "react";
@@ -7,20 +8,20 @@ import ReviewsSection from "./ReviewsSection";
 import ProfileDrawer from "./ProfileDrawer";
 import "./profile.css";
 
-const BuyerProfile = () => {
+const BuyerProfile = ({buyerData}) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
     <div className="profile-container">
       <div className="main-content">
-        <SidebarProfile onOpen={() => setIsDrawerOpen(true)} />
+        <SidebarProfile onOpen={() => setIsDrawerOpen(true)} buyer={buyerData.user}/>
         <div className="right-section">
           <ProfileChecklist />
-          <ReviewsSection />
+          <ReviewsSection buyerReviews={buyerData.buyerReviews} />
         </div>
       </div>
 
-      <ProfileDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+      <ProfileDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} buyer={buyerData.user} buyerReviews={buyerData.buyerReviews} />
     </div>
   );
 };

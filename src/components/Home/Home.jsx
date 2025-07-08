@@ -1,5 +1,8 @@
 'use client';
-import React from 'react'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchGigs } from '@/redux/features/gigsSlice'; 
+
 import "./Home.css";
 import Brands from './Brands';
 import UpworkPromo from './UpworkPromo';
@@ -10,86 +13,51 @@ import PopularServices from './PopularServices/PopularServices';
 import CardCarousel from './CardCarousel/CardCarousel';
 import FindTalent from './Talent/FindTalent';
 import EnterpriseSuite from './Enterprise/EnterpriseSuite';
-import { useSelector } from 'react-redux';
+
 const MainHome = () => {
-     const user = useSelector((state) => state.user);
-   console.log("user is",user);
+  const dispatch = useDispatch();
+  const { gigs, status } = useSelector((state) => state.gigs);
+console.log("gig data", gigs);
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchGigs());
+    }
+  }, [status, dispatch]);
 
   return (
     <div>
-    <HeroSection />
+      <HeroSection />
       <Brands />
       <CardCarousel />
-       <UpworkPromo /> 
-    
-<PopularServices />
+      <UpworkPromo />
+      <PopularServices />
       <div className='home-services-cards'>
         <h1 className="popular-title">Popular Services</h1>
         <div className='popular-services-homeoage-wrap'>
-           <GigCard
-           data={{
-             image: '/assets/gigs/dummytwo.png',
-             avatar: '/assets/gigs/avatar.png',
-             sellerName: 'Jane Doe',
-             badge: 'Top Rated',
-             title: 'I will convert figma to react nextjs with responsive tailwind CSS',
-             rating: 4.8,
-             reviews: 20,
-             price: 'PKR 25,000',
-             offersVideo: true,
-           }}
-         />
-         
-                       <GigCard
-           data={{
-             image: '/assets/gigs/dummy.png',
-             avatar: '/assets/gigs/avatar.png',
-             sellerName: 'Jane Doe',
-             badge: 'Top Rated',
-             title: 'I will convert figma to react nextjs with responsive tailwind CSS',
-             rating: 4.8,
-             reviews: 20,
-             price: 'PKR 25,000',
-             offersVideo: true,
-           }}
-         />
-
-
-             <GigCard
-           data={{
-             image: '/assets/gigs/dummythree.png',
-             avatar: '/assets/gigs/avatar.png',
-             sellerName: 'Jane Doe',
-             badge: 'Top Rated',
-             title: 'I will convert figma to react nextjs with responsive tailwind CSS',
-             rating: 4.8,
-             reviews: 20,
-             price: 'PKR 25,000',
-             offersVideo: true,
-           }}
-         />
-
-
-             <GigCard
-           data={{
-             image: '/assets/gigs/dummyfour.png',
-             avatar: '/assets/gigs/avatar.png',
-             sellerName: 'Jane Doe',
-             badge: 'Top Rated',
-             title: 'I will convert figma to react nextjs with responsive tailwind CSS',
-             rating: 4.8,
-             reviews: 20,
-             price: 'PKR 25,000',
-             offersVideo: true,
-           }}
-         />
+          {gigs.map((gig) => (
+            <GigCard
+              key={gig._id}
+              data={{
+                gigId: gig._id,
+                image: gig.images?.[0]?.url || '/assets/gigs/dummytwo.png',
+                avatar: gig.userId?.profileUrl || '/assets/gigs/avatar.png',
+                sellerName: `${gig.userId?.firstName || ''} ${gig.userId?.lastName || ''}`,
+                badge: 'New Seller',
+                title: gig.gigTitle,
+                rating: 5,
+                reviews: 0,
+                price: `$${gig.packages?.basic?.price || 'N/A'}`,
+                offersVideo: gig.videoIframes?.length > 0,
+              }}
+            />
+          ))}
         </div>
       </div>
       <TalentPromo />
       <FindTalent />
-      <EnterpriseSuite /> 
+      <EnterpriseSuite />
     </div>
-  )
-}
+  );
+};
 
-export default MainHome
+export default MainHome;

@@ -70,57 +70,6 @@
   cursor: pointer;
   width: fit-content;
 }
-
-.portfolio-section {
-  margin-top: 50px;
-}
-
-.portfolio-heading {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-}
-
-.portfolio-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-}
-
-.portfolio-card {
-  background-color: #f4f4f4;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s;
-}
-
-.portfolio-card:hover {
-  transform: translateY(-5px);
-}
-
-.portfolio-card img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  object-position: top;
-}
-
-.card-info {
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.card-info h4 {
-  margin: 0 0 10px;
-  font-size: 16px;
-}
-
-.card-info p {
-  font-size: 14px;
-  color: #444;
-}
 .custom-upload .upload-box {
   display: flex;
   flex-direction: column;

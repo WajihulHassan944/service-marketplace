@@ -1,37 +1,68 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Navbar.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaUser, FaCog, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
-import { FiHeart, FiBell } from 'react-icons/fi';
+import { FiBell } from 'react-icons/fi';
 import { FiMessageSquare } from "react-icons/fi";
-import SearchBar from './Search/SearchBar';
 import MessagePopup from './MessagePopup/MessagePopup';
 import NotificationPopup from './NotificationPopup/NotificationPopup';
-import SubNavbar from './SubNavbar/SubNavbar';
 import useLogout from '@/hooks/useLogout';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentDashboard } from '@/redux/features/userSlice';
 import { useRouter } from 'next/navigation';
-
+import { baseUrl } from '@/const';
 
 const SellerNav = () => {
     const router = useRouter();
   const logout = useLogout();
    const user = useSelector((state) => state.user);
-   
+   const [availability, setAvailability] = useState(user?.availabilityStatus);
+ const dropdownRef = useRef(null);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showNotificationPopup, setShowNotificationPopup] = useState(false);
  const [showPopup, setShowPopup] = useState(false);
  const dispatch = useDispatch();
+useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
    const handleSwitch = () => {
     dispatch(setCurrentDashboard('buyer'));
     router.push('/buyer/dashboard');
   };
- 
+  const toggleAvailability = async (newStatus) => {
+    try {
+      const response = await fetch(`${baseUrl}/users/update/${user._id}/availability`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ availabilityStatus: newStatus }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update status");
+      }
+
+      const data = await response.json();
+      setAvailability(data.availabilityStatus);
+    alert(`Availability status set to ${data.availabilityStatus ? 'Available' : 'Invisible'}`);
+
+    } catch (error) {
+      console.error("Error updating availability:", error.message);
+    }
+  };
+
 
   return (
     <>
@@ -45,14 +76,16 @@ const SellerNav = () => {
              <ul className="navbar-menu">
         <Link href="/seller/dashboard" className='navLink'><li className="navbar-item">Dashboard</li>
         </Link>
-       <Link href="/buyer/orders" className='navLink'> <li className="navbar-item">Orders</li>
+       <Link href="/orders" className='navLink'> <li className="navbar-item">Orders</li>
        </Link>
        <Link href="/seller/services" className='navLink'> <li className="navbar-item">Services</li>
        </Link>
        <Link href="/seller/earnings" className='navLink'> <li className="navbar-item">Earnings</li>
        </Link>
        
-       <Link href="/buyer/settings/billing" className='navLink'> <li className="navbar-item">Billing</li>
+       <Link href="/settings/billing" className='navLink'> <li className="navbar-item">Billing</li>
+       </Link>
+       <Link href="/seller/my-coworking-space" className='navLink'> <li className="navbar-item">My Coworking Space</li>
        </Link>
        </ul>
         </div>
@@ -86,6 +119,8 @@ const SellerNav = () => {
         <NotificationPopup closePopup={() => setShowNotificationPopup(false)} />
       )}
     </div>
+              <div ref={dropdownRef} className="dropdown-container-user">
+
             <div className="user-avatar-wrapper-nav" onClick={() => setDropdownOpen(!dropdownOpen)}>
               <img src={user.profileUrl} alt="User" className="user-avatar-nav" />
             </div>
@@ -98,16 +133,26 @@ const SellerNav = () => {
                   <div className="dropdown-role-user">{user.currentDashboard}</div>
               </div>
                 <div className="dropdown-status-user">
-                  <button className="status-btn-user active">Online</button>
-                  <button className="status-btn-user">Invisible</button>
+                  <button
+              className={`status-btn-user ${availability ? "active" : ""}`}
+              onClick={() => toggleAvailability(true)}
+            >
+              Available
+            </button>
+            <button
+              className={`status-btn-user ${!availability ? "active" : ""}`}
+              onClick={() => toggleAvailability(false)}
+            >
+              Invisible
+            </button>
                 </div>
                 <ul className="dropdown-links-user">
                   <Link href="/profile" onClick={() => setDropdownOpen(false)}><li><FaUser /> Profile</li></Link>
-                  <Link href="/buyer/settings/myinfo" onClick={() => setDropdownOpen(false)}><li><FaCog /> Settings</li></Link>
+                  <Link href="/settings/myinfo" onClick={() => setDropdownOpen(false)}><li><FaCog /> Settings</li></Link>
                   <Link href="/" onClick={() => logout(() => setDropdownOpen(false))}><li><FaSignOutAlt /> Log out</li></Link>
                 </ul>
               </div>
-            )}
+            )} </div>
           </div>
         </div>
       </nav>
@@ -134,7 +179,7 @@ const SellerNav = () => {
       <Link href="/" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
         <li className="mobile-nav-item">Dashboard</li>
       </Link>
-      <Link href="/buyer/orders" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
+      <Link href="/orders" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
         <li className="mobile-nav-item">Orders</li>
       </Link>
       <Link href="/seller/services" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
@@ -143,19 +188,22 @@ const SellerNav = () => {
       <Link href="/messages" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
         <li className="mobile-nav-item">Messages</li>
       </Link>
-      <Link href="/buyer/settings/billing" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
+      <Link href="/settings/billing" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
         <li className="mobile-nav-item">Billing</li>
       </Link>
       <Link href="/seller/earnings" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
         <li className="mobile-nav-item">Earnings</li>
       </Link>
-      <Link href="/buyer/notifications" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
+      <Link href="/seller/my-coworking-space" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
+        <li className="mobile-nav-item">My coworking Space</li>
+      </Link>
+      <Link href="/notifications" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
         <li className="mobile-nav-item">Notifications</li>
       </Link>
       <Link href="/profile" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
         <li className="mobile-nav-item">Profile</li>
       </Link>
-      <Link href="/buyer/settings/billing" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
+      <Link href="/settings/billing" className="mobile-navLink" onClick={() => setMenuOpen(false)}>
         <li className="mobile-nav-item">Settings</li>
       </Link>
       <Link href="/" className="mobile-navLink" onClick={() => setMenuOpen(false)}>

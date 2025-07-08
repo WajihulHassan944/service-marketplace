@@ -132,6 +132,8 @@
     font-size: 14px;
     display: flex;
     align-items: center;
+    text-decoration: none;
+    color: #333;
     gap: 8px;
     cursor: pointer;
     background-color: #fff;

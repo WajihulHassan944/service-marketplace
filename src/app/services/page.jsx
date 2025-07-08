@@ -1,10 +1,12 @@
-import Gigs from '@/components/Gigs/Gigs'
-import React from 'react'
+import React, { Suspense } from 'react';
+import Gigs from '@/components/Gigs/Gigs';
 
-const page = () => {
+const Page = () => {
   return (
-    <><Gigs /></>
-  )
-}
+    <Suspense fallback={<div>Loading gigs...</div>}>
+      <Gigs />
+    </Suspense>
+  );
+};
 
-export default page
+export default Page;

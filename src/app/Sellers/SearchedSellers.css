@@ -1,0 +1,75 @@
+.searched-sellers-section {
+  padding: 60px 10%;
+  margin: 0 auto;
+  padding-bottom: 10%;
+}
+
+.searched-sellers-section__header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.searched-sellers-section__title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.searched-sellers-section__subtitle {
+  color: #64748b;
+  font-size: 18px;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+.searched-sellers-section__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 30px;
+  justify-items: center;
+}
+
+.searched-sellers-section__card {
+  position: relative;
+  width: 100%;
+  max-width: 250px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: #f9fafb;
+  margin-bottom: 60px;
+
+}
+
+.searched-sellers-section__image {
+  width: 100%;
+  height: auto;
+  max-height: 250px;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+.searched-sellers-section__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  background-color: #ffffff;
+  padding: 16px;
+  width: 85%;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.searched-sellers-section__name {
+  font-weight: 600;
+  font-size: 18px;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.searched-sellers-section__role {
+  font-size: 14px;
+  color: #64748b;
+}

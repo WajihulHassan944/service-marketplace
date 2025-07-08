@@ -7,7 +7,20 @@ import { useSelector } from "react-redux";
 
 const BuyerHome = () => {
       const user = useSelector((state) => state.user);
-   console.log("User is printing",user);
+     const {
+    ordersPlacedCount,
+    totalSpent,
+    ordersCompletedCount,
+    chatsCount,
+    notificationsCount
+  } = user.buyerDetails?.analytics || {};
+
+
+  const hasBillingMethod = user.wallet?.cards?.length > 0;
+  const progress = hasBillingMethod ? 100 : 57;
+  const progressText = hasBillingMethod ? '100% done – awesome!' : '57% done – great work!';
+
+
 
   const [openFAQ, setOpenFAQ] = useState(0); // 0: first one open by default
 
@@ -37,31 +50,35 @@ const BuyerHome = () => {
     <div className="dashboard-buyer">
       <div className="dashboard-buyer-header">
         <h2>Welcome</h2>
-        <p className="user-name">Ramy Khuffash</p>
+        <p className="user-name">{user.firstName} {user.lastName}</p>
       </div>
 
       <div className="dashboard-buyer-main">
         <div className="left-column-buyer">
+          
           <div className="card-buyer">
-            <div className="card-header-buyer">
-              <h3>Your Analytics</h3>
-              <a href="#">See all orders</a>
-            </div>
-            <div className="posting-card-buyer">
-              <div className="posting-title-buyer">
-                <strong>NFT artist (2D, 3D, or pixel art)</strong>
-                <FiMoreHorizontal className="icon-btn" />
-              </div>
-              <p className="posting-sub">Public - Hourly</p>
-              <p className="posting-time">Ordered 2 minutes ago by You</p>
-              <div className="posting-stats">
-                <span>0<br />Notifications</span>
-                <span>0<br />Messaged</span>
-                <span>0<br />Hired</span>
-              </div>
-            </div>
-          </div>
+      <div className="card-header-buyer">
+        <h3>Your Analytics</h3>
+        <Link href="/orders">See all orders</Link>
+      </div>
 
+      <div className="posting-card-buyer">
+        <div className="posting-title-buyer">
+          <strong>Active Orders ({ordersPlacedCount || 0})</strong>
+          <FiMoreHorizontal className="icon-btn" />
+        </div>
+
+      {ordersPlacedCount === 0 ? "" :
+      <>  <p className="posting-sub">Public - {totalSpent}</p> 
+       <p className="posting-time">Orders by You</p> </> }
+
+        <div className="posting-stats">
+          <span>{notificationsCount || 0}<br />Notifications</span>
+          <span>{chatsCount || 0}<br />Chats</span>
+          <span>{ordersCompletedCount || 0}<br />Hired</span>
+        </div>
+      </div>
+    </div>
           <div className="card-buyer">
             <div className="card-header-buyer">
               <h3>How to work with talent</h3>
@@ -109,26 +126,35 @@ const BuyerHome = () => {
 
   
 
-  <Link href="/buyer/notifications" className="see-all">See All ↝</Link>
+  <Link href="/notifications" className="see-all">See All ↝</Link>
 </div>
 
 
         </div>
 
         <div className="right-column-buyer">
-          <div className="card-buyer">
-            <div className="card-header-buyer vertical">
-              <h3>Getting started</h3>
-              <div className="progress-bar">
-                <div className="progress" style={{ width: "57%" }}></div>
-              </div>
-              <p className="progress-text">57% done – great work!</p>
-            </div>
-            <div className="task-button"><FiCreditCard /> Add billing method</div>
-            <div className="task-button"><FiUsers /> Explore more talent</div>
-            <div className="task-button"><FiFolder /> Explore services</div>
-          </div>
+          
+           <div className="card-buyer">
+      <div className="card-header-buyer vertical">
+        <h3>Getting started</h3>
+        <div className="progress-bar">
+          <div className="progress" style={{ width: `${progress}%` }}></div>
+        </div>
+        <p className="progress-text">{progressText}</p>
+      </div>
 
+      <Link href="/settings/billing" className="task-button">
+        <FiCreditCard /> {hasBillingMethod ? 'Billing method added' : 'Add billing method'}
+      </Link>
+
+      <Link href="/services" className="task-button">
+        <FiUsers /> Explore more talent
+      </Link>
+
+      <Link href="/services" className="task-button">
+        <FiFolder /> Explore services
+      </Link>
+    </div>
           <div className="card-buyer">
             <div className="card-header-buyer">
               <h3>Ready-to-buy services</h3>

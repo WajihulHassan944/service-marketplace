@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Navbar.css';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -25,7 +25,18 @@ const BuyerNav = () => {
   const [showPopup, setShowPopup] = useState(false);
   const user = useSelector((state) => state.user);
  const dispatch = useDispatch();
-  const handleSwitchToSelling = async () => {
+  const dropdownRef = useRef(null);
+useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+ const handleSwitchToSelling = async () => {
     const hasSellerRole = user.role.includes('seller');
 
     if (hasSellerRole) {
@@ -35,25 +46,7 @@ const BuyerNav = () => {
       } else {
         toast.error('Your account approval is pending.');
       }
-    } else {
-      try {
-        const res = await fetch(`${baseUrl}/users/${user._id}/seller-request`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (res.ok) {
-          toast.success('Your request has been sent to the admin and is in pending state.');
-        } else {
-          toast.error('Failed to send request to admin.');
-        }
-      } catch (err) {
-        console.error('Error sending seller request:', err);
-        toast.error('Something went wrong. Please try again later.');
-      }
-    }
+    } 
   };
 
   return (
@@ -68,9 +61,9 @@ const BuyerNav = () => {
           <SearchBar />
           <ul className="navbar-menu">
             <Link href="/buyer/dashboard" className='navLink'><li className="navbar-item">Dashboard</li></Link>
-            <Link href="/buyer/orders" className='navLink'><li className="navbar-item">Orders</li></Link>
+            <Link href="/orders" className='navLink'><li className="navbar-item">Orders</li></Link>
             <Link href="/services" className='navLink'><li className="navbar-item">Services</li></Link>
-            <Link href="/buyer/settings/billing" className='navLink'><li className="navbar-item">Billing</li></Link>
+            <Link href="/settings/billing" className='navLink'><li className="navbar-item">Billing</li></Link>
           </ul>
         </div>
 
@@ -79,7 +72,7 @@ const BuyerNav = () => {
             <FaBars size={22} />
           </div>
           <div className="navbar-actions">
-            <h4 className="cursor-pointer" onClick={handleSwitchToSelling}>Switch to selling</h4>
+            {/* <h4 className="cursor-pointer" onClick={handleSwitchToSelling}>Switch to selling</h4> */}
             <Link href="/buyer/liked-services"><div className="nav-icon"><FiHeart /></div></Link>
 
             <div className="nav-message-container">
@@ -101,6 +94,7 @@ const BuyerNav = () => {
                 <NotificationPopup closePopup={() => setShowNotificationPopup(false)} />
               )}
             </div>
+  <div ref={dropdownRef} className="dropdown-container-user">
 
             <div className="user-avatar-wrapper-nav" onClick={() => setDropdownOpen(!dropdownOpen)}>
               <img src={user.profileUrl} alt="User" className="user-avatar-nav" />
@@ -113,17 +107,13 @@ const BuyerNav = () => {
                   <div className="dropdown-name-user">{user.firstName} {user.lastName}</div>
                   <div className="dropdown-role-user">{user.currentDashboard}</div>
                 </div>
-                <div className="dropdown-status-user">
-                  <button className="status-btn-user active">Online</button>
-                  <button className="status-btn-user">Invisible</button>
-                </div>
                 <ul className="dropdown-links-user">
                   <Link href="/profile" onClick={() => setDropdownOpen(false)}><li><FaUser /> Profile</li></Link>
-                  <Link href="/buyer/settings/billing" onClick={() => setDropdownOpen(false)}><li><FaCog /> Settings</li></Link>
+                  <Link href="/settings/billing" onClick={() => setDropdownOpen(false)}><li><FaCog /> Settings</li></Link>
                   <Link href="/" onClick={() => logout(() => setDropdownOpen(false))}><li><FaSignOutAlt /> Log out</li></Link>
                 </ul>
               </div>
-            )}
+            )} </div>
           </div>
         </div>
       </nav>
@@ -150,14 +140,14 @@ const BuyerNav = () => {
 
           <ul className="mobile-nav-links">
             <Link href="/buyer/dashboard" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Dashboard</li></Link>
-            <Link href="/buyer/orders" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Orders</li></Link>
+            <Link href="/orders" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Orders</li></Link>
             <Link href="/services" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Services</li></Link>
             <Link href="/messages" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Messages</li></Link>
-            <Link href="/buyer/settings/billing" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Billing</li></Link>
+            <Link href="/settings/billing" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Billing</li></Link>
             <Link href="/buyer/liked-services" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Liked Services</li></Link>
-            <Link href="/buyer/notifications" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Notifications</li></Link>
+            <Link href="/notifications" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Notifications</li></Link>
             <Link href="/profile" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Profile</li></Link>
-            <Link href="/buyer/settings/billing" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Settings</li></Link>
+            <Link href="/settings/billing" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Settings</li></Link>
             <Link href="/" className="mobile-navLink" onClick={() => setMenuOpen(false)}><li className="mobile-nav-item">Log out</li></Link>
           </ul>
         </div>
