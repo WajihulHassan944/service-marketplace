@@ -313,12 +313,29 @@
   font-size: 14px;
   border-radius: 4px;
   cursor: pointer;
+  
 }
 
 .public-green-btn:hover {
   background-color: #009f79;
 }
+.public-green-btn-bordered{
+  background-color: #fff;
+  color: #00b289;
+  border: 2px solid #00b289;
+  padding: 5px 13px;
+  font-size: 13px;
+  border-radius: 4px;
+  cursor: pointer;
+  
+}
 
+.public-green-btn-bordered:hover{
+  background-color: #00b289;
+  color: #fff;
+  border: 2px solid #00b289;
+ 
+}
 .public-navbar-burger {
   display: none;
   margin-left: 16px;
@@ -541,4 +558,9 @@
     background: #ccc;
     margin: 0 11%;
     border-radius: 10px;
+  }
+  .login-btn-nav{
+    color: #000;
+    width: 50px !important;
+
   }

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Image from 'next/image';
 import './PopularServices.css';
@@ -28,7 +28,7 @@ export default function PopularServices() {
     if (!el) return;
 
     setShowLeft(el.scrollLeft > 0);
-    setShowRight(el.scrollLeft + el.clientWidth < el.scrollWidth);
+    setShowRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
   };
 
   const scrollRight = () => {
@@ -61,6 +61,14 @@ export default function PopularServices() {
       window.removeEventListener('resize', handleScrollOrResize);
     };
   }, []);
+
+  // 👇 Re-run visibility check when categories are updated
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      updateArrowVisibility();
+    }, 100); // give DOM time to paint
+    return () => clearTimeout(timeout);
+  }, [categories]);
 
   const handleClick = (categoryName) => {
     router.push(`/services?category=${encodeURIComponent(categoryName)}`);
@@ -98,7 +106,7 @@ export default function PopularServices() {
 
         {showLeft && (
           <button
-            className="arrow-button-unique left"
+            className="arrow-button-unique-btn-services left-btn-services"
             onClick={scrollLeft}
             aria-label="Scroll left"
           >
@@ -108,7 +116,7 @@ export default function PopularServices() {
 
         {showRight && (
           <button
-            className="arrow-button-unique right"
+            className="arrow-button-unique-btn-services right-btn-services"
             onClick={scrollRight}
             aria-label="Scroll right"
           >

@@ -12,10 +12,12 @@ const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+const [loading, setLoading] = useState(false);
 
 const handleLogin = async (e) => {
   e.preventDefault();
   setError("");
+setLoading(true);
 
   try {
     const res = await fetch(`${baseUrl}/users/login`, {
@@ -66,6 +68,9 @@ const handleLogin = async (e) => {
     console.error("Login error:", err);
     setError("Something went wrong. Please try again.");
   }
+  finally{
+    setLoading(false);
+  }
 };
 
 
@@ -114,9 +119,10 @@ const handleLogin = async (e) => {
 
           {error && <p className="error-message">{error}</p>}
 
-          <button type="submit" className="login-button">
-            Sign In
-          </button>
+         <button type="submit" className="login-button" disabled={loading}>
+  {loading ? <span className="loader"></span> : "Sign In"}
+</button>
+
 
           <div className="login-footer">
             Browse website? <a href="/">Click here</a>

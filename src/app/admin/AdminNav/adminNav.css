@@ -119,6 +119,12 @@
   color: #4b5563;
 }
 
+.icon {
+  color: #6c63ff;
+  cursor: pointer;
+}
+
+
 .user-box {
   display: flex;
   align-items: center;

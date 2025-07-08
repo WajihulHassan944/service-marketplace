@@ -405,4 +405,11 @@
 
 
 
-  
+  .no-gigs-message {
+  text-align:left ;
+  font-style: italic;
+  color: #777;
+  font-size: 1.1rem;
+  padding: 20px;
+  font-weight: 500;
+}

@@ -82,7 +82,7 @@
     position: relative; /* needed for absolute children */
   }
   
-  .arrow-button-unique {
+  .arrow-button-unique-btn-services {
     position: absolute;
     top: 39%;
     background-color: white;
@@ -100,15 +100,15 @@
     transition: background-color 0.2s ease;
   }
   
-  .arrow-button-unique:hover {
+  .arrow-button-unique-btn-services:hover {
     background-color: #f0f0f0;
   }
   
-  .arrow-button-unique.left {
+  .arrow-button-unique-btn-services.left-btn-services {
     left: -30px;
   }
   
-  .arrow-button-unique.right {
-    right: 0;
+  .arrow-button-unique-btn-services.right-btn-services {
+    right: -25px;
   }
   

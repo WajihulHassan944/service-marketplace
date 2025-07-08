@@ -3,19 +3,18 @@ import React, { useState } from 'react';
 import { FaCalendarAlt, FaTrash, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import './manageJobs.css';
 import { useRouter } from 'next/navigation';
-
+import { baseUrl } from '@/const';
 const JobCard = ({ gigId, title, postedDate, status, sellerName, sellerImage, refreshGigs }) => {
   const [message, setMessage] = useState('');
  const router = useRouter();
 
   const handleAction = async (type) => {
-  const baseUrl = 'https://backend-service-marketplace.vercel.app/api/gigs';
   let url = '';
 
   if (type === 'approve' || type === 'reject') {
-    url = `${baseUrl}/status/${type}/${gigId}`;
+    url = `${baseUrl}/gigs/status/${type}/${gigId}`;
   } else if (type === 'delete') {
-    url = `${baseUrl}/delete/${gigId}`;
+    url = `${baseUrl}/gigs/delete/${gigId}`;
   }
 
   try {

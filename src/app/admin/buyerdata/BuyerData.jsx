@@ -21,7 +21,8 @@ const BuyerData = () => {
 
         if (!res.ok) throw new Error("Failed to fetch buyers");
         const data = await res.json();
-        setMembers(data.users);
+        setMembers(data.users.filter(user => !user.role?.includes("superadmin")));
+
       } catch (err) {
         setError(err.message);
       } finally {
@@ -35,7 +36,7 @@ const BuyerData = () => {
   const toggleBlock = async (userId, currentlyBlocked) => {
     setUpdatingUserId(userId);
     try {
-      const url = `${API_BASE}/${userId}/${currentlyBlocked ? "unblock" : "block"}`;
+      const url = `${baseUrl}/users/${userId}/${currentlyBlocked ? "unblock" : "block"}`;
 
       const res = await fetch(url, {
         method: "PUT",

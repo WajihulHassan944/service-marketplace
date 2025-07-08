@@ -37,7 +37,7 @@ useEffect(() => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
  const handleSwitchToSelling = async () => {
-    const hasSellerRole = user.role.includes('seller');
+    const hasSellerRole = user.role.includes('seller') && user.sellerStatus;
 
     if (hasSellerRole) {
       if (user.sellerStatus) {
@@ -72,7 +72,8 @@ useEffect(() => {
             <FaBars size={22} />
           </div>
           <div className="navbar-actions">
-            {/* <h4 className="cursor-pointer" onClick={handleSwitchToSelling}>Switch to selling</h4> */}
+          {user.role.includes('seller') && user.sellerStatus && (
+           <h4 className="cursor-pointer" onClick={handleSwitchToSelling}>Switch to selling</h4> )}
             <Link href="/buyer/liked-services"><div className="nav-icon"><FiHeart /></div></Link>
 
             <div className="nav-message-container">

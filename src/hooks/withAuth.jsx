@@ -1,4 +1,3 @@
-'use client';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -9,13 +8,13 @@ export default function withAuth(Component) {
     const router = useRouter();
 
     useEffect(() => {
-      if (!user?._id) {
-        router.replace('/login'); // Redirect if not authenticated
+      if (user.isHydrated && !user.isAuthenticated) {
+        router.replace('/login');
       }
-    }, [user, router]);
+    }, [user.isHydrated, user.isAuthenticated, router]);
 
-    // Prevent rendering if user is not loaded yet
-    if (!user?._id) return null;
+    if (!user.isHydrated) return null;
+    if (!user.isAuthenticated) return null;
 
     return <Component {...props} />;
   };

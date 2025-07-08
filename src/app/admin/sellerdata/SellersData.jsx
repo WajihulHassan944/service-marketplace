@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "./sellerdata.css";
+import "../buyerdata/buyerdata.css";
 import { baseUrl } from "@/const";
 import { Toaster, toast } from 'react-hot-toast';
 
@@ -8,36 +9,38 @@ const SellersData = () => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [actionLoading, setActionLoading] = useState({}); // { [userId]: 'approve' | 'block' }
+
+  const fetchSellers = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const res = await fetch(`${baseUrl}/users/sellers`, {
+        credentials: "include",
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch sellers");
+
+      const data = await res.json();
+      if (data.success && Array.isArray(data.users)) {
+        setMembers(data.users.filter(user => !user.role?.includes("superadmin")));
+      } else {
+        throw new Error("Invalid data format");
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchSellers = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const res = await fetch(`${baseUrl}/users/sellers`, {
-          credentials: "include",
-        });
-
-        if (!res.ok) throw new Error("Failed to fetch sellers");
-
-        const data = await res.json();
-        if (data.success && Array.isArray(data.users)) {
-          setMembers(data.users);
-        } else {
-          throw new Error("Invalid data format");
-        }
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchSellers();
   }, []);
 
   const toggleBlock = async (id, currentlyBlocked) => {
+    setActionLoading(prev => ({ ...prev, [id]: "block" }));
     try {
       const url = `${baseUrl}/users/${id}/${currentlyBlocked ? "unblock" : "block"}`;
 
@@ -48,13 +51,12 @@ const SellersData = () => {
 
       if (!res.ok) throw new Error("Failed to update block status");
 
-      setMembers((prev) =>
-        prev.map((m) =>
-          m._id === id ? { ...m, blocked: !currentlyBlocked } : m
-        )
-      );
+      toast.success(`User ${currentlyBlocked ? "unblocked" : "blocked"} successfully.`);
+      fetchSellers(); // refetch after update
     } catch (err) {
-    toast.error("Error toggling block status: " + err.message);
+      toast.error("Error toggling block status: " + err.message);
+    } finally {
+      setActionLoading(prev => ({ ...prev, [id]: null }));
     }
   };
 
@@ -75,12 +77,13 @@ const SellersData = () => {
           toast.error(data.message || "Failed to delete seller.");
         }
       } catch (err) {
-        toast.erro("Error deleting seller: " + err.message);
+        toast.error("Error deleting seller: " + err.message);
       }
     }
   };
 
   const handleApprove = async (id) => {
+    setActionLoading(prev => ({ ...prev, [id]: "approve" }));
     try {
       const res = await fetch(`${baseUrl}/users/verify/${id}`, {
         method: "GET",
@@ -89,15 +92,12 @@ const SellersData = () => {
 
       if (!res.ok) throw new Error("Failed to approve seller");
 
-      setMembers((prev) =>
-        prev.map((m) =>
-          m._id === id ? { ...m, verified: true } : m
-        )
-      );
-
       toast.success("Seller approved successfully!");
+      fetchSellers(); // refetch after update
     } catch (err) {
       toast.error("Error approving seller: " + err.message);
+    } finally {
+      setActionLoading(prev => ({ ...prev, [id]: null }));
     }
   };
 
@@ -106,6 +106,7 @@ const SellersData = () => {
 
   return (
     <div className="table-wrapper">
+      <Toaster />
       <table className="team-table">
         <thead>
           <tr>
@@ -125,18 +126,18 @@ const SellersData = () => {
             members.map((member) => (
               <tr key={member._id}>
                 <td className="name-cell">
-                   {member.profileUrl ? (
-                  <img
-                    src={member.profileUrl}
-                    alt={`${member.firstName} ${member.lastName}`}
-                    className="buyer-avatar"
-                  />
-                ) : (
-                  <div className="fallback-avatar">
-                    {member.firstName?.[0]?.toUpperCase() || "?"}
-                  </div>
-                )}
-               <div>
+                  {member.profileUrl ? (
+                    <img
+                      src={member.profileUrl}
+                      alt={`${member.firstName} ${member.lastName}`}
+                      className="buyer-avatar"
+                    />
+                  ) : (
+                    <div className="fallback-avatar">
+                      {member.firstName?.[0]?.toUpperCase() || "?"}
+                    </div>
+                  )}
+                  <div>
                     <p className="name">
                       {member.firstName} {member.lastName}
                     </p>
@@ -146,7 +147,7 @@ const SellersData = () => {
                 <td>{member.email}</td>
                 <td>{member.country || "N/A"}</td>
                 <td>
-                  <div style={{ display: "flex",  gap: "6px" }}>
+                  <div style={{ display: "flex", gap: "6px" }}>
                     <button
                       className="delete-btn"
                       onClick={() => handleDelete(member._id)}
@@ -156,9 +157,11 @@ const SellersData = () => {
                     <button
                       className={`approve-btn ${member.sellerStatus ? "approved" : "approve"}`}
                       onClick={() => handleApprove(member._id)}
-                      disabled={member.sellerStatus}
+                      disabled={member.sellerStatus || actionLoading[member._id] === "approve"}
                     >
-                      {member.sellerStatus ? "Approved" : "Approve"}
+                      {actionLoading[member._id] === "approve" ? (
+                        <span className="spinner" />
+                      ) : member.sellerStatus ? "Approved" : "Approve"}
                     </button>
                   </div>
                 </td>
@@ -166,8 +169,11 @@ const SellersData = () => {
                   <button
                     className={`block-btn ${member.blocked ? "unblock" : "block"}`}
                     onClick={() => toggleBlock(member._id, member.blocked)}
+                    disabled={actionLoading[member._id] === "block"}
                   >
-                    {member.blocked ? "Unblock" : "Block"}
+                    {actionLoading[member._id] === "block" ? (
+                      <span className="spinner" />
+                    ) : member.blocked ? "Unblock" : "Block"}
                   </button>
                 </td>
               </tr>

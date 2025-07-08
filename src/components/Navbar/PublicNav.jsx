@@ -1,13 +1,30 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Navbar.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import SubNavbar from './SubNavbar/SubNavbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCategories } from '@/redux/features/categorySlice';
+import { useRouter } from 'next/navigation';
 
 const PublicNav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+const dispatch = useDispatch();
+const router = useRouter();
+
+const { categories, status } = useSelector((state) => state.categories);
+
+useEffect(() => {
+  if (status === 'idle') {
+    dispatch(fetchCategories());
+  }
+}, [status, dispatch]);
+
+const handleCategoryClick = (categoryName) => {
+  router.push(`/services?category=${encodeURIComponent(categoryName)}`);
+};
 
   return (
     <>
@@ -20,19 +37,21 @@ const PublicNav = () => {
           </Link>
           <ul className="public-navbar-menu">
             <Link href="/" className="public-nav-link"><li className="public-navbar-item">Top 1%</li></Link>
-            <li className="public-navbar-item dropdown">
-              Hire Talent <span className="arrow">▾</span>
-              <ul className="dropdown-menu">
-                <li>Developers</li>
-                <li>Designers</li>
-                <li>Marketing Experts</li>
-                <li>Product Managers</li>
-                <li>Project Managers</li>
-                <li>Management Consultants</li>
-                <li className="submenu-divider">Want to hire a full team?</li>
-                <li>Hire a Team</li>
-              </ul>
-            </li>
+          <li className="public-navbar-item dropdown">
+  Hire Talent <span className="arrow">▾</span>
+  <ul className="dropdown-menu">
+    {categories.length === 0 ? (
+      <li style={{ padding: '10px', color: '#888' }}>Loading categories...</li>
+    ) : (
+      categories.map((cat) => (
+        <li key={cat._id} onClick={() => handleCategoryClick(cat.name)} style={{ cursor: 'pointer' }}>
+          {cat.name}
+        </li>
+      ))
+    )}
+  </ul>
+</li>
+
             <Link href="/about" className="public-nav-link"><li className="public-navbar-item">About Us</li></Link>
             <Link href="/services" className="public-nav-link"><li className="public-navbar-item">Services</li></Link>
             <Link href="/contact" className="public-nav-link"><li className="public-navbar-item">Contact</li></Link>
@@ -41,9 +60,9 @@ const PublicNav = () => {
 
         <div className="public-navbar-right">
           <div className="public-navbar-actions">
+            <Link href="/login" className="public-nav-link login-btn-nav">Log In</Link>
+            <Link href="/register" className="public-nav-link"><button className="public-green-btn-bordered">Sign up</button></Link>
             <Link href="/register?role=seller" className="public-nav-link"><button className="public-green-btn">Apply as a freelancer</button></Link>
-            <Link href="/register" className="public-nav-link"><button className="public-green-btn">Sign up</button></Link>
-            <Link href="/login" className="public-nav-link">Log In</Link>
           </div>
 
           <div className="public-navbar-burger" onClick={() => setMenuOpen(true)}>

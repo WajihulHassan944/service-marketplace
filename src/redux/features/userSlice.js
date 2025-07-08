@@ -13,7 +13,8 @@ const initialState = {
   createdAt: null,
   isLoggedIn: false,
   isAuthenticated: false,
-  currentDashboard: null, // ✅ new field
+  currentDashboard: null,
+  isHydrated: false,
 };
 
 const userSlice = createSlice({
@@ -26,19 +27,26 @@ const userSlice = createSlice({
         ...action.payload,
         isLoggedIn: true,
         isAuthenticated: true,
+        isHydrated: true,
       };
     },
-    logoutUser: () => initialState,
+    logoutUser: () => {
+      localStorage.removeItem('currentDashboard'); // ✅ Clear on logout
+      return {
+        ...initialState,
+        isHydrated: true,
+      };
+    },
     updateProfile: (state, action) => {
       return {
         ...state,
         ...action.payload,
+        isHydrated: true,
       };
     },
     setVerified: (state, action) => {
       state.verified = action.payload;
     },
-  
     setBlocked: (state, action) => {
       state.blocked = action.payload;
     },
@@ -49,7 +57,17 @@ const userSlice = createSlice({
       state.isAuthenticated = action.payload;
     },
     setCurrentDashboard: (state, action) => {
-      state.currentDashboard = action.payload; // ✅ optional setter
+      state.currentDashboard = action.payload;
+      localStorage.setItem('currentDashboard', action.payload); // ✅ Save to localStorage
+    },
+    setHydrated: (state, action) => {
+      state.isHydrated = action.payload;
+    },
+    initializeDashboardFromStorage: (state) => {
+      const savedDashboard = localStorage.getItem('currentDashboard');
+      if (savedDashboard) {
+        state.currentDashboard = savedDashboard;
+      }
     },
   },
 });
@@ -62,7 +80,9 @@ export const {
   setBlocked,
   setRole,
   setAuthentication,
-  setCurrentDashboard, // ✅ export it
+  setCurrentDashboard,
+  setHydrated,
+  initializeDashboardFromStorage, // ✅ export this
 } = userSlice.actions;
 
 export default userSlice.reducer;

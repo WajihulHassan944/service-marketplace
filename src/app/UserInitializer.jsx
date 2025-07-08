@@ -3,7 +3,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname } from 'next/navigation';
-import { loginUser, setCurrentDashboard } from '@/redux/features/userSlice';
+import {
+  loginUser,
+  setCurrentDashboard,
+  initializeDashboardFromStorage,
+} from '@/redux/features/userSlice';
 import { baseUrl } from '@/const';
 
 const UserInitializer = () => {
@@ -12,6 +16,9 @@ const UserInitializer = () => {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   useEffect(() => {
+    // ✅ Load localStorage dashboard early
+    dispatch(initializeDashboardFromStorage());
+
     const fetchUser = async () => {
       if (!isLoggedIn) {
         try {
@@ -36,13 +43,16 @@ const UserInitializer = () => {
 
             let topRole = null;
 
-            // Prioritize superadmin/admin if URL includes /admin
-            if (roles.includes('superadmin') && lowerPath.includes('/admin')) {
+            // ✅ Prefer localStorage value (only buyer/seller)
+            const persistedDashboard = localStorage.getItem('currentDashboard');
+            if (['buyer', 'seller'].includes(persistedDashboard)) {
+              topRole = persistedDashboard;
+            } else if (roles.includes('superadmin') && lowerPath.includes('/admin')) {
               topRole = 'superadmin';
             } else if (roles.includes('admin') && lowerPath.includes('/admin')) {
               topRole = 'admin';
             } else {
-              // Fallback logic for seller/buyer
+              // fallback if no valid persisted dashboard
               const rolePriority = { seller: 1, buyer: 2 };
               const validRoles = roles.filter((r) => ['seller', 'buyer'].includes(r));
               if (validRoles.length > 0) {
@@ -52,7 +62,7 @@ const UserInitializer = () => {
             }
 
             if (topRole) {
-              dispatch(setCurrentDashboard(topRole));
+              dispatch(setCurrentDashboard(topRole)); // ✅ saves to localStorage too
             }
           }
         } catch (err) {
