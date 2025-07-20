@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import "./Addnote.css";
 import { IoMdClose } from "react-icons/io";
 import { baseUrl } from '@/const';
+import toast from 'react-hot-toast';
 
 const Addnote = ({ noteId, onSuccess, onClose }) => {
   console.log(noteId);
@@ -53,11 +54,11 @@ const Addnote = ({ noteId, onSuccess, onClose }) => {
         setTitle('');
         setDescription('');
       } else {
-        alert("Failed to save note.");
+        toast.error("Failed to save note.");
       }
     } catch (err) {
       console.error("Error:", err);
-      alert("An error occurred.");
+      toast.error("An error occurred.");
     } finally {
       setLoading(false);
     }

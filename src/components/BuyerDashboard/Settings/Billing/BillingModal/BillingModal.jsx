@@ -10,6 +10,8 @@ import {
 } from "@stripe/react-stripe-js";
 import "./BillingModal.css";
 import { baseUrl } from "@/const";
+import toast from "react-hot-toast";
+import Image from "next/image";
 const stripePromise = loadStripe("pk_test_51RbDpx4ainXKK2PaAxl5ehcVkFSyLD4sI6ueZSndoFYKIhko16nsHOnvJznN0YTogJsBezhZSYCJxXW9fLjWzAgY00cv05me5D");
 
 const BillingForm = ({ onClose }) => {
@@ -49,7 +51,7 @@ const BillingForm = ({ onClose }) => {
 
     const data = await res.json();
     if (data.success) {
-      alert(data.message);
+      toast.success(data.message);
       onClose();
       window.location.reload();
     } else {
@@ -62,7 +64,8 @@ const BillingForm = ({ onClose }) => {
   return (
    <div className="custom-modal-overlay">
   <div className="custom-modal-content">
-    <h2>Add Billing Method</h2>
+    <div className="flexed-div"><Image src='/assets/stripe_logo.png' alt="stripe logo" width={47} height={47} className="stripeLogo" />
+    <h2>Add Billing Method</h2></div>
     <form onSubmit={handleSubmit}>
       <div className="custom-card-element">
         <CardElement options={{ style: { base: { fontSize: "16px" } } }} />

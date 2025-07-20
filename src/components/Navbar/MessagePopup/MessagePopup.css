@@ -5,7 +5,7 @@
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
   max-height: 500px;
   display: flex;
   flex-direction: column;

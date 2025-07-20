@@ -1,8 +1,15 @@
 .container-filters {
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
     padding: 50px 10%;
     padding-bottom: 10px;
     padding-top: 30px;
+  }
+  .gigs-cards-in-services{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
   }
   .flex-col{
     display: flex;

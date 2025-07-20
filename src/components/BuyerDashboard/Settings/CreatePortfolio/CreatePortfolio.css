@@ -4,7 +4,7 @@
   color: #1c1c1c;
   min-height: 90vh;
   width: 100%;
-  font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif; */
 }
 
 .portfolio-create-content {
@@ -48,7 +48,7 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
-  font-family: inherit;
+  /* font-family: inherit; */
 }
 
 .image-preview {

@@ -7,6 +7,7 @@ import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { baseUrl } from '@/const';
+import toast from 'react-hot-toast';
 const CreatePortfolio = () => {
   const user = useSelector((state) => state.user);
   const searchParams = useSearchParams();
@@ -79,10 +80,10 @@ setLoading(true);
 
       const result = await res.json();
       if (res.ok) {
-        alert(`Portfolio ${portfolioId ? 'updated' : 'created'} successfully`);
+        toast.success(`Portfolio ${portfolioId ? 'updated' : 'created'} successfully`);
         window.location.reload(); // or refresh current page
       } else {
-        alert(result.message || "Something went wrong");
+        toast.error(result.message || "Something went wrong");
       }
     } catch (error) {
       console.error("Error submitting portfolio:", error);

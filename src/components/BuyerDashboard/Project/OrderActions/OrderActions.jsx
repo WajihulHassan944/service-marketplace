@@ -12,6 +12,7 @@ import {
 } from "react-icons/fi";
 import InviteModal from "../InviteModal/InviteModal";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 export default function OrderActions({ order, setShowReviewPopup, fetchOrder }) {
   const [showResolutionForm, setShowResolutionForm] = useState(false);
@@ -79,7 +80,7 @@ const [isSubmitting, setIsSubmitting] = useState(false);
 
 const handleResolutionSubmit = async () => {
   if (!resolutionReason || !resolutionMessage) {
-    return alert("Please select a reason and enter a message.");
+    return toast.error("Please select a reason and enter a message.");
   }
 
   setIsSubmitting(true);
@@ -100,17 +101,17 @@ const handleResolutionSubmit = async () => {
     const data = await res.json();
 
     if (res.ok) {
-      alert("Resolution request submitted successfully.");
+      toast.success("Resolution request submitted successfully.");
        fetchOrder();
       setShowResolutionForm(false);
       setResolutionReason("");
       setResolutionMessage("");
     } else {
-      alert(data.message || "Failed to submit resolution request.");
+      toast.error(data.message || "Failed to submit resolution request.");
     }
   } catch (err) {
     console.error("Error submitting resolution request:", err);
-    alert("An error occurred. Please try again later.");
+    toast.error("An error occurred. Please try again later.");
   } finally {
     setIsSubmitting(false);
   }
@@ -124,14 +125,14 @@ const handleResolutionAction = async (action) => {
     const data = await res.json();
 
     if (res.ok && data.success) {
-      alert(`Resolution ${action}ed successfully.`);
+      toast.success(`Resolution ${action}ed successfully.`);
       fetchOrder();
       // Optional: refresh state or page
     } else {
-      alert(`Failed to ${action}: ${data.message || "Unknown error"}`);
+      toast.error(`Failed to ${action}: ${data.message || "Unknown error"}`);
     }
   } catch (err) {
-    alert(`❌ Network error while trying to ${action} resolution.`);
+    toast.error(`❌ Network error while trying to ${action} resolution.`);
   }
 };
 

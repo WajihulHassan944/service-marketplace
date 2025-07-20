@@ -7,6 +7,7 @@ import { baseUrl } from '@/const';
 import './MyPortfolio.css';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import Sidebar from '../Sidebar/Sidebar';
+import toast from 'react-hot-toast';
 
 const Myportfolio = () => {
   const user = useSelector((state) => state.user);
@@ -40,7 +41,7 @@ const Myportfolio = () => {
       if (res.ok) {
         setPortfolios((prev) => prev.filter((p) => p._id !== id));
       } else {
-        alert("Failed to delete portfolio");
+        toast.error("Failed to delete portfolio");
       }
     } catch (err) {
       console.error("Delete error", err);

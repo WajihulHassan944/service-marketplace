@@ -122,3 +122,49 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+.navbar-suggestions-dropdown {
+  position: absolute;
+  background: white;
+  width: 100%;
+  max-height: 280px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 4px;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-suggestion-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.navbar-suggestion-item:hover {
+  background-color: #f5f5f5;
+}
+
+.navbar-suggestion-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  font-weight: 400;
+  max-width: 260px;
+}
+
+.navbar-suggestion-img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.navbar-meta {
+  font-size: 12px;
+  color: #777;
+ 
+}

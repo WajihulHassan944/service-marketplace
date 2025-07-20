@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import "./ReviewPopup.css";
 import { useSelector } from "react-redux";
 import { baseUrl } from "@/const";
+import toast from "react-hot-toast";
 
 const ReviewPopup = ({ onClose, orderId,  fetchOrder }) => {
   const user = useSelector((state) => state.user);
@@ -67,11 +68,11 @@ const ReviewPopup = ({ onClose, orderId,  fetchOrder }) => {
           fetchOrder();
         setTimeout(onClose, 2000);
       } else {
-        alert(data.message || "Something went wrong.");
+      toast.error(data.message || "Something went wrong.");
       }
     } catch (error) {
       console.error("❌ Review submission failed:", error);
-      alert("Failed to submit review. Please try again.");
+      toast.error("Failed to submit review. Please try again.");
     } finally {
       setLoading(false);
     }

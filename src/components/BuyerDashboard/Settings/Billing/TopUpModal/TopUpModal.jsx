@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { baseUrl } from "@/const";
 import "./TopUpModal.css";
+import toast from "react-hot-toast";
 
 const TopUpModal = () => {
   const user = useSelector((state) => state.user);
@@ -12,7 +13,7 @@ const TopUpModal = () => {
   const primaryCard = user?.wallet?.cards?.find((card) => card.isPrimary);
 
   const handleTopUp = async () => {
-    if (!amount || isNaN(amount)) return alert("Enter a valid amount");
+    if (!amount || isNaN(amount)) return toast.error("Enter a valid amount");
     setLoading(true);
     try {
       const res = await fetch(`${baseUrl}/wallet/add-funds`, {
@@ -23,14 +24,14 @@ const TopUpModal = () => {
 
       const data = await res.json();
       if (data.success) {
-        alert(data.message || "Top-up success.");
+        toast.success(data.message || "Top-up success.");
         window.location.reload();
       } else {
-        alert(data.message || "Top-up failed.");
+        toast.error(data.message || "Top-up failed.");
       }
     } catch (err) {
       console.error(err);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
     setLoading(false);
   };

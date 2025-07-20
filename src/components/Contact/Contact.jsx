@@ -64,7 +64,7 @@ const Contact = () => {
       <section className="contact-hero">
         <h1>Get in touch</h1>
         <p>
-          Fill out the form below and a Toptal representative will contact you
+          Fill out the form below and a doTask representative will contact you
           as soon as possible. <br />
           For immediate assistance, please call our sales line or email our customer support.
         </p>
@@ -119,18 +119,18 @@ const Contact = () => {
         </form>
       </section>
 
-      {/* Section 2: Join Toptal */}
+      {/* Section 2: Join doTask */}
       <section className="contact-join">
         <img
           src="/assets/contact/map.png"
           alt="Graphic"
           className="contact-join-image"
         />
-        <h2>Toptal Connects the Top 3% of Freelance Talent All Over The World.</h2>
+        <h2>doTask Connects the Top 3% of Freelance Talent All Over The World.</h2>
       </section>
 
       <section className="contact-cta">
-        <p className="join-text">Join the Toptal community.</p>
+        <p className="join-text">Join the doTask community.</p>
 
         <div className="join-buttons">
           <button className="btn-primary">Hire Top Talent</button>

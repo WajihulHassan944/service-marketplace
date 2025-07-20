@@ -324,7 +324,7 @@
  padding-bottom: 16px;
   width: 500px;
   background-color: #fff;
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
   max-height: 450px;
 }
 

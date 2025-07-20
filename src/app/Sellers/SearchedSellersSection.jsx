@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import './SearchedSellers.css';
 import { baseUrl } from '@/const';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { FaStar, FaRegStar } from 'react-icons/fa';
 
 const SearchedSellersSection = () => {
   const searchParams = useSearchParams();
@@ -52,11 +53,11 @@ const SearchedSellersSection = () => {
       </div>
 
       {loading ? (
-        <p className="searched-sellers-section__loading">Loading sellers...</p>
+        <p className="searched-sellers-section__loading" />
       ) : error ? (
         <p className="searched-sellers-section__error">{error}</p>
       ) : sellers.length === 0 ? (
-        <p className="searched-sellers-section__no-results">No sellers found.</p>
+  <p className="searched-sellers-section__no-results">🚫 No sellers found for <strong>{searchQuery}</strong>.</p>
       ) : (
         <div className="searched-sellers-section__grid">
           {sellers.map((seller) => (
@@ -78,6 +79,32 @@ const SearchedSellersSection = () => {
                 <p className="searched-sellers-section__role">
                   {seller?.sellerDetails?.speciality || 'Freelancer'}
                 </p>
+               <p className="searched-sellers-section__role">
+  Orders Completed: {seller.ordersCompletedCount > 0 ? seller.ordersCompletedCount : 'No orders yet'}
+</p>
+
+<div className="searched-sellers-section__rating">
+  {seller.averageRating ? (
+    <>
+      {Array.from({ length: 5 }).map((_, i) =>
+        i < Math.round(seller.averageRating) ? (
+          <FaStar key={i} className="star-icon filled" />
+        ) : (
+          <FaRegStar key={i} className="star-icon" />
+        )
+      )}
+      <span className="searched-sellers-section__rating-text">
+        {seller.averageRating.toFixed(1)}
+      </span> <span className='rev-count'>({seller.reviewCount})</span>
+    </>
+  ) : (
+    <>
+      <FaRegStar className="star-icon" />
+      <span className="searched-sellers-section__rating-text">Not Rated</span>
+    </>
+  )}
+</div>
+
               </div>
             </div>
           ))}

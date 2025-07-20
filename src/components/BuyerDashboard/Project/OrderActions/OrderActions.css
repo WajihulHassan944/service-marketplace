@@ -20,7 +20,7 @@
   background: transparent;
   border: none;
   outline: none;
-  font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif !important;
+  /* font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif !important; */
   font-size: 16px;
   cursor: pointer;
 }
@@ -244,7 +244,7 @@
   border-radius: 4px;
   resize: vertical;
   margin-bottom: 12px;
-  font-family: inherit;
+  /* font-family: inherit; */
   color: #003366;
 }
 

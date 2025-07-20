@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { FaHashtag, FaEdit } from 'react-icons/fa';
 import { FiMessageCircle } from 'react-icons/fi';
 import './disputeDetails.css';
+import toast from 'react-hot-toast';
 
 const Dispute = () => {
   const searchParams = useSearchParams();
@@ -40,7 +41,7 @@ const Dispute = () => {
       );
       const data = await res.json();
       if (data.success) {
-        alert(`Dispute ${action}ed successfully`);
+        toast.error(`Dispute ${action}ed successfully`);
         fetchOrderDetails(); // Refresh order data
       }
     } catch (err) {

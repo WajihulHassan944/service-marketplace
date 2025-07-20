@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './ManageCategories.css';
 import { FaHome, FaEdit, FaTrash } from 'react-icons/fa';
 import { baseUrl } from '@/const';
+import toast from 'react-hot-toast';
 const ManageCategories = () => {
   const [categories, setCategories] = useState([]);
   const [popupData, setPopupData] = useState(null);
@@ -49,7 +50,7 @@ const ManageCategories = () => {
         await fetchCategories();
         resetForm();
       } else {
-        alert(data.message || 'Something went wrong.');
+        toast.error(data.message || 'Something went wrong.');
       }
     } catch (error) {
       console.error('Submit error:', error);
@@ -73,7 +74,7 @@ const ManageCategories = () => {
       if (data.success) {
         await fetchCategories();
       } else {
-        alert(data.message || 'Delete failed.');
+        toast.error(data.message || 'Delete failed.');
       }
     } catch (error) {
       console.error('Delete error:', error);

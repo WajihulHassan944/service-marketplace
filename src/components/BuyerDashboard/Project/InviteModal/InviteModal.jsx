@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./invitemodal.css";
 import { useSelector } from "react-redux";
 import { baseUrl } from "@/const";
+import toast from "react-hot-toast";
 
 const InviteModal = ({ onClose, order }) => {
   const [availableSellers, setAvailableSellers] = useState([]);
@@ -74,17 +75,17 @@ useEffect(() => {
 
     const totalRate = calculateTotalRate();
     if (totalRate > order.totalAmount) {
-      alert(`Total rate exceeds the allowed amount of $${order.totalAmount}`);
+    toast.error(`Total rate exceeds the allowed amount of $${order.totalAmount}`);
       return;
     }
 
     if (coworkers.some(c => isNaN(c.rate) || c.rate <= 0)) {
-      alert("All rates must be valid positive numbers.");
+      toast.error("All rates must be valid positive numbers.");
       return;
     }
 
     if (coworkers.length === 0) {
-      alert("Please select at least one coworker.");
+      toast.error("Please select at least one coworker.");
       return;
     }
 
@@ -97,14 +98,14 @@ useEffect(() => {
 
       const result = await res.json();
       if (res.ok) {
-        alert("Coworkers invited successfully!");
+        toast.success("Coworkers invited successfully!");
         onClose();
       } else {
-        alert(result.message || "Something went wrong.");
+        toast.error(result.message || "Something went wrong.");
       }
     } catch (err) {
       console.error("Invite failed:", err);
-      alert("Something went wrong.");
+      toast.error("Something went wrong.");
     }
   };
 

@@ -1,73 +1,149 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import './scopepricing.css'
+import { useState } from 'react';
+import './scopepricing.css';
+
+const knownFields = [
+  'packageName',
+  'description',
+  'price',
+  'deliveryTime',
+  'revisions',
+  'afterProjectSupport',
+];
 
 const ScopePricing = ({ onNext, onBack, gigData, setGigData }) => {
-  console.log(gigData);
   const [charCount, setCharCount] = useState({
-    basic: gigData.packages.basic.description.length,
-    standard: gigData.packages.standard.description.length,
-    premium: gigData.packages.premium.description.length,
-  })
+    basic: gigData.packages.basic?.known?.description?.length || 0,
+    standard: gigData.packages.standard?.known?.description?.length || 0,
+    premium: gigData.packages.premium?.known?.description?.length || 0,
+  });
+const handleChange = (e) => {
+  const { name, value, type, checked } = e.target;
+  const [section, pkg, group, key] = name.split('.');
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target
-    const [section, pkg, key] = name.split('.')
+  if (section === 'packages') {
+    let parsedValue = value;
 
-    if (section === 'packages') {
-      
-      setGigData((prev) => ({
-        ...prev,
-        packages: {
-          ...prev.packages,
-          [pkg]: {
-            ...prev.packages[pkg],
-            [key]: type === 'checkbox' ? checked : value,
-          },
-        },
-      }))
+    // Force number conversion for specific known keys
+    if (['price', 'deliveryTime', 'revisions'].includes(key)) {
+      parsedValue = Number(value);
+    } else if (type === 'checkbox') {
+      parsedValue = checked;
     }
-  }
 
-  const handleDescriptionChange = (pkg, e) => {
-    const newDescription = e.target.value
     setGigData((prev) => ({
       ...prev,
       packages: {
         ...prev.packages,
         [pkg]: {
           ...prev.packages[pkg],
-          description: newDescription,
+          [group]: {
+            ...prev.packages[pkg][group],
+            [key]: parsedValue,
+          },
         },
       },
-    }))
-    setCharCount((prev) => ({ ...prev, [pkg]: newDescription.length }))
+    }));
   }
+};
+
+  const handleDescriptionChange = (pkg, e) => {
+    const newDescription = e.target.value;
+    setGigData((prev) => ({
+      ...prev,
+      packages: {
+        ...prev.packages,
+        [pkg]: {
+          ...prev.packages[pkg],
+          known: {
+            ...prev.packages[pkg].known,
+            description: newDescription,
+          },
+        },
+      },
+    }));
+    setCharCount((prev) => ({ ...prev, [pkg]: newDescription.length }));
+  };
+
+  const handleAddField = () => {
+    const newKey = prompt('Enter new field name (e.g., customNote):');
+    if (!newKey) return;
+
+    setGigData((prev) => {
+      const updated = { ...prev };
+      ['basic', 'standard', 'premium'].forEach((pkg) => {
+        if (!updated.packages[pkg].dynamic) updated.packages[pkg].dynamic = {};
+        updated.packages[pkg].dynamic[newKey] = '';
+      });
+      return updated;
+    });
+  };
+
+  const handleTogglePackages = (enabled) => {
+    setGigData((prev) => {
+      const updated = {
+        ...prev,
+        offerPackages: enabled,
+        packages: {
+          ...prev.packages,
+          standard: prev.packages.standard || { known: {}, dynamic: {} },
+          ...(enabled
+            ? {
+                basic: prev.packages.basic || { known: {}, dynamic: {} },
+                premium: prev.packages.premium || { known: {}, dynamic: {} },
+              }
+            : {
+                basic: { known: {}, dynamic: {} },
+                premium: { known: {}, dynamic: {} },
+              }),
+        },
+      };
+      return updated;
+    });
+  };
+
+  const visiblePackages = gigData.offerPackages
+    ? ['basic', 'standard', 'premium']
+    : ['standard'];
 
   return (
     <div className="scope-container">
-      <h2>Scope & Pricing</h2>
+      <div
+        className="scope-header"
+        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+      >
+        <h2>Scope & Pricing</h2>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span>Enable Packages</span>
+          <input
+            type="checkbox"
+            checked={gigData.offerPackages}
+            onChange={(e) => handleTogglePackages(e.target.checked)}
+          />
+        </label>
+      </div>
+
       <div className="packages-table">
         <table>
           <thead>
             <tr>
               <th>Packages</th>
-              <th>Basic</th>
-              <th>Standard</th>
-              <th>Premium</th>
+              {visiblePackages.map((pkg) => (
+                <th key={`head-${pkg}`}>{pkg.charAt(0).toUpperCase() + pkg.slice(1)}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>Package Name</td>
-              {['basic', 'standard', 'premium'].map((pkg) => (
+              {visiblePackages.map((pkg) => (
                 <td key={`name-${pkg}`}>
                   <input
                     type="text"
                     maxLength={50}
-                    name={`packages.${pkg}.name`}
-                    value={gigData.packages[pkg].name}
+                    name={`packages.${pkg}.known.packageName`}
+                    value={gigData.packages[pkg].known?.packageName || ''}
                     onChange={handleChange}
                     placeholder="Name your package"
                   />
@@ -77,12 +153,12 @@ const ScopePricing = ({ onNext, onBack, gigData, setGigData }) => {
 
             <tr>
               <td>Description</td>
-              {['basic', 'standard', 'premium'].map((pkg) => (
+              {visiblePackages.map((pkg) => (
                 <td key={`desc-${pkg}`}>
                   <textarea
                     className="descBox"
-                    name={`packages.${pkg}.description`}
-                    value={gigData.packages[pkg].description}
+                    name={`packages.${pkg}.known.description`}
+                    value={gigData.packages[pkg].known?.description || ''}
                     onChange={(e) => handleDescriptionChange(pkg, e)}
                     maxLength={1200}
                     placeholder="Describe your offering"
@@ -92,22 +168,21 @@ const ScopePricing = ({ onNext, onBack, gigData, setGigData }) => {
               ))}
             </tr>
 
-            {['price', 'deliveryTime', 'revisions', 'pages'].map((field) => (
+            {['price', 'deliveryTime', 'revisions'].map((field) => (
               <tr key={field}>
                 <td>
                   {{
                     price: 'Price ($)',
                     deliveryTime: 'Delivery Time (days)',
                     revisions: 'Revisions',
-                    pages: 'Number of Pages',
                   }[field]}
                 </td>
-                {['basic', 'standard', 'premium'].map((pkg) => (
+                {visiblePackages.map((pkg) => (
                   <td key={`${field}-${pkg}`}>
                     <input
                       type="number"
-                      name={`packages.${pkg}.${field}`}
-                      value={gigData.packages[pkg][field]}
+                      name={`packages.${pkg}.known.${field}`}
+                      value={gigData.packages[pkg].known?.[field] ?? ''}
                       onChange={handleChange}
                       min="0"
                     />
@@ -118,27 +193,81 @@ const ScopePricing = ({ onNext, onBack, gigData, setGigData }) => {
 
             <tr>
               <td>After Project Support</td>
-              {['basic', 'standard', 'premium'].map((pkg) => (
+              {visiblePackages.map((pkg) => (
                 <td key={`support-${pkg}`}>
                   <input
                     type="checkbox"
-                    name={`packages.${pkg}.afterProjectSupport`}
-                    checked={gigData.packages[pkg].afterProjectSupport}
+                    name={`packages.${pkg}.known.afterProjectSupport`}
+                    checked={gigData.packages[pkg].known?.afterProjectSupport || false}
                     onChange={handleChange}
                   />
                 </td>
               ))}
             </tr>
+
+            {/* Dynamic Fields */}
+            {(gigData.packages.standard.dynamic &&
+              Object.keys(gigData.packages.standard.dynamic).map((field) => (
+                <tr key={`dynamic-${field}`}>
+                  <td>{field}</td>
+                  {visiblePackages.map((pkg) => (
+                    <td key={`dynamic-${field}-${pkg}`}>
+                      <input
+                        type="text"
+                        name={`packages.${pkg}.dynamic.${field}`}
+                        value={gigData.packages[pkg].dynamic?.[field] || ''}
+                        onChange={handleChange}
+                        placeholder={`Enter ${field}`}
+                      />
+                    </td>
+                  ))}
+                </tr>
+              ))) || null}
           </tbody>
         </table>
       </div>
 
+      {/* Add Dynamic Field Button */}
+    <div style={{ marginTop: '20px', textAlign: 'right' }}>
+  <button
+    type="button"
+    onClick={() => {
+      const newKey = prompt('Enter new field name (e.g., customNote):');
+      if (!newKey) return;
+
+      setGigData((prev) => {
+        const updated = { ...prev };
+        const targets = prev.offerPackages
+          ? ['basic', 'standard', 'premium']
+          : ['standard'];
+
+        targets.forEach((pkg) => {
+          if (!updated.packages[pkg].dynamic) updated.packages[pkg].dynamic = {};
+          updated.packages[pkg].dynamic[newKey] = '';
+        });
+
+        return updated;
+      });
+    }}
+    className="submit-btn"
+    style={{ marginBottom: '15px' }}
+  >
+    + Add Field
+  </button>
+</div>
+
+
+      {/* Navigation */}
       <div className="submit-container">
-        <button className="back-btn" onClick={onBack}>Back</button>
-        <button className="submit-btn" onClick={onNext}>Save & Continue</button>
+        <button className="back-btn" onClick={onBack}>
+          Back
+        </button>
+        <button className="submit-btn" onClick={onNext}>
+          Save & Continue
+        </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ScopePricing
+export default ScopePricing;

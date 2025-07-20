@@ -142,3 +142,42 @@ padding-left: 17%;
   right: 3%;
 }
 }
+.rating-stats {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #334155;
+}
+
+.orders-completed {
+  color: #0f172a;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.star-icon {
+  font-size: 14px;
+  color: #facc15; /* yellow-400 */
+}
+
+.star-icon.filled {
+  color: #fbbf24; /* yellow-500 */
+}
+
+.average-rating {
+  font-weight: 600;
+  color: #f59e0b; /* yellow-600 */
+  margin-left: 4px;
+}
+
+.review-count {
+  color: #64748b;
+  margin-left: 4px;
+}

@@ -5,6 +5,7 @@ import SubmitWorkPopup from '../SubmitWorkPopup/SubmitWorkPopup';
 import { useSelector } from 'react-redux';
 import { FiCheckCircle, FiStar } from "react-icons/fi";
 import { baseUrl } from '@/const';
+import toast from 'react-hot-toast';
 export default function ProjectTimeline({ order, setShowReviewPopup,  fetchOrder }) {
   if (!order) return null;
   const [loading, setLoading] = useState(false);
@@ -74,11 +75,11 @@ const dueDate = new Date(order.deliveryDueDate);
         setShowSuccessPopup(true);
          fetchOrder();
       } else {
-        alert(data.message || "Failed to approve delivery.");
+    toast.error(data.message || "Failed to approve delivery.");
       }
     } catch (error) {
       console.error("❌ Error approving delivery:", error);
-      alert("Something went wrong while approving the delivery.");
+      toast.error("Something went wrong while approving the delivery.");
     } finally {
       setLoading(false);
     }

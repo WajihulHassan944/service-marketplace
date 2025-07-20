@@ -4,6 +4,7 @@ import './Payout.css';
 import Sidebar from '@/components/BuyerDashboard/Settings/Sidebar/Sidebar';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '@/const';
+import toast from 'react-hot-toast';
 
 const Payout = () => {
   const user = useSelector((state) => state.user);
@@ -17,11 +18,11 @@ const Payout = () => {
     const amountToWithdraw = selectedAmount === 'full' ? walletBalance : parseFloat(customAmount);
 
     if (!amountToWithdraw || isNaN(amountToWithdraw) || amountToWithdraw <= 0) {
-      return alert('Please enter a valid amount');
+      return toast.error('Please enter a valid amount');
     }
 
     if (amountToWithdraw > walletBalance) {
-      return alert('Amount exceeds available balance');
+      return toast.error('Amount exceeds available balance');
     }
 
     setLoading(true);
@@ -37,15 +38,15 @@ const Payout = () => {
 
       const data = await res.json();
       if (data.success) {
-        alert(data.message || 'Withdrawal successful');
+        toast.success(data.message || 'Withdrawal successful');
         window.location.reload();
       } else {
-        alert(data.message || 'Withdrawal failed');
+        toast.error(data.message || 'Withdrawal failed');
         console.log(data);
       }
     } catch (err) {
       console.error(err);
-      alert('Something went wrong');
+      toast.error('Something went wrong');
     } finally {
       setLoading(false);
     }

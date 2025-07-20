@@ -5,6 +5,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import { useSelector } from 'react-redux';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { baseUrl } from '@/const';
+import toast from 'react-hot-toast';
 const ResetPassword = () => {
   const user = useSelector((state) => state.user);
   const [formData, setFormData] = useState({
@@ -33,7 +34,7 @@ const ResetPassword = () => {
     e.preventDefault();
 
     if (!captchaToken) {
-      alert("Please complete the reCAPTCHA.");
+      toast.error("Please complete the reCAPTCHA.");
       return;
     }
 
@@ -49,9 +50,9 @@ const ResetPassword = () => {
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message || 'Something went wrong');
-      alert(data.message);
+      toast.error(data.message);
     } catch (err) {
-      alert(err.message || 'Failed to send reset email');
+      toast.error(err.message || 'Failed to send reset email');
     } finally {
       setLoading(false);
     }

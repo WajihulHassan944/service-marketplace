@@ -1,6 +1,6 @@
-.contact-page {
+/* .contact-page {
     font-family: 'Segoe UI', sans-serif;
-  }
+  } */
   
   /* Section 1 */
   .contact-hero {
@@ -71,7 +71,7 @@
   }
   
   .btn-primary {
-    background: rgb(0, 204, 131);
+    background: #0f256e;
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -82,8 +82,8 @@
   
   .btn-outline {
     background: transparent;
-    border: 2px solid rgb(0, 204, 131);
-    color: rgb(0, 204, 131);
+    border: 2px solid #0f256e;
+    color: #0f256e;
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
     border-radius: 4px;

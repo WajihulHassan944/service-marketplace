@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'); */
 
 .notepad-wrapper {
   padding: 0 10%;
   padding-bottom: 70px;
   min-height: 85vh;
-  font-family: 'Poppins', sans-serif !important;
+  /* font-family: 'Poppins', sans-serif !important; */
 }
 
 .topbar {

@@ -88,14 +88,10 @@ export default function Portfolio() {
                    </>
               )}
               <div className="card-details">
-                 {card.previewType === "link" ?  <a
-                    href={card.websiteLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="view-website-button"
+                 {card.previewType === "link" ?  <span
                    >
                     {card.title}
-                  </a> : 
+                  </span> : 
                 <span>{card.title}</span> }
                 <span
                   style={{ color: "#0070f3", cursor: "pointer" }}

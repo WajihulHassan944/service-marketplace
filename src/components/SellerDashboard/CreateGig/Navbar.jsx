@@ -16,121 +16,101 @@ const steps = ["Overview", "Pricing", "Description", "Gallery", "Publish"];
 const Navbar = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [gigData, setGigData] = useState(null);
+ 
   const user = useSelector((state) => state.user);
   const searchParams = useSearchParams();
   const edit = searchParams.get("edit");
   const gigId = searchParams.get("gigId");
+useEffect(() => {
+  const initializeGigData = async () => {
+    if (edit === "true" && gigId) {
+      try {
+        const res = await fetch(`${baseUrl}/gigs/getGigById/${gigId}`);
+        const data = await res.json();
 
-  useEffect(() => {
-    const initializeGigData = async () => {
-      // If editing an existing gig
-      if (edit === "true" && gigId) {
-        try {
-          const res = await fetch(
-            `${baseUrl}/gigs/getGigById/${gigId}`
-          );
-          const data = await res.json();
-          if (data.success && data.gig) {
-            const g = data.gig;
-            setGigData({
-              userId: g.userId,
-              gigTitle: g.gigTitle,
-              category: g.category,
-              subcategory: g.subcategory,
-              searchTag: g.searchTag,
-          positiveKeywords: Array.isArray(g.positiveKeywords)
-    ? g.positiveKeywords.join(", ")
-    : g.positiveKeywords || "",
-              packages: {
-                basic: {
-                  name: g.packages.basic.packageName,
-                  description: g.packages.basic.description,
-                  price: g.packages.basic.price,
-                  deliveryTime: g.packages.basic.deliveryTime,
-                  revisions: g.packages.basic.revisions,
-                  pages: g.packages.basic.numberOfPages,
-                  afterProjectSupport: g.packages.basic.afterProjectSupport,
-                },
-                standard: {
-                  name: g.packages.standard.packageName,
-                  description: g.packages.standard.description,
-                  price: g.packages.standard.price,
-                  deliveryTime: g.packages.standard.deliveryTime,
-                  revisions: g.packages.standard.revisions,
-                  pages: g.packages.standard.numberOfPages,
-                  afterProjectSupport: g.packages.standard.afterProjectSupport,
-                },
-                premium: {
-                  name: g.packages.premium.packageName,
-                  description: g.packages.premium.description,
-                  price: g.packages.premium.price,
-                  deliveryTime: g.packages.premium.deliveryTime,
-                  revisions: g.packages.premium.revisions,
-                  pages: g.packages.premium.numberOfPages,
-                  afterProjectSupport: g.packages.premium.afterProjectSupport,
-                },
-              },
-              gigDescription: g.gigDescription,
-              hourlyRate: g.hourlyRate,
-              images: g.images || [],
-              videoIframes: g.videoIframes || [],
-              pdf: g.pdf || "",
-              _id: g._id, // optional if needed later
-              status: g.status,
-            });
-          }
-        } catch (err) {
-          console.error("Failed to fetch gig data:", err);
+        if (data.success && data.gig) {
+          const g = data.gig;
+
+          // List of known fields we expect in each package
+          const knownPackageFields = [
+            "packageName",
+            "description",
+            "price",
+            "deliveryTime",
+            "revisions",
+            "afterProjectSupport"
+          ];
+
+          // Convert each package object, separating known and unknown keys
+          const transformPackage = (pkg) => {
+            const transformed = {
+              known: {},
+              dynamic: {}
+            };
+            for (const key in pkg) {
+              const value = pkg[key];
+              if (knownPackageFields.includes(key)) {
+                transformed.known[key] = value;
+              } else {
+                transformed.dynamic[key] = value?.toString() ?? "";
+              }
+            }
+            return transformed;
+          };
+
+          setGigData({
+            userId: g.userId,
+            offerPackages: true,
+            gigTitle: g.gigTitle,
+            category: g.category,
+            subcategory: g.subcategory,
+            searchTag: g.searchTag,
+            positiveKeywords: Array.isArray(g.positiveKeywords)
+              ? g.positiveKeywords.join(", ")
+              : g.positiveKeywords || "",
+            packages: {
+              basic: transformPackage(g.packages?.basic || {}),
+              standard: transformPackage(g.packages?.standard || {}),
+              premium: transformPackage(g.packages?.premium || {}),
+            },
+            gigDescription: g.gigDescription,
+            hourlyRate: g.hourlyRate?.toString() || "",
+            images: g.images || [],
+            videoIframes: g.videoIframes || [],
+            pdf: g.pdf || "",
+            _id: g._id,
+            status: g.status,
+          });
         }
-      } else if (user?._id) {
-        // New gig creation
-        setGigData({
-          userId: user._id,
-          gigTitle: "",
-          category: "",
-          subcategory: "",
-          searchTag: "",
-          positiveKeywords: "",
-          packages: {
-            basic: {
-              name: "",
-              description: "",
-              price: 0,
-              deliveryTime: 0,
-              revisions: 0,
-              pages: 1,
-              afterProjectSupport: false,
-            },
-            standard: {
-              name: "",
-              description: "",
-              price: 0,
-              deliveryTime: 0,
-              revisions: 0,
-              pages: 1,
-              afterProjectSupport: false,
-            },
-            premium: {
-              name: "",
-              description: "",
-              price: 0,
-              deliveryTime: 0,
-              revisions: 0,
-              pages: 1,
-              afterProjectSupport: false,
-            },
-          },
-          gigDescription: "",
-          hourlyRate: 0,
-          images: [],
-          videoIframes: [],
-          pdf: "",
-        });
+      } catch (err) {
+        console.error("Failed to fetch gig data:", err);
       }
-    };
+    } else if (user?._id) {
+      // New gig
+      setGigData({
+        userId: user._id,
+        offerPackages: true,
+        gigTitle: "",
+        category: "",
+        subcategory: "",
+        searchTag: "",
+        positiveKeywords: "",
+        packages: {
+          basic: { known: {}, dynamic: {} },
+          standard: { known: {}, dynamic: {} },
+          premium: { known: {}, dynamic: {} },
+        },
+        gigDescription: "",
+        hourlyRate: "",
+        images: [],
+        videoIframes: [],
+        pdf: "",
+      });
+    }
+  };
 
-    initializeGigData();
-  }, [user, edit, gigId]);
+  initializeGigData();
+}, [user, edit, gigId]);
 
   const handleNext = () => {
     if (activeStep < steps.length - 1) {

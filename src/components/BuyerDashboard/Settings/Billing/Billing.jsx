@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import TopUpModal from './TopUpModal/TopUpModal';
 import { baseUrl } from '@/const';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 const Billing = () => {
   const user = useSelector((state) => state.user);
@@ -26,14 +27,14 @@ const Billing = () => {
       });
       const data = await res.json();
       if (data.success) {
-        alert(data.message || 'Primary card updated');
+        toast.success(data.message || 'Primary card updated');
         window.location.reload(); // or trigger Redux refresh
       } else {
-        alert(data.message || 'Failed to update primary card');
+        toast.error(data.message || 'Failed to update primary card');
       }
     } catch (err) {
       console.error(err);
-      alert('Error setting primary card');
+      toast.error('Error setting primary card');
     }
     setLoadingCard(null);
   };
@@ -54,14 +55,14 @@ const Billing = () => {
       });
       const data = await res.json();
       if (data.success) {
-        alert(data.message || 'Card removed');
+      toast.success(data.message || 'Card removed');
         window.location.reload(); // or trigger Redux refresh
       } else {
-        alert(data.message || 'Failed to remove card');
+        toast.error(data.message || 'Failed to remove card');
       }
     } catch (err) {
       console.error(err);
-      alert('Error removing card');
+      toast.error('Error removing card');
     }
     setLoadingCard(null);
   };

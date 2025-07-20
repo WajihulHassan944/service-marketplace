@@ -23,7 +23,6 @@
 }
 
 .custom-modal-content h2 {
-  margin-bottom: 1.5rem;
   color: #0a6ed1;
 }
 
@@ -75,4 +74,14 @@
   color: red;
   margin-top: 0.75rem;
   font-size: 0.9rem;
+}
+.flexed-div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+   margin-bottom: 1.5rem;
+}
+.custom-modal-content .stripeLogo{
+  border-radius: 5px;
 }

@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentDashboard } from '@/redux/features/userSlice';
 import { useRouter } from 'next/navigation';
 import { baseUrl } from '@/const';
+import toast from 'react-hot-toast';
 
 const SellerNav = () => {
     const router = useRouter();
@@ -56,7 +57,7 @@ useEffect(() => {
 
       const data = await response.json();
       setAvailability(data.availabilityStatus);
-    alert(`Availability status set to ${data.availabilityStatus ? 'Available' : 'Invisible'}`);
+    toast.success(`Availability status set to ${data.availabilityStatus ? 'Available' : 'Invisible'}`);
 
     } catch (error) {
       console.error("Error updating availability:", error.message);

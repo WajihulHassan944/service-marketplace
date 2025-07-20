@@ -13,25 +13,69 @@ const SubNavbar = () => {
 
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const timeoutRef = useRef(null);
+  const navbarRef = useRef(null);
 
+  // Fetch categories
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchCategories());
     }
   }, [dispatch, status]);
 
+  // Drag-to-scroll effect
+  useEffect(() => {
+    const el = navbarRef.current;
+    if (!el) return;
+
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    const handleMouseDown = (e) => {
+      isDown = true;
+      startX = e.pageX - el.offsetLeft;
+      scrollLeft = el.scrollLeft;
+      el.classList.add('dragging');
+    };
+
+    const handleMouseLeave = () => {
+      isDown = false;
+      el.classList.remove('dragging');
+    };
+
+    const handleMouseUp = () => {
+      isDown = false;
+      el.classList.remove('dragging');
+    };
+
+    const handleMouseMove = (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - el.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      el.scrollLeft = scrollLeft - walk;
+    };
+
+    el.addEventListener('mousedown', handleMouseDown);
+    el.addEventListener('mouseleave', handleMouseLeave);
+    el.addEventListener('mouseup', handleMouseUp);
+    el.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      el.removeEventListener('mousedown', handleMouseDown);
+      el.removeEventListener('mouseleave', handleMouseLeave);
+      el.removeEventListener('mouseup', handleMouseUp);
+      el.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
   const handleMouseEnter = (index) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
+    clearTimeout(timeoutRef.current);
     setHoveredCategory(index);
   };
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setHoveredCategory(null);
-    }, 500);
+    timeoutRef.current = setTimeout(() => setHoveredCategory(null), 500);
   };
 
   const handleCategoryClick = (category) => {
@@ -48,7 +92,7 @@ const SubNavbar = () => {
   if (status === 'failed') return <div className="sub-navbar">Error: {error}</div>;
 
   return (
-    <div className="sub-navbar">
+    <div className="sub-navbar" ref={navbarRef}>
       {categories.map((category, index) => (
         <div
           key={category._id}
@@ -56,10 +100,7 @@ const SubNavbar = () => {
           onMouseEnter={() => handleMouseEnter(index)}
           onMouseLeave={handleMouseLeave}
         >
-          <span
-            onClick={() => handleCategoryClick(category.name)}
-            style={{ cursor: 'pointer' }}
-          >
+          <span onClick={() => handleCategoryClick(category.name)}>
             {category.name}
           </span>
 
@@ -74,7 +115,6 @@ const SubNavbar = () => {
                   <li
                     key={i}
                     onClick={() => handleSubCategoryClick(category.name, sub)}
-                    style={{ cursor: 'pointer' }}
                   >
                     {sub}
                   </li>

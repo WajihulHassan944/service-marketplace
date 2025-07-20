@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '@/const';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import toast from 'react-hot-toast';
 export default function GigCard({ data }) {
   const router = useRouter();
   const user = useSelector((state) => state.user);
@@ -36,7 +37,7 @@ export default function GigCard({ data }) {
     e.stopPropagation(); // prevent card click
 
     if (!user?._id) {
-      alert("Please log in to use the wishlist.");
+      toast.error("Please log in to use the wishlist.");
       return;
     }
 
@@ -54,14 +55,14 @@ headers: {
 
       const data = await res.json();
       if (data.success) {
-        alert(data.message);
+        toast.success(data.message);
         window.location.reload();
       } else {
-        alert(data.message || "Something went wrong.");
+        toast.error(data.message || "Something went wrong.");
       }
     } catch (err) {
       console.error("Toggle wishlist error:", err);
-      alert("Error toggling wishlist.");
+      toast.error("Error toggling wishlist.");
     } finally {
       setLoading(false);
     }

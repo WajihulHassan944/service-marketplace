@@ -13,7 +13,7 @@ const GigDetails = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [textInfo, setTextInfo] = useState('');
   const [file, setFile] = useState(null);
-  const [packageType, setpackageType] = useState('basic');
+  const [packageType, setpackageType] = useState('standard');
   const [gig, setGig] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -44,7 +44,8 @@ const [paymentMethod, setPaymentMethod] = useState("balance");
   if (loading) return <p>Loading gig details...</p>;
   if (!gig) return <p>No gig found</p>;
   const pkg = gig?.packages?.[packageType];
-
+ 
+console.log(gig);
   return (
     <div className={styles.containerGigDetails}>
       <nav className={styles.breadcrumb}>
@@ -54,9 +55,9 @@ const [paymentMethod, setPaymentMethod] = useState("balance");
       <h1 className={styles.title}>{gig.gigTitle}</h1>
 
       <div className={styles.sellerInfo}>
-        <Image src={user.profileUrl} alt="Seller Profile" width={50} height={50} className={styles.profileImage} />
+        <Image src={gig.userId.profileUrl} alt="Seller Profile" width={50} height={50} className={styles.profileImage} />
         <div>
-          <strong>{user.firstName} {user.lastName}</strong> <span className={styles.level}>New seller</span>
+          <strong>{gig.userId.firstName} {gig.userId.lastName}</strong> <span className={styles.level}>{gig.userId?.sellerDetails?.level}</span>
           <div className={styles.rating}>★★★★★ <span>(No reviews)</span></div>
         </div>
       </div>
@@ -72,7 +73,9 @@ const [paymentMethod, setPaymentMethod] = useState("balance");
             <h3>{gig.gigTitle} | No Projects Completed</h3>
             <p>{gig.gigDescription}</p>
             <h5 style={{margin:'15px 0', fontSize:'17px'}}>About Seller</h5>
-            <p>Hi, I'm {user.firstName}, a <strong>skilled web developer</strong> with <strong>7+ years of experience</strong> and <strong>100+ successful projects</strong> delivered...</p>
+            <p>
+            {gig.userId.sellerDetails?.description ? gig.userId.sellerDetails?.description : "No description added"}
+            </p>
           </section>
 
           <section className={styles.techStack}>
@@ -87,41 +90,43 @@ const [paymentMethod, setPaymentMethod] = useState("balance");
           </section>
         </div>
 
-        <div className={styles.packageCard}>
-          <div className={styles.tabs}>
-            {['basic', 'standard', 'premium'].map((pkgName) => (
-              <span
-                key={pkgName}
-                className={packageType === pkgName ? styles.active : ''}
-                onClick={() => setpackageType(pkgName)}
-              >
-                {pkgName.charAt(0).toUpperCase() + pkgName.slice(1)}
-              </span>
-            ))}
+       
+      <div className={styles.packageCard}>
+        <div className={styles.tabs}>
+          {(gig.offerPackages ? ['basic', 'standard', 'premium'] : ['standard']).map((pkgName) => (
+            <span
+              key={pkgName}
+              className={packageType === pkgName ? styles.active : ''}
+              onClick={() => setpackageType(pkgName)}
+            >
+              {pkgName.charAt(0).toUpperCase() + pkgName.slice(1)}
+            </span>
+          ))}
+        </div>
+
+        <div className={styles.packageCardPadded}>
+          <div className={styles.price}>${pkg.price}</div>
+          <p className={styles.subscription}>Save up to 20% with <span className={styles.subscribeLink}>Subscribe to Save</span></p>
+          <p className={styles.desc}><strong>{pkg.packageName}</strong> — {pkg.description}</p>
+
+          <div className={styles.meta}>
+            <span>⏱ {pkg.deliveryTime} Day{pkg.deliveryTime > 1 ? 's' : ''} Delivery</span>
+            <span>⟳ {pkg.revisions === -1 ? 'Unlimited' : `${pkg.revisions} Revisions`}</span>
           </div>
 
-          <div className={styles.packageCardPadded}>
-            <div className={styles.price}>${pkg.price}</div>
-            <p className={styles.subscription}>Save up to 20% with <span className={styles.subscribeLink}>Subscribe to Save</span></p>
-            <p className={styles.desc}><strong>{pkg.packageName}</strong> — {pkg.description}</p>
+          <div className={styles.included}><span>What's Included</span><span>▾</span></div>
 
-            <div className={styles.meta}>
-              <span>⏱ {pkg.deliveryTime} Day{pkg.deliveryTime > 1 ? 's' : ''} Delivery</span>
-              <span>⟳ {pkg.revisions === -1 ? 'Unlimited' : `${pkg.revisions} Revisions`}</span>
-            </div>
+          <button className={styles.continueBtn} onClick={() => setShowPopup(true)}>
+            Purchase →
+          </button>
 
-            <div className={styles.included}><span>What's Included</span><span>▾</span></div>
-
-            <button className={styles.continueBtn} onClick={() => setShowPopup(true)}>
-              Purchase →
-            </button>
-
-            <p className={styles.compare}>Compare Packages</p>
-            <Link  href={`/messages?receiverId=${gig.userId}`}><button className={styles.contactBtn}>Contact Seller</button></Link>
-          </div>
+          <p className={styles.compare}>Compare Packages</p>
+          <Link href={`/messages?receiverId=${gig.userId}`}>
+            <button className={styles.contactBtn}>Contact Seller</button>
+          </Link>
         </div>
       </div>
-
+    </div>
       
       {showPopup && (
   <div className={styles.popupOverlay}>

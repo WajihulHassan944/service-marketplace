@@ -2,7 +2,7 @@
     display: flex;
     height: 89vh;
     
-    font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    /* font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif; */
     padding: 20px;
     padding-right: 0;
     padding-top: 1px;
@@ -100,6 +100,28 @@
   
 
 
+.input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 10px 40px 10px 15px; /* Extra right padding for icon */
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.attach-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #204ecf;
+  cursor: pointer;
+  font-size: 18px;
+}
 
 
 
@@ -118,7 +140,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-height: 80vh;
+    min-height: 76vh;
     
   }
   .chat-header {
@@ -142,7 +164,58 @@
     z-index: 1;
   }
     
-  
+ .attachment-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.chat-img-preview {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.chat-img-preview:hover {
+  transform: scale(1.05);
+}
+
+.file-chip {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  gap: 8px;
+  font-size: 14px;
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-chip svg {
+  font-size: 18px;
+  color: #555;
+}
+
+.file-chip span {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-chip a {
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
+}
+ 
   .chat-title{
     display: flex;
     flex-direction: column;
@@ -166,8 +239,9 @@
   
   .chat-messages {
     flex: 1;
-    padding: 15px;
+    padding: 30px 15px;
     overflow-y: auto;
+    max-height: 71%;
   }
   
   .message {
@@ -418,4 +492,47 @@
 .empty-star {
   color: #ccc;
   font-size: 18px;
+}
+.spinner {
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dot-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  gap: 6px;
+}
+
+.dot-loader span {
+  width: 10px;
+  height: 10px;
+  background-color: #999;
+  border-radius: 50%;
+  animation: bounce 0.6s infinite alternate;
+}
+
+.dot-loader span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot-loader span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); opacity: 0.6; }
+  to { transform: translateY(-10px); opacity: 1; }
 }

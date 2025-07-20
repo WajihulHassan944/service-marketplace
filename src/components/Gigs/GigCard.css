@@ -4,7 +4,7 @@
 }
 .gig-card {
     width: 280px;
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
     border: 1px solid #e0e0e0;
     border-radius: 12px;
     overflow: hidden;
@@ -95,10 +95,11 @@
   .vetted-badge {
     background-color: #e6e6fa;
     color: #5d3fd3;
-    font-size: 12px;
-    padding: 2px 6px;
+    font-size: 10px;
+    padding: 4px 6px;
     border-radius: 6px;
     font-weight: bold;
+
   }
   
   .gig-title-gigcard {
@@ -159,6 +160,6 @@
   .popular-services-homeoage-wrap{
       display: flex;
     flex-wrap: wrap;
-    gap:30px;
+    gap:20px;
     padding-bottom: 70px;
   }

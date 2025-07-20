@@ -8,6 +8,7 @@ import SubNavbar from './SubNavbar/SubNavbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories } from '@/redux/features/categorySlice';
 import { useRouter } from 'next/navigation';
+import SearchBar from './Search/SearchBar';
 
 const PublicNav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -35,8 +36,9 @@ const handleCategoryClick = (categoryName) => {
               <Image src="/assets/logo.png" alt="logo" width={50} height={50} />
             </div>
           </Link>
+             <SearchBar />
           <ul className="public-navbar-menu">
-            <Link href="/" className="public-nav-link"><li className="public-navbar-item">Top 1%</li></Link>
+          
           <li className="public-navbar-item dropdown">
   Hire Talent <span className="arrow">▾</span>
   <ul className="dropdown-menu">

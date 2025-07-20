@@ -48,7 +48,7 @@ const BuyerHomePage = () => {
             title: gig.gigTitle,
             rating: 5,
             reviews: 0,
-            price: `$${gig.packages?.basic?.price || 'N/A'}`,
+            price: `$${gig.packages?.basic?.price || gig.packages?.standard?.price || 'N/A'}`,
             offersVideo: true,
           }}
         />

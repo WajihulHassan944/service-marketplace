@@ -26,7 +26,7 @@ const SellerProfile = () => {
      <p className="time">{user.sellerDetails.level}</p>
         
           <div className="action-buttons">
-          <Link href="/profile" className="view-proposal-btn"> Preview profile</Link>
+          <Link href={`/profile?id=${user._id}`} className="view-proposal-btn"> Preview profile</Link>
           </div>
   
          <div className="info-section">

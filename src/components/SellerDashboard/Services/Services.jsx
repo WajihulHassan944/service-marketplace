@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { baseUrl } from '@/const';
 import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 
 const statusMap = {
   ACTIVE: 'active',
@@ -81,11 +82,11 @@ const Services = () => {
     if (res.ok && data.success) {
       setApiGigs((prev) => prev.filter((gig) => gig._id !== gigId));
     } else {
-      alert(data.message || 'Failed to delete gig.');
+  toast.error(data.message || 'Failed to delete gig.');
     }
   } catch (err) {
     console.error('Delete error:', err);
-    alert('An error occurred while deleting the gig.');
+    toast.error('An error occurred while deleting the gig.');
   }
 };
 

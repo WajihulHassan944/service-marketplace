@@ -2,6 +2,7 @@
   padding: 60px 10%;
   margin: 0 auto;
   padding-bottom: 10%;
+  background-color: #f0f4f8;
 }
 
 .searched-sellers-section__header {
@@ -12,7 +13,7 @@
 .searched-sellers-section__title {
   font-size: 36px;
   font-weight: 700;
-  color: #1e293b;
+  color: #1e3a8a; /* blue-800 */
 }
 
 .searched-sellers-section__subtitle {
@@ -24,52 +25,130 @@
 
 .searched-sellers-section__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 40px;
   justify-items: center;
 }
 
 .searched-sellers-section__card {
-  position: relative;
-  width: 100%;
-  max-width: 250px;
+  background: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  background-color: #f9fafb;
-  margin-bottom: 60px;
+  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  width: 100%;
+  max-width: 280px;
+  cursor: pointer;
+  border: 1px solid #e0e7ff; /* light blue border */
+}
 
+.searched-sellers-section__card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(30, 64, 175, 0.15);
 }
 
 .searched-sellers-section__image {
   width: 100%;
-  height: auto;
-  max-height: 250px;
+  height: 240px;
   object-fit: cover;
-  display: block;
-  border-radius: 12px;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .searched-sellers-section__overlay {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 50%);
-  background-color: #ffffff;
   padding: 16px;
-  width: 85%;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
 .searched-sellers-section__name {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 18px;
-  color: #0f172a;
+  color: #1d4ed8; /* blue-600 */
   margin-bottom: 4px;
 }
 
 .searched-sellers-section__role {
   font-size: 14px;
-  color: #64748b;
+  color: #475569;
+  margin-top: 2px;
+}
+
+/* Spinner */
+.searched-sellers-section__loading::after {
+  content: '';
+  display: block;
+  margin: 40px auto;
+  width: 32px;
+  height: 32px;
+  border: 4px solid #60a5fa; /* blue-400 */
+  border-top: 4px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* No Results */
+.searched-sellers-section__no-results {
+  text-align: center;
+  margin-top: 60px;
+  font-size: 18px;
+  color: #1e3a8a;
+  font-weight: 500;
+  background-color: #e0f2fe;
+  padding: 16px 24px;
+  border-radius: 12px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 16px rgba(30, 64, 175, 0.05);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.rev-count{
+  font-size: 13px;
+  margin-top: -3px;
+}
+/* Light background */
+.searched-sellers-section {
+  background-color: #f8fbff; /* lighter blueish background */
+}
+
+/* Star styles */
+.searched-sellers-section__rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.star-icon {
+  font-size: 16px;
+  color: #facc15; /* yellow-400 */
+}
+
+.star-icon.filled {
+  color: #fbbf24; /* yellow-500 */
+}
+
+.searched-sellers-section__rating-text {
+  margin-left: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e40af; /* blue-800 */
 }

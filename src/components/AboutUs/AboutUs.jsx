@@ -26,7 +26,7 @@ const AboutUs = () => {
         </div>
       </section>
       <section className="body-text">
-      <p>Todo began over two decades ago by pioneering a better way of working, helping businesses find more flexibility and connecting talent with more opportunities.</p>
+      <p>doTask began over two decades ago by pioneering a better way of working, helping businesses find more flexibility and connecting talent with more opportunities.</p>
       </section>
 
       <section className="mission-section">

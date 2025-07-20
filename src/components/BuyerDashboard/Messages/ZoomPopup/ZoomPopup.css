@@ -23,7 +23,7 @@
   width: 500px; /* Increased from 350px */
   z-index: 999;
   padding: 30px; /* Increased padding */
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
 }
 
 .zoom-popup-content {
