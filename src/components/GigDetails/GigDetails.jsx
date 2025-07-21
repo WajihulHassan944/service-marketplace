@@ -93,15 +93,22 @@ console.log(gig);
        
       <div className={styles.packageCard}>
         <div className={styles.tabs}>
-          {(gig.offerPackages ? ['basic', 'standard', 'premium'] : ['standard']).map((pkgName) => (
-            <span
-              key={pkgName}
-              className={packageType === pkgName ? styles.active : ''}
-              onClick={() => setpackageType(pkgName)}
-            >
-              {pkgName.charAt(0).toUpperCase() + pkgName.slice(1)}
-            </span>
-          ))}
+        {(
+  gig.packages?.basic &&
+  gig.packages?.standard &&
+  gig.packages?.premium
+    ? ['basic', 'standard', 'premium']
+    : ['standard']
+).map((pkgName) => (
+  <span
+    key={pkgName}
+    className={packageType === pkgName ? styles.active : ''}
+    onClick={() => setpackageType(pkgName)}
+  >
+    {pkgName.charAt(0).toUpperCase() + pkgName.slice(1)}
+  </span>
+))}
+
         </div>
 
         <div className={styles.packageCardPadded}>

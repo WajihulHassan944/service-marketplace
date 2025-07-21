@@ -165,7 +165,7 @@ const LoginPage = () => {
             required
           />
           <button type="submit" className="login-btn green-btn" disabled={loading}>
-            {loading ? 'Loading, please wait...' : 'Continue'}
+            {loading ? <span className="loader"></span> : 'Continue'}
           </button>
         </form>
 

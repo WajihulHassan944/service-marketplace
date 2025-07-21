@@ -307,7 +307,20 @@ footer {
   margin-bottom: 16px;
   cursor: pointer;
 }
-
+.dropdown-menu-emails{
+  display: flex;
+  gap: 10px;
+}
+.email-button{
+  background-color: #6366f1;
+  border: none ;
+  font-size: 16px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  color: #fff;
+  padding: 6px;
+  border-radius: 8px;
+}
 /* Responsive layout for mobile */
 @media (max-width: 768px) {
   .email-ui {

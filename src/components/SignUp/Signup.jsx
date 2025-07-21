@@ -218,7 +218,7 @@ const SignupForm = () => {
           {error && <p className="error-text">{error}</p>}
 
           <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? 'Creating account...' : 'Create my account'}
+            {loading ? <span className="loader"></span> : 'Create my account'}
           </button>
 
           <p className="login-text">

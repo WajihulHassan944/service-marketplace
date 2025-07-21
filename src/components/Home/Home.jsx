@@ -37,28 +37,32 @@ console.log("gig data", gigs);
      {status === 'loading' && <p>Loading gigs...</p>}
      {status === 'failed' && <p>Error: {error}</p>}
      {status === 'succeeded' && (
-       gigs.length === 0 ? (
-         <p className="no-gigs-message">No gigs found at the moment. Please check back later.</p>
-       ) : (
-         gigs.slice(0, 6).map((gig) => (
-           <GigCard
-             key={gig._id}
-             data={{
-               gigId: gig._id,
-               image: gig.images?.[0]?.url || '/assets/gigs/dummytwo.png',
-               avatar: gig.userId?.profileUrl || '/assets/gigs/avatar.png',
-               sellerName: `${gig.userId?.firstName || ''} ${gig.userId?.lastName || ''}`,
-               badge: 'New Seller',
-               title: gig.gigTitle,
-               rating: 5,
-               reviews: 0,
-               price: `$${gig.packages?.basic?.price || gig.packages?.standard?.price || 'N/A'}`,
-               offersVideo: true,
-             }}
-           />
-         ))
-       )
-     )}
+  gigs.filter(gig => gig.status === 'active').slice(0, 6).length === 0 ? (
+    <p className="no-gigs-message">No active gigs found at the moment. Please check back later.</p>
+  ) : (
+    gigs
+      .filter(gig => gig.status === 'active')
+      .slice(0, 6)
+      .map((gig) => (
+        <GigCard
+          key={gig._id}
+          data={{
+            gigId: gig._id,
+            image: gig.images?.[0]?.url || '/assets/gigs/dummytwo.png',
+            avatar: gig.userId?.profileUrl || '/assets/gigs/avatar.png',
+            sellerName: `${gig.userId?.firstName || ''} ${gig.userId?.lastName || ''}`,
+            badge: 'New Seller',
+            title: gig.gigTitle,
+            rating: 5,
+            reviews: 0,
+            price: `$${gig.packages?.basic?.price || gig.packages?.standard?.price || 'N/A'}`,
+            offersVideo: true,
+          }}
+        />
+      ))
+  )
+)}
+
    </div>
    
 </div>

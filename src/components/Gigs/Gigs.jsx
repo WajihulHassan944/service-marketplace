@@ -121,24 +121,27 @@ const filteredGigs = useMemo(() => {
         {status === 'failed' && <p>Error: {error}</p>}
         {status === 'succeeded' && filteredGigs.length === 0 && <p>No gigs found.</p>}
 
-        {status === 'succeeded' &&
-          filteredGigs.map((gig) => (
-            <GigCard
-              key={gig._id}
-              data={{
-                gigId: gig._id,
-                image: gig.images?.[0]?.url || '/assets/gigs/dummytwo.png',
-                avatar: gig.userId?.profileUrl || '/assets/gigs/avatar.png',
-                sellerName: `${gig.userId?.firstName || ''} ${gig.userId?.lastName || ''}`,
-                badge: gig.userId?.sellerDetails?.level || 'New Seller',
-                title: gig.gigTitle,
-                rating: 5,
-                reviews: 0,
-                price: `$${gig.packages?.basic?.price || 'N/A'}`,
-                offersVideo: true,
-              }}
-            />
-          ))}
+       {status === 'succeeded' &&
+  filteredGigs
+    .filter(gig => gig.status === 'active')
+    .map((gig) => (
+      <GigCard
+        key={gig._id}
+        data={{
+          gigId: gig._id,
+          image: gig.images?.[0]?.url || '/assets/gigs/dummytwo.png',
+          avatar: gig.userId?.profileUrl || '/assets/gigs/avatar.png',
+          sellerName: `${gig.userId?.firstName || ''} ${gig.userId?.lastName || ''}`,
+          badge: gig.userId?.sellerDetails?.level || 'New Seller',
+          title: gig.gigTitle,
+          rating: 5,
+          reviews: 0,
+          price: `$${gig.packages?.basic?.price || gig.packages?.standard?.price || 'N/A'}`,
+          offersVideo: true,
+        }}
+      />
+    ))}
+
       </div>
     </div>
   );

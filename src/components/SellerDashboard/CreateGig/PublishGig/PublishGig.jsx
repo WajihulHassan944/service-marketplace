@@ -142,8 +142,8 @@ const PublishGig = ({ onBack, gigData }) => {
           >
             {loading
               ? isEdit
-                ? 'Updating...'
-                : 'Publishing...'
+                ? <span className="loader"></span>
+                : <span className="loader"></span>
               : isEdit
               ? 'Update Gig'
               : 'Publish Gig'}

@@ -28,20 +28,41 @@ export default function Gigs({ gigs }) {
         {gigs.slice(0, visibleCount).map((gig) => {
           const gigImage = gig.images?.[0]?.url || "/assets/gigs/dummy.png";
           const gigTitle = gig.gigTitle || "Untitled Gig";
-          const price = gig.packages?.basic?.price
-            ? `PKR ${gig.packages.basic.price * 278}`
-            : "Price not set";
+         const price = gig.packages?.basic?.price
+  ? `PKR ${gig.packages.basic.price * 278}`
+  : gig.packages?.standard?.price
+  ? `PKR ${gig.packages.standard.price * 278}`
+  : gig.packages?.premium?.price
+  ? `PKR ${gig.packages.premium.price * 278}`
+  : "Price not set";
+
 
           return (
-            <Link
-              href={`/services-details?gigId=${gig._id}`}
-              key={gig._id}
-              className="gig-card"
-            >
-              <img src={gigImage} alt={gigTitle} />
-              <h4>{gigTitle}</h4>
-              <p>{price}</p>
-            </Link>
+           <>{
+  gig.status === 'active' ? (
+    <Link
+      href={`/services-details?gigId=${gig._id}`}
+      key={gig._id}
+      className="gig-card"
+    >
+      <img src={gigImage} alt={gigTitle} />
+      <h4>{gigTitle}</h4>
+      <p>{price}</p>
+    </Link>
+  ) : (
+    <div
+      key={gig._id}
+      className="gig-card gig-card-disabled"
+      title="This gig is not active"
+      style={{ opacity: 0.5, cursor: 'not-allowed', pointerEvents: 'none' }}
+    >
+      <img src={gigImage} alt={gigTitle} />
+      <h4>{gigTitle}</h4>
+      <p>{price}</p>
+    </div>
+  )
+}
+</>
           );
         })}
       </div>

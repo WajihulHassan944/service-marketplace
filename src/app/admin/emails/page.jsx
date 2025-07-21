@@ -194,9 +194,9 @@ const fetchEmails = async (folder) => {
   <MdMoreVert onClick={() => setDropdownOpen(!dropdownOpen)} />
   {dropdownOpen && selectedEmail && (
     <div className="dropdown-menu-emails">
-      <button onClick={() => moveToTrash(selectedEmail._id)}>Move to Trash</button>
-      <button onClick={() => markAsImportant(selectedEmail._id)}>Mark as Important</button>
-      <button onClick={() => markAsStarred(selectedEmail._id)}>Mark as Starred</button>
+      <button onClick={() => moveToTrash(selectedEmail._id)} className='email-button'>Move to Trash</button>
+      <button onClick={() => markAsImportant(selectedEmail._id)} className='email-button'>Mark as Important</button>
+      <button onClick={() => markAsStarred(selectedEmail._id)} className='email-button'>Mark as Starred</button>
     </div>
   )}
 </div>
