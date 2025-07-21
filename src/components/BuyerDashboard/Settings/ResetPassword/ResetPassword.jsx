@@ -50,7 +50,7 @@ const ResetPassword = () => {
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message || 'Something went wrong');
-      toast.error(data.message);
+      toast.success(data.message);
     } catch (err) {
       toast.error(err.message || 'Failed to send reset email');
     } finally {

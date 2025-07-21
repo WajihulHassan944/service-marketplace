@@ -121,7 +121,7 @@ console.log(gig);
           </button>
 
           <p className={styles.compare}>Compare Packages</p>
-          <Link href={`/messages?receiverId=${gig.userId}`}>
+          <Link href={`/messages?receiverId=${gig.userId._id}`}>
             <button className={styles.contactBtn}>Contact Seller</button>
           </Link>
         </div>
@@ -201,7 +201,7 @@ console.log(gig);
     try {
       const formData = new FormData();
       formData.append("gigId", gig._id);
-      formData.append("sellerId", gig.userId);
+      formData.append("sellerId", gig.userId._id);
       formData.append("buyerId", buyerId);
       formData.append("packageType", packageType);
       formData.append("totalAmount", pkg.price);
