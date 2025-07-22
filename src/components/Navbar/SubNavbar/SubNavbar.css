@@ -1,34 +1,19 @@
 .sub-navbar {
   display: flex;
-  gap: 15px;
-  padding: 12px 10%;
+  gap: 20px;
+  padding: 10px 10%;
+  padding-left: 10.5%;
+  font-family: Arial, sans-serif;
   font-size: 14px;
   font-weight: 500;
   position: relative;
   z-index: 10;
-  width: 100%;
-  overflow-x: hidden;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-  cursor: grab;
-}
-
-.sub-navbar.dragging {
-  cursor: grabbing;
-  user-select: none;
-}
-
-.sub-navbar::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
 }
 
 .category-item {
   position: relative;
   cursor: pointer;
   color: #333;
-  flex: 0 0 auto; /* Prevent shrinking */
-  user-select: none;
 }
 
 .category-item:hover {
@@ -58,32 +43,35 @@
   padding: 6px 0;
   color: #444;
   transition: color 0.2s ease;
-  cursor: pointer;
 }
 
 .popup li:hover {
   color: #1dbf73;
 }
-
-/* Mobile Responsive */
+/* Mobile Responsive: Max Width 768px */
 @media (max-width: 768px) {
   .sub-navbar {
     padding: 10px 10%;
-    /* padding-left: 8%; */
-    gap: 16px;
+    padding-left: 8%;
+    max-width: 330px;
     overflow-x: auto;
     white-space: nowrap;
+    gap: 16px;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    scrollbar-width: none; /* Firefox */
   }
 
   .sub-navbar::-webkit-scrollbar {
-    display: none;
+    display: none; /* Safari and Chrome */
+  }
+
+  .category-item {
+    flex: 0 0 auto;
   }
 
   .popup {
     position: fixed;
-    top: 70px;
+    top: 70px; /* Adjust based on navbar height */
     left: 10px;
     right: 10px;
     width: auto;
