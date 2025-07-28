@@ -25,7 +25,7 @@ export default function Footer() {
           <div className="skillsGrid">
             {[
               'Software Developers', 'Web Developers', 'Mobile App Developers', 'AI Engineers',
-              'Full-stack Developers', 'UI/UX Designers', 'Graphic Designers', 'SEO Experts', 'Content Creators', 'Project Managers',
+              'Full-stack Developers',
             ].map((skill, i) => <p key={i}>{skill}</p>)}
           </div>
         </div>
