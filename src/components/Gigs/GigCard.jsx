@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '@/const';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { FiShare2 } from 'react-icons/fi';
+
 import toast from 'react-hot-toast';
 export default function GigCard({ data }) {
   const router = useRouter();
@@ -32,6 +34,14 @@ export default function GigCard({ data }) {
   const handleClick = () => {
     router.push(`/services-details?gigId=${gig.gigId}`);
   };
+const handleShareClick = (e) => {
+  e.stopPropagation();
+  if (!user?._id) return;
+
+  const url = `${window.location.origin}/services-details?gigId=${gig.gigId}&referrerId=${user._id}`;
+  navigator.clipboard.writeText(url);
+  toast.success('Link copied to clipboard!');
+};
 
   const toggleWishlist = async (e) => {
     e.stopPropagation(); // prevent card click
@@ -79,6 +89,11 @@ headers: {
 >
   {isWishlisted ? <AiFillHeart size={20} color="#e0245e" /> : <AiOutlineHeart size={20} />}
 </button>
+{user?._id && (
+  <button className="share-btn" onClick={handleShareClick}>
+    <FiShare2 size={18} />
+  </button>
+)}
 
       </div>
 
@@ -87,6 +102,7 @@ headers: {
           <div className="display-flex">
             <img src={gig.avatar} alt="Seller" className="seller-avatar-gigcard" />
             <span className="seller-name">{gig.sellerName}</span>
+
           </div>
           <span className="vetted-badge">{gig.badge}</span>
         </div>

@@ -181,3 +181,81 @@ color: #333;
   background-color:  #003cff;
   color: #fff;
 }
+.resume-upload-wrapper {
+  margin: 20px 0;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.custom-file-label {
+  font-size: 16px;
+  color: #333;
+}
+
+.resume-upload-wrapper:hover {
+  background-color: #f7f7f7;
+}
+.terms-checkbox {
+  margin-top: 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: row;
+}
+
+.terms-checkbox input[type='checkbox'] {
+  margin-right: 6px;
+  transform: scale(1.1);
+}
+.terms-checkbox {
+  margin: 20px 0;
+  font-size: 15px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.custom-checkbox-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #666;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  transition: background-color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.custom-checkbox.checked {
+  background-color: #00b894;
+  border-color: #00b894;
+}
+
+.custom-checkbox svg {
+  pointer-events: none;
+}
+
+.custom-checkbox-wrapper span {
+  flex: 1;
+}
+
+.custom-checkbox-wrapper a {
+  color: #0070f3;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.custom-checkbox-wrapper a:hover {
+  text-decoration: none;
+}

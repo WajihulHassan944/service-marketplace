@@ -210,9 +210,9 @@
 
 /* Green for success */
 .success-msg {
-  background-color: #e6f9f0;
-  color: #2e7d32;
-  border: 1px solid #a5d6a7;
+  background-color: #ffffff;
+  color: #0f256e;
+  border: 1px solid #0f256e;
 }
 
 /* Red for error */

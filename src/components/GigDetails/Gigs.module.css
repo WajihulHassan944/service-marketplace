@@ -1,0 +1,117 @@
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.heading {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.packageWrapper {
+  margin-bottom: 3rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow-x: auto;
+  background: #fff;
+}
+
+.gigTitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 1rem;
+}
+
+.sub {
+  font-size: 0.95rem;
+  margin: 0 1rem 1rem;
+  color: #666;
+}
+
+.packageTable {
+  display: grid;
+  grid-template-columns: 1fr repeat(3, 1fr);
+  border-top: 1px solid #ccc;
+}
+
+.headerCell {
+  background: #f9fafb;
+  font-weight: bold;
+  text-align: center;
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.firstCol {
+  background: #f3f4f6;
+  font-weight: 600;
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.cell {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+  font-size: 0.95rem;
+}
+.clientList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.clientItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.clientImage {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.clientName {
+  font-weight: 500;
+}
+
+.clientCountry {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Responsive layout for mobile */
+@media (max-width: 768px) {
+  .packageTable {
+    display: block;
+  }
+
+  .headerCell,
+  .firstCol,
+  .cell {
+    display: block;
+    width: 100%;
+    border: none;
+    border-top: 1px solid #ddd;
+  }
+
+  .firstCol {
+    background: #f3f4f6;
+    font-weight: bold;
+    padding: 10px;
+  }
+
+  .cell {
+    padding: 10px;
+    text-align: left;
+  }
+
+  .headerCell {
+    display: none; /* hide column headers for mobile for simplicity */
+  }
+}

@@ -65,6 +65,7 @@ useEffect(() => {
             category: g.category,
             subcategory: g.subcategory,
             searchTag: g.searchTag,
+            imagesToDelete: [],
             positiveKeywords: Array.isArray(g.positiveKeywords)
               ? g.positiveKeywords.join(", ")
               : g.positiveKeywords || "",
@@ -77,7 +78,11 @@ useEffect(() => {
             hourlyRate: g.hourlyRate?.toString() || "",
             images: g.images || [],
             videoIframes: g.videoIframes || [],
-            pdf: g.pdf || "",
+           pdf: {
+  url: g.pdf?.url || "",
+  public_id: g.pdf?.public_id || "",
+},
+ removePdf: false,
             _id: g._id,
             status: g.status,
           });

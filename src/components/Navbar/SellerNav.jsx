@@ -14,6 +14,7 @@ import { setCurrentDashboard } from '@/redux/features/userSlice';
 import { useRouter } from 'next/navigation';
 import { baseUrl } from '@/const';
 import toast from 'react-hot-toast';
+import GTranslateWidget from '../GTranslateWidget';
 
 const SellerNav = () => {
     const router = useRouter();
@@ -96,6 +97,7 @@ useEffect(() => {
             <FaBars size={22} />
           </div>
           <div className="navbar-actions">
+        <GTranslateWidget />
            <h4 className="cursor-pointer" onClick={handleSwitch}>
   Switch to buying
 </h4>
@@ -148,7 +150,7 @@ useEffect(() => {
             </button>
                 </div>
                 <ul className="dropdown-links-user">
-                  <Link href="/profile" onClick={() => setDropdownOpen(false)}><li><FaUser /> Profile</li></Link>
+                  <Link href={`/profile?id=${user._id}`} onClick={() => setDropdownOpen(false)}><li><FaUser /> Profile</li></Link>
                   <Link href="/settings/myinfo" onClick={() => setDropdownOpen(false)}><li><FaCog /> Settings</li></Link>
                   <Link href="/" onClick={() => logout(() => setDropdownOpen(false))}><li><FaSignOutAlt /> Log out</li></Link>
                 </ul>

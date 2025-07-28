@@ -20,6 +20,8 @@ const Gigs = () => {
   const budget = searchParams.get('budget');
   const delivery = searchParams.get('delivery');
   const sort = searchParams.get('sort');
+  const country = searchParams.get('country');
+
   const search = searchParams.get('search')?.toLowerCase() || '';
 
   useEffect(() => {
@@ -29,7 +31,7 @@ const Gigs = () => {
   }, [status, dispatch]);
 
   const hasAnyFilter =
-    category || subCategory || serviceType || sellerLevel || budget || delivery || sort || search;
+    category || subCategory || serviceType || sellerLevel || budget || delivery || sort || search  || country;
 
 const filteredGigs = useMemo(() => {
   let data = [...gigs];
@@ -56,7 +58,11 @@ const filteredGigs = useMemo(() => {
       return searchWords.some((word) => combinedText.includes(word));
     });
   }
-
+ if (country) {
+  data = data.filter(
+    (gig) => gig.userId?.country?.toLowerCase() === country.toLowerCase()
+  );
+}
   if (category) data = data.filter((gig) => gig.category === category);
   if (subCategory) data = data.filter((gig) => gig.subcategory === subCategory);
   if (serviceType === 'hourly') data = data.filter((gig) => gig.hourlyRate);
@@ -88,7 +94,7 @@ const filteredGigs = useMemo(() => {
   }
 
   return data;
-}, [gigs, category, subCategory, serviceType, sellerLevel, budget, delivery, sort, search]);
+}, [gigs, category, subCategory, serviceType, sellerLevel, budget, delivery, sort, search, country]);
 
   const clearFilters = () => {
     router.push('/services');

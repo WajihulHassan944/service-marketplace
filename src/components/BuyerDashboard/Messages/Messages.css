@@ -122,7 +122,15 @@
   cursor: pointer;
   font-size: 18px;
 }
-
+.customOfferBtn{
+  color: #333;
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+   right: 45px;
+   cursor: pointer;
+}
 
 
 

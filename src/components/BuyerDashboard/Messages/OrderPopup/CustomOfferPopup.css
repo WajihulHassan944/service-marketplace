@@ -1,0 +1,68 @@
+.custom-offer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.custom-offer-container {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+}
+
+.custom-offer-container h2 {
+  margin-bottom: 20px;
+}
+
+.custom-offer-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.custom-offer-container select,
+.custom-offer-container input,
+.custom-offer-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.custom-offer-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom-offer-buttons .cancel-btn {
+  padding: 10px 20px;
+  background: #ccc;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.custom-offer-buttons .send-btn {
+  padding: 15px 0;
+  height: 37px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 110px;
+}
+.custom-offer-buttons .send-btn:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}

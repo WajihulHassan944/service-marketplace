@@ -7,10 +7,14 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useGoogleLogin } from '@react-oauth/google';
 import { baseUrl } from '@/const';
 import { FiCheckCircle } from 'react-icons/fi';
+import { FaCheck } from 'react-icons/fa';
+
 const SignupForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const role = searchParams.get('role') || 'buyer';
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+
 
   /* ---------- pop‑up state ---------- */
   const [showPopup, setShowPopup] = useState(false);
@@ -24,25 +28,44 @@ const SignupForm = () => {
     country: 'Pakistan',
     linkedUrl: '',
     speciality: '',
+  description: '',
+  personalportfoliolink: '',
   });
 
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+const [resumeFile, setResumeFile] = useState(null);
+
+const handleResumeChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    if (file.size > 1024 * 1024) { // 1MB in bytes
+      setError('Resume must be less than 1MB');
+      return;
+    }
+    setResumeFile(file);
+  }
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage(file);
-      setImagePreview(URL.createObjectURL(file));
+const handleImageChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    if (file.size > 1024 * 1024) { // 1MB in bytes
+      setError('Profile image must be less than 1MB');
+      return;
     }
-  };
+    setImage(file);
+    setImagePreview(URL.createObjectURL(file));
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,8 +83,14 @@ const SignupForm = () => {
     if (role === 'seller') {
       data.append('sellerDetails[linkedUrl]', formData.linkedUrl);
       data.append('sellerDetails[speciality]', formData.speciality);
+        data.append('sellerDetails[description]', formData.description);
+       data.append('sellerDetails[personalportfoliolink]', formData.personalportfoliolink);
+if (resumeFile) data.append('resume', resumeFile);
+
     }
     if (image) data.append('profileImage', image);
+const referrerId = localStorage.getItem("referrerId");
+if (referrerId) data.append("referrerId", referrerId);
 
     try {
       const response = await fetch(`${baseUrl}/users/register`, {
@@ -87,6 +116,12 @@ const SignupForm = () => {
     } finally {
       setLoading(false);
     }
+    if (!agreedToTerms) {
+  setError("You must agree to the terms and conditions before signing up.");
+  setLoading(false);
+  return;
+}
+
   };
 
   const googleLogin = useGoogleLogin({
@@ -95,7 +130,11 @@ const SignupForm = () => {
         const response = await fetch(`${baseUrl}/users/google-register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token: tokenResponse.access_token }),
+          body: JSON.stringify({
+  token: tokenResponse.access_token,
+  referrerId: localStorage.getItem("referrerId") || null,
+}),
+
         });
         const result = await response.json();
         if (response.ok || result.message === 'User already exists. Please login.') {
@@ -182,10 +221,9 @@ const SignupForm = () => {
               <input
                 type="text"
                 name="linkedUrl"
-                placeholder="LinkedIn Profile URL"
+                placeholder="LinkedIn Profile URL (optional)"
                 value={formData.linkedUrl}
                 onChange={handleChange}
-                required
               />
               <input
                 type="text"
@@ -195,6 +233,34 @@ const SignupForm = () => {
                 onChange={handleChange}
                 required
               />
+               <input
+                type="text"
+                name="description"
+                placeholder="Description"
+                value={formData.description}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="personalportfoliolink"
+                placeholder="Personal Portfolio Link  (optional)"
+                value={formData.personalportfoliolink}
+                onChange={handleChange}
+              />
+              <div className="resume-upload-wrapper">
+  <label htmlFor="resumeUpload" className="custom-file-label">
+    {resumeFile ? resumeFile.name : 'Click to upload your CV or Resume'}
+  </label>
+  <input
+    id="resumeUpload"
+    type="file"
+    accept=".pdf,.doc,.docx"
+    onChange={handleResumeChange}
+    style={{ display: 'none' }}
+  />
+</div>
+
             </>
           )}
 
@@ -215,11 +281,33 @@ const SignupForm = () => {
             />
           </div>
 
-          {error && <p className="error-text">{error}</p>}
 
-          <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? <span className="loader"></span> : 'Create my account'}
-          </button>
+          {error && <p className="error-text">{error}</p>}
+  <div className="terms-checkbox">
+      <label className="custom-checkbox-wrapper">
+        <div
+          className={`custom-checkbox ${agreedToTerms ? 'checked' : ''}`}
+          onClick={() => setAgreedToTerms(!agreedToTerms)}
+        >
+          {agreedToTerms && <FaCheck size={12} color="#fff" />}
+        </div>
+        <span>
+          I agree to&nbsp;
+          <Link href="/terms-and-conditions" target="_blank" rel="noopener noreferrer">
+            doTask Service Marketplace Terms and Conditions
+          </Link>
+          , including policies on payments, disputes, and user conduct.
+        </span>
+      </label>
+    </div>
+          <button
+  type="submit"
+  className="submit-btn"
+  disabled={loading || !agreedToTerms}
+>
+  {loading ? <span className="loader"></span> : 'Create my account'}
+</button>
+
 
           <p className="login-text">
             Already have an account? <Link href="/login">Log In</Link>

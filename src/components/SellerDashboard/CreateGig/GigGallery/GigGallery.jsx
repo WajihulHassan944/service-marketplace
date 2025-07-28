@@ -2,25 +2,61 @@
 
 import React, { useRef } from "react";
 import "./GigGallery.css";
-
+import { FaTrash } from 'react-icons/fa';
 const GigGallery = ({ onNext, onBack, gigData, setGigData }) => {
   const fileInputRefs = {
     images: useRef(null),
     pdf: useRef(null),
   };
+const handleDrop = (e) => {
+  e.preventDefault();
+  const files = Array.from(e.dataTransfer.files).filter(file =>
+    file.type.startsWith("image/")
+  );
 
-  // Handle image uploads (up to 3)
+  const previews = files.map(file => ({
+    file,
+    preview: URL.createObjectURL(file),
+  }));
+
+  setGigData(prev => ({
+    ...prev,
+    images: [...prev.images, ...previews].slice(0, 3), // max 3
+  }));
+};
+
+const handleDragOver = (e) => {
+  e.preventDefault(); // allows drop
+};
+
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files).slice(0, 3);
-    // Convert files to URLs for preview, store files for upload or as you wish
-    const images = files.map((file) => {
-      return {
-        file,
-        preview: URL.createObjectURL(file),
-      };
-    });
-    setGigData((prev) => ({ ...prev, images }));
-  };
+  const selectedFiles = Array.from(e.target.files);
+
+  const validFiles = selectedFiles.filter(file => file.size <= 1024 * 1024);
+  const tooLarge = selectedFiles.find(file => file.size > 1024 * 1024);
+
+  if (tooLarge) {
+    alert("Each image must be 1MB or smaller.");
+    return;
+  }
+
+  setGigData(prev => {
+    const existingImages = prev.images || [];
+
+    const newImages = validFiles.slice(0, 3 - existingImages.length).map(file => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+
+    return {
+      ...prev,
+      images: [...existingImages, ...newImages].slice(0, 3), // cap at 3
+    };
+  });
+
+  // Clear file input to allow uploading the same file again if needed
+  e.target.value = "";
+};
 
   // Handle video URL input change
   const handleVideoChange = (e) => {
@@ -56,39 +92,60 @@ const GigGallery = ({ onNext, onBack, gigData, setGigData }) => {
       <div className="section">
         <h4>Images (up to 3)</h4>
         <p>Get noticed by the right buyers with visual examples of your services.</p>
-        <div className="upload-box-group">
-          {gigData.images && gigData.images.length > 0 ? (
-            gigData.images.map((img, idx) => (
-              <div key={idx} className="upload-box">
-                <img
-                  src={img.preview}
-                  alt={`Gig image ${idx + 1}`}
-                  style={{ maxWidth: "100%", maxHeight: "100%" }}
-                />
-              </div>
-            ))
-          ) : (
-            <>
-              <div
-                className="upload-box"
-                onClick={() => fileInputRefs.images.current.click()}
-              >
-                Drag & drop a Photo or <span>Browse</span>
-              </div>
-              {[...Array(2)].map((_, i) => (
-                <div key={i} className="upload-box empty"></div>
-              ))}
-            </>
-          )}
+<div className="upload-box-group">
+  {[0, 1, 2].map((idx) => {
+    const img = gigData.images?.[idx];
+
+    if (img) {
+      const preview = img.preview || img.url; // handle both local and uploaded
+      return (
+        <div key={idx} className="upload-box image-box">
+          <img
+            src={preview}
+            alt={`Gig image ${idx + 1}`}
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
+          />
+          <button
+            className="delete-btn-gig"
+            onClick={() => {
+              setGigData(prev => {
+                const updated = [...prev.images];
+                const [removed] = updated.splice(idx, 1);
+                const toDelete = removed.public_id
+                  ? [...(prev.imagesToDelete || []), removed.public_id]
+                  : (prev.imagesToDelete || []);
+                return { ...prev, images: updated, imagesToDelete: toDelete };
+              });
+            }}
+          >
+           <FaTrash />
+          </button>
         </div>
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          style={{ display: "none" }}
-          ref={fileInputRefs.images}
-          onChange={handleImageChange}
-        />
+      );
+    }
+
+    return (
+     <div
+  className="upload-box"
+  onClick={() => fileInputRefs.images.current.click()}
+  onDrop={handleDrop}
+  onDragOver={handleDragOver}
+>
+  Drag & drop a Photo or <span>Browse</span>
+</div>
+
+    );
+  })}
+</div>
+
+       <input
+  type="file"
+  accept="image/*"
+  style={{ display: "none" }}
+  ref={fileInputRefs.images}
+  onChange={handleImageChange}
+/>
+
         {!gigData.images || gigData.images.length === 0 ? (
           <p className="error-msg">Please select at least 1 image</p>
         ) : null}
@@ -110,36 +167,84 @@ const GigGallery = ({ onNext, onBack, gigData, setGigData }) => {
           onChange={handleVideoChange}
         />
       </div>
+{/* Documents */}
+<div className="section">
+  <h4>Documents (1 file maximum size 1MB)</h4>
+  <p>Show some of the best work you created in a document (PDFs only).</p>
 
-      {/* Documents */}
-      <div className="section">
-        <h4>Documents (1 file maximum size 1MB)</h4>
-        <p>Show some of the best work you created in a document (PDFs only).</p>
-        <div className="upload-box-group">
-          {gigData.pdf ? (
-            <div className="upload-box">
-              <p>{gigData.pdf.name}</p>
-            </div>
-          ) : (
-            <>
-              <div
-                className="upload-box"
-                onClick={() => fileInputRefs.pdf.current.click()}
-              >
-                Drag & drop a PDF or <span>Browse</span>
-              </div>
-              <div className="upload-box empty"></div>
-            </>
-          )}
-        </div>
-        <input
-          type="file"
-          accept="application/pdf"
-          style={{ display: "none" }}
-          ref={fileInputRefs.pdf}
-          onChange={handlePdfChange}
-        />
+  <div
+    className="upload-box-group"
+    onDrop={(e) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (file?.type === "application/pdf" && file.size <= 1 * 1024 * 1024) {
+        setGigData((prev) => ({
+          ...prev,
+          pdf: { file, name: file.name },
+        }));
+      } else {
+        alert("Please upload a valid PDF under 1MB");
+      }
+    }}
+    onDragOver={(e) => e.preventDefault()}
+  >
+    {gigData.pdf?.url || gigData.pdf?.name ? (
+      <div className="upload-box">
+        <p>{gigData.pdf.name || gigData.pdf.url.split("/").pop()}</p>
+        <button
+          type="button"
+          onClick={() =>
+            setGigData((prev) => ({
+              ...prev,
+              pdf: null,
+              removePdf: true, // flag to let backend know to delete old PDF
+            }))
+          }
+          style={{
+            marginTop: "0.5rem",
+            background: "#dc3545",
+            color: "white",
+            border: "none",
+            padding: "5px 10px",
+            cursor: "pointer",
+            borderRadius: "5px",
+          }}
+        >
+          Remove PDF
+        </button>
       </div>
+    ) : (
+      <>
+        <div
+          className="upload-box"
+          onClick={() => fileInputRefs.pdf.current.click()}
+        >
+          Drag & drop a PDF or <span>Browse</span>
+        </div>
+        <div className="upload-box empty"></div>
+      </>
+    )}
+  </div>
+
+  <input
+    type="file"
+    accept="application/pdf"
+    style={{ display: "none" }}
+    ref={fileInputRefs.pdf}
+    onChange={(e) => {
+      const file = e.target.files[0];
+      if (file?.type === "application/pdf" && file.size <= 1 * 1024 * 1024) {
+        setGigData((prev) => ({
+          ...prev,
+          pdf: { file, name: file.name },
+        }));
+      } else {
+        alert("Please upload a valid PDF under 1MB");
+      }
+    }}
+  />
+</div>
+
 
       {/* Navigation buttons */}
       <div className="submit-container">

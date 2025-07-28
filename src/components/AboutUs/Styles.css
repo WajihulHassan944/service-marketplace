@@ -2,12 +2,12 @@
   max-width: 960px;
   margin: 0 auto;
   padding: 2rem 1rem;
-  /* font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #1f1f1f;
 }
 
 .about-header h2 {
-  color: #14a800;
+  color: #0f256e;
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 0.2rem;
@@ -50,7 +50,7 @@
 }
 
 .mission-highlight {
-  color: #14a800;
+  color: #0f256e;
   font-weight: 600;
   font-size: 1rem;
   line-height: 1.7;
@@ -86,7 +86,7 @@
 
 .cta-section h3 {
   font-size: 1.6rem;
-  color: #14a800;
+  color: #0f256e;
   font-weight: bold;
   margin-bottom: 1.2rem;
 }
@@ -99,7 +99,7 @@
 }
 
 .btn {
-  background-color: #14a800;
+  background-color: #0f256e;
   color: white;
   border: none;
   padding: 0.6rem 1.8rem;
@@ -111,7 +111,7 @@
 }
 
 .btn:hover {
-  background-color: #0f8b17;
+  background-color: #0f256e;
 }
 
 .second-div {

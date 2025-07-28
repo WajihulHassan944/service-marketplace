@@ -5,7 +5,8 @@ import { usePathname } from 'next/navigation';
 import { FaUser, FaBuilding, FaLock, FaCalendarAlt, FaPlusCircle, FaFolderOpen, FaMoneyCheckAlt , FaArrowLeft} from 'react-icons/fa';
 import "../Billing/billing.css";
 import { useSelector } from 'react-redux';
-
+import { IoIosContacts } from "react-icons/io";
+import { FaUserFriends } from 'react-icons/fa';
 const Sidebar = () => {
    const user = useSelector((state) => state.user);
   const pathname = usePathname();
@@ -23,8 +24,16 @@ const menuItems = [
     ? [
         { path: '/seller/create-portfolio', icon: <FaPlusCircle />, label: 'Create Portfolio' },
         { path: '/seller/my-portfolio', icon: <FaFolderOpen />, label: 'My Portfolio' },
+        { path: '/seller/add-clients', icon: <IoIosContacts />, label: 'Add Clients' },
+        { path: '/seller/my-clients', icon: <IoIosContacts/>, label: 'My Clients' },
         { path: '/seller/payout', icon: <FaMoneyCheckAlt />, label: 'Withdraw' },
       ]
+    : []),
+    ...(!isSeller
+    ? [
+       { path: '/referrals', icon: <FaUserFriends />, label: 'Referrals' }
+
+       ]
     : []),
 ];
   useEffect(() => {

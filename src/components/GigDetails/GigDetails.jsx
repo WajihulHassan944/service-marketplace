@@ -2,12 +2,15 @@
 import Image from "next/image";
 import styles from "./GigDetails.module.css";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { baseUrl } from "@/const";
 import { useSelector } from "react-redux";
 import Link from "next/link";
-
+import GigListSection from "./Gigslist";
+import toast from "react-hot-toast";
+import { FiShare2 } from 'react-icons/fi';
 const GigDetails = () => {
+   const userLoggedIn = useSelector((state) => state.user);
   const searchParams = useSearchParams();
   const gigIdParam = searchParams.get("gigId");
   const [showPopup, setShowPopup] = useState(false);
@@ -18,10 +21,43 @@ const GigDetails = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadingOrder, setLoadingOrder] = useState(false);
-
+  const [clients, setClients] = useState([]);
+const router = useRouter();
   const buyer = useSelector((state) => state.user);
   const buyerId = buyer?._id;
 const [paymentMethod, setPaymentMethod] = useState("balance");
+const [currentImageIndex, setCurrentImageIndex] = useState(0);
+const [fade, setFade] = useState(false);
+
+const changeImage = (newIndex) => {
+  setFade(true);
+  setTimeout(() => {
+    setCurrentImageIndex(newIndex);
+    setFade(false);
+  }, 200); // Match half of transition duration for smoothness
+};
+
+const handlePrevImage = () => {
+  const newIndex =
+    currentImageIndex === 0 ? gig.images.length - 1 : currentImageIndex - 1;
+  changeImage(newIndex);
+};
+
+const handleNextImage = () => {
+  const newIndex =
+    currentImageIndex === gig.images.length - 1 ? 0 : currentImageIndex + 1;
+  changeImage(newIndex);
+};
+
+
+useEffect(() => {
+  const referrerIdFromUrl = searchParams.get("referrerId");
+  const existingReferrerId = localStorage.getItem("referrerId");
+
+  if (referrerIdFromUrl && !existingReferrerId) {
+    localStorage.setItem("referrerId", referrerIdFromUrl);
+  }
+}, []);
 
   useEffect(() => {
     if (gigIdParam) {
@@ -31,6 +67,7 @@ const [paymentMethod, setPaymentMethod] = useState("balance");
           if (data.success) {
             setGig(data.gig);
             setUser(data.user);
+            setClients(data.clients);
           }
           setLoading(false);
         })
@@ -45,7 +82,14 @@ const [paymentMethod, setPaymentMethod] = useState("balance");
   if (!gig) return <p>No gig found</p>;
   const pkg = gig?.packages?.[packageType];
  
-console.log(gig);
+const handleShareClick = (e) => {
+  e.stopPropagation();
+  if (!userLoggedIn?._id) return;
+ if (!gig) return ;
+  const url = `${window.location.origin}/services-details?gigId=${gig._id}&referrerId=${userLoggedIn._id}`;
+  navigator.clipboard.writeText(url);
+  toast.success('Link copied to clipboard!');
+};
   return (
     <div className={styles.containerGigDetails}>
       <nav className={styles.breadcrumb}>
@@ -54,7 +98,8 @@ console.log(gig);
 
       <h1 className={styles.title}>{gig.gigTitle}</h1>
 
-      <div className={styles.sellerInfo}>
+<div className={styles.spaceddivindetails}>
+        <div className={styles.sellerInfo}>
         <Image src={gig.userId.profileUrl} alt="Seller Profile" width={50} height={50} className={styles.profileImage} />
         <div>
           <strong>{gig.userId.firstName} {gig.userId.lastName}</strong> <span className={styles.level}>{gig.userId?.sellerDetails?.level}</span>
@@ -62,11 +107,52 @@ console.log(gig);
         </div>
       </div>
 
+{userLoggedIn?._id && (
+  <button className={styles.sharebtn} onClick={handleShareClick}>
+    <FiShare2 size={18} />
+  </button>
+)}
+
+</div>
+
       <div className={styles.mainContent}>
         <div className={styles.leftContent}>
-          <div className={styles.imageSlider}>
-            <Image src={gig.images?.[0]?.url} alt="Gig Image" width={800} height={500} className={styles.gigheaderImage} />
-          </div>
+      
+      
+
+
+<div className={styles.imageSlider}>
+  {gig.images?.length > 0 && (
+    <>
+     <Image
+  src={gig.images[currentImageIndex].url}
+  alt={`Gig Image ${currentImageIndex + 1}`}
+  width={800}
+  height={500}
+  className={`${styles.gigheaderImage} ${fade ? styles['fade-out'] : ''}`}
+/>
+
+      {gig.images.length > 1 && (
+        <>
+          <button onClick={handlePrevImage} className={styles.arrowLeft}>‹</button>
+          <button onClick={handleNextImage} className={styles.arrowRight}>›</button>
+        </>
+      )}
+    </>
+  )}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 
           <section className={styles.aboutSection}>
             <h2>About this gig</h2>
@@ -88,6 +174,35 @@ console.log(gig);
               <p>{gig.positiveKeywords?.join(", ")}</p>
             </div>
           </section>
+ 
+     <GigListSection 
+  excludeGigId={gig._id}
+  currentGig={gig}  
+/>
+     {clients.length > 0 && (
+  <div style={{border: '1px solid black',padding: ' 0px 12px', width: '100%', marginTop: '20px', }}>
+    <strong style={{ fontSize: '18px', marginBottom: '10px', display: 'block' }}>Among my Clients</strong>
+    <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+      {clients.map((client) => (
+        <div key={client._id} style={{ textAlign: 'center', maxWidth: '100px' }}>
+          <img
+            src={client.profileUrl}
+            alt={client.name}
+            style={{
+              width: '60px',
+              height: '60px',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              marginBottom: '6px',
+            }}
+          />
+          <div style={{ fontSize: '14px', fontWeight: '500' }}>{client.name}</div>
+          <div style={{ fontSize: '12px', color: '#666' }}>{client.country}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
         </div>
 
        
@@ -196,6 +311,7 @@ console.log(gig);
         ) : (
           <p>No card available</p>
         )}
+      
       </div>
 
       <div className={styles.popupActions}>
@@ -217,6 +333,11 @@ console.log(gig);
 
       if (file) formData.append("file", file);
 
+const referrerId = localStorage.getItem("referrerId");
+console.log(referrerId);
+if (referrerId) {
+  formData.append("referrerId", referrerId);
+}
       const response = await fetch(`${baseUrl}/orders/create`, {
         method: 'POST',
         body: formData
@@ -224,15 +345,16 @@ console.log(gig);
 
       const result = await response.json();
       if (result.success) {
-        alert("Order placed successfully!");
+        localStorage.removeItem("referrerId");
+       toast.success("Order placed successfully!");
         setShowPopup(false);
-        window.location.reload();
+        router.push('/orders');
       } else {
-        alert(result.message || "Failed to place order");
+        toast.error(result.message || "Failed to place order");
       }
     } catch (err) {
       console.error("Order error:", err);
-      alert("Something went wrong.");
+      toast.error("Something went wrong.");
     } finally {
       setLoadingOrder(false);
     }
@@ -241,6 +363,7 @@ console.log(gig);
 >
   {loadingOrder ? "Submitting..." : "Submit"}
 </button>
+
 
       </div>
     </div>

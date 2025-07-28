@@ -18,6 +18,41 @@ export default function Filters({ resultsCount }) {
 
   const currentCategory = searchParams.get('category');
   const currentSubCategory = searchParams.get('subCategory');
+    const [countries, setCountries] = useState([]);
+
+useEffect(() => {
+  async function fetchAllCountries() {
+    const baseUrl = "https://api.worldbank.org/v2/country?format=json";
+
+    try {
+      const firstPageResponse = await fetch(`${baseUrl}&page=1`);
+      const firstPageData = await firstPageResponse.json();
+
+      const totalPages = firstPageData[0].pages;
+      let allCountries = [...firstPageData[1]];
+
+      for (let i = 2; i <= totalPages; i++) {
+        const response = await fetch(`${baseUrl}&page=${i}`);
+        const data = await response.json();
+        allCountries = allCountries.concat(data[1]);
+      }
+
+      const filtered = allCountries.filter(
+        (c) => c.region?.value !== 'Aggregates'
+      );
+
+      // Sort alphabetically
+      const sorted = filtered.sort((a, b) => a.name.localeCompare(b.name));
+
+      setCountries(sorted);
+    } catch (err) {
+      console.error('Failed to fetch countries:', err);
+    }
+  }
+
+  fetchAllCountries();
+}, []);
+
 
   useEffect(() => {
     if (status === 'idle') dispatch(fetchCategories());
@@ -122,6 +157,20 @@ export default function Filters({ resultsCount }) {
             <option value="1">24 Hours</option>
             <option value="3">3 Days</option>
           </select>
+        <select
+  className="filter-select"
+  value={searchParams.get('country') || ''}
+  onChange={(e) => updateQuery('country', e.target.value)}
+>
+  <option value="">Select Country</option>
+  {countries.map((country) => (
+    <option key={country.id} value={country.name}>
+      {country.name}
+    </option>
+  ))}
+</select>
+
+
         </div>
 
         <label className="toggle-label">

@@ -83,3 +83,39 @@ body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.gtranslate-container {
+  position: relative;
+  display: inline-block;
+}
+
+.globe-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+.gtranslate_wrapper.hidden {
+  display: none;
+}
+
+.gtranslate_wrapper.visible {
+  display: block;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  z-index: 9999;
+}
+
+.gtranslate_wrapper select.gt_selector.notranslate {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: white;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+}

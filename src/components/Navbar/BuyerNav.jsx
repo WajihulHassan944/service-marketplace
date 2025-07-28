@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation';
 import { baseUrl } from '@/const';
 import { setCurrentDashboard } from '@/redux/features/userSlice';
 import { toast } from 'react-hot-toast';
+import GTranslateWidget from '../GTranslateWidget';
 
 const BuyerNav = () => {
   const logout = useLogout();
@@ -72,6 +73,7 @@ useEffect(() => {
             <FaBars size={22} />
           </div>
           <div className="navbar-actions">
+         <GTranslateWidget />
           {user.role.includes('seller') && user.sellerStatus && (
            <h4 className="cursor-pointer" onClick={handleSwitchToSelling}>Switch to selling</h4> )}
             <Link href="/buyer/liked-services"><div className="nav-icon"><FiHeart /></div></Link>
@@ -109,7 +111,7 @@ useEffect(() => {
                   <div className="dropdown-role-user">{user.currentDashboard}</div>
                 </div>
                 <ul className="dropdown-links-user">
-                  <Link href="/profile" onClick={() => setDropdownOpen(false)}><li><FaUser /> Profile</li></Link>
+                  <Link href={`/buyer/profile?id=${user._id}`} onClick={() => setDropdownOpen(false)}><li><FaUser /> Profile</li></Link>
                   <Link href="/settings/billing" onClick={() => setDropdownOpen(false)}><li><FaCog /> Settings</li></Link>
                   <Link href="/" onClick={() => logout(() => setDropdownOpen(false))}><li><FaSignOutAlt /> Log out</li></Link>
                 </ul>

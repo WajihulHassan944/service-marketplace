@@ -3,10 +3,10 @@
   gap: 20px;
   padding: 10px 10%;
   padding-left: 10.5%;
-  font-family: Arial, sans-serif;
   font-size: 14px;
   font-weight: 500;
   position: relative;
+  width: max-content;
   z-index: 10;
 }
 

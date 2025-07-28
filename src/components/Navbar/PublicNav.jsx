@@ -10,6 +10,8 @@ import { fetchCategories } from '@/redux/features/categorySlice';
 import { useRouter } from 'next/navigation';
 import SearchBar from './Search/SearchBar';
 
+import GTranslateWidget from '../GTranslateWidget';
+
 const PublicNav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 const dispatch = useDispatch();
@@ -62,6 +64,8 @@ const handleCategoryClick = (categoryName) => {
 
         <div className="public-navbar-right">
           <div className="public-navbar-actions">
+        
+ <GTranslateWidget />
             <Link href="/login" className="public-nav-link login-btn-nav">Log In</Link>
             <Link href="/register" className="public-nav-link"><button className="public-green-btn-bordered">Sign up</button></Link>
             <Link href="/register?role=seller" className="public-nav-link"><button className="public-green-btn">Apply as a freelancer</button></Link>

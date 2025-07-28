@@ -69,19 +69,31 @@ const PublishGig = ({ onBack, gigData }) => {
 
       formData.append('packages', JSON.stringify(formattedPackages));
 
-      // Handle images
-      if (gigData.images && gigData.images.length > 0) {
-        gigData.images.forEach((imageObj) => {
-          if (imageObj.file) {
-            formData.append('gigImages', imageObj.file);
-          }
-        });
-      }
+  // Handle images
+if (gigData.images && gigData.images.length > 0) {
+  gigData.images.forEach((imageObj) => {
+    if (imageObj.file) {
+      formData.append('gigImages', imageObj.file);
+    }
+  });
+}
 
-      // Handle PDF
-      if (gigData.pdf && gigData.pdf instanceof File) {
-        formData.append('gigPdf', gigData.pdf);
-      }
+// Handle deleted images during edit
+if (isEdit && gigData.imagesToDelete?.length > 0) {
+  formData.append("imagesToRemove", JSON.stringify(gigData.imagesToDelete));
+}
+
+
+  // Handle PDF
+if (gigData.pdf?.file) {
+  // User uploaded a new PDF
+  formData.append("gigPdf", gigData.pdf.file);
+} else if (gigData.removePdf) {
+  // User chose to remove the existing PDF
+  formData.append("removePdf", "true");
+}
+// If user didn't upload or remove, do nothing (keep existing PDF)
+
 
       // Debug log all FormData contents
       console.log('%c📦 Final FormData before submission:', 'color: green');
