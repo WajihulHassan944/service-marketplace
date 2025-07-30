@@ -82,7 +82,6 @@ useEffect(() => {
         });
     }
   }, [gigIdParam]);
-  const isWishlisted = userLoggedIn?.wishlist?.includes(gig._id);
   
 if (loading) return (
   <div className="loading-container">
@@ -91,6 +90,8 @@ if (loading) return (
   </div>
 );
   if (!gig) return <p>No gig found</p>;
+   const isWishlisted = userLoggedIn?.wishlist?.includes(gig?._id);
+ 
   const pkg = gig?.packages?.[packageType];
  
 
@@ -278,6 +279,7 @@ const handleShareClick = (e) => {
     key={pkgName}
     className={packageType === pkgName ? styles.active : ''}
     onClick={() => setpackageType(pkgName)}
+    style={{}}
   >
     {pkgName.charAt(0).toUpperCase() + pkgName.slice(1)}
   </span>
