@@ -14,7 +14,9 @@ const Gigs = () => {
   const { gigs, status, error } = useSelector((state) => state.gigs);
 
   const category = searchParams.get('category');
-  const subCategory = searchParams.get('subCategory');
+  const subCategory = searchParams.get('sub');
+const subCategoryChild = searchParams.get('child');
+
   const serviceType = searchParams.get('service');
   const sellerLevel = searchParams.get('level');
   const budget = searchParams.get('budget');
@@ -34,7 +36,7 @@ const Gigs = () => {
     category || subCategory || serviceType || sellerLevel || budget || delivery || sort || search  || country;
 
 const filteredGigs = useMemo(() => {
-  let data = [...gigs];
+  let data = gigs.filter((gig) => gig.status === 'active');
 
   if (search) {
     const searchWords = search.split(/\s+/).map((w) => w.toLowerCase());
@@ -45,6 +47,7 @@ const filteredGigs = useMemo(() => {
         gig.description,
         gig.category,
         gig.subcategory,
+        gig.subCategoryChild,
         gig.userId?.firstName,
         gig.userId?.lastName,
         gig.packages?.basic?.description,
@@ -65,6 +68,8 @@ const filteredGigs = useMemo(() => {
 }
   if (category) data = data.filter((gig) => gig.category === category);
   if (subCategory) data = data.filter((gig) => gig.subcategory === subCategory);
+  if (subCategoryChild) data = data.filter((gig) => gig.subcategorychild === subCategoryChild);
+
   if (serviceType === 'hourly') data = data.filter((gig) => gig.hourlyRate);
   if (sellerLevel)
     data = data.filter(
@@ -94,7 +99,7 @@ const filteredGigs = useMemo(() => {
   }
 
   return data;
-}, [gigs, category, subCategory, serviceType, sellerLevel, budget, delivery, sort, search, country]);
+}, [gigs, category, subCategory,subCategoryChild, serviceType, sellerLevel, budget, delivery, sort, search, country]);
 
   const clearFilters = () => {
     router.push('/services');

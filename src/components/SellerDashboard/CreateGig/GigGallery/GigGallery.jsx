@@ -1,9 +1,13 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./GigGallery.css";
+import { FaInfoCircle } from 'react-icons/fa';
 import { FaTrash } from 'react-icons/fa';
 const GigGallery = ({ onNext, onBack, gigData, setGigData }) => {
+ const [imageError, setImageError] = useState([]); // will store invalid image names
+
+const [validImages, setValidImages] = useState([]);
   const fileInputRefs = {
     images: useRef(null),
     pdf: useRef(null),
@@ -28,35 +32,44 @@ const handleDrop = (e) => {
 const handleDragOver = (e) => {
   e.preventDefault(); // allows drop
 };
-
-  const handleImageChange = (e) => {
+const handleImageChange = (e) => {
   const selectedFiles = Array.from(e.target.files);
+  const errorFiles = [];
 
-  const validFiles = selectedFiles.filter(file => file.size <= 1024 * 1024);
-  const tooLarge = selectedFiles.find(file => file.size > 1024 * 1024);
+  const readImages = selectedFiles.map((file) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      const objectUrl = URL.createObjectURL(file);
+      img.src = objectUrl;
+      img.onload = () => {
+        const isValid =
+          img.width >= 978 &&
+          img.height >= 500 &&
+          file.size <= 1024 * 1024;
+        if (!isValid) errorFiles.push(file.name);
+        resolve(isValid ? file : null);
+      };
+    });
+  });
 
-  if (tooLarge) {
-    alert("Each image must be 1MB or smaller.");
-    return;
-  }
-
-  setGigData(prev => {
-    const existingImages = prev.images || [];
-
-    const newImages = validFiles.slice(0, 3 - existingImages.length).map(file => ({
+  Promise.all(readImages).then((filtered) => {
+    const valid = filtered.filter(Boolean).slice(0, 3);
+    const newPreviews = valid.map((file) => ({
       file,
       preview: URL.createObjectURL(file),
     }));
 
-    return {
-      ...prev,
-      images: [...existingImages, ...newImages].slice(0, 3), // cap at 3
-    };
-  });
+    const existing = gigData.images || [];
+    const combined = [...existing, ...newPreviews].slice(0, 3);
 
-  // Clear file input to allow uploading the same file again if needed
-  e.target.value = "";
+    setGigData((prev) => ({ ...prev, images: combined }));
+    setValidImages(combined);
+    setImageError(errorFiles); // now holds names of rejected files
+
+    e.target.value = "";
+  });
 };
+
 
   // Handle video URL input change
   const handleVideoChange = (e) => {
@@ -86,6 +99,7 @@ const handleDragOver = (e) => {
           ⚠️ To comply with Todo’s terms of service, make sure to upload only content you either own or you have the permission or license to use.
         </p>
         <a href="#">Gig image guidelines</a>
+        <p>Minimum images dimensions:  978×500</p>
       </div>
 
       {/* Images */}
@@ -149,6 +163,19 @@ const handleDragOver = (e) => {
         {!gigData.images || gigData.images.length === 0 ? (
           <p className="error-msg">Please select at least 1 image</p>
         ) : null}
+        {imageError.length > 0 && (
+  <div className="image-error-msg">
+    <FaInfoCircle style={{ marginRight: "5px" }} />
+    The following image{imageError.length > 1 ? 's are' : ' is'} too small (min: 978×500):
+    <ul style={{ marginTop: "4px", paddingLeft: "20px" }}>
+      {imageError.map((name, idx) => (
+        <li key={idx} style={{ color: "#dc3545" }}>{name}</li>
+      ))}
+    </ul>
+  </div>
+)}
+
+
       </div>
 
       {/* Video */}
@@ -251,13 +278,15 @@ const handleDragOver = (e) => {
         <button className="back-btn" onClick={onBack}>
           Back
         </button>
-        <button
-          className="submit-btn"
-          onClick={onNext}
-          disabled={!gigData.images || gigData.images.length === 0}
-        >
-          Save & Continue
-        </button>
+     <button
+  className="submit-btn"
+  onClick={onNext}
+  disabled={validImages.length === 0}
+>
+  Save & Continue
+</button>
+
+
       </div>
     </div>
   );

@@ -16,6 +16,7 @@ const PublicNav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 const dispatch = useDispatch();
 const router = useRouter();
+const [dropdownOpen, setDropdownOpen] = useState(false);
 
 const { categories, status } = useSelector((state) => state.categories);
 
@@ -41,20 +42,37 @@ const handleCategoryClick = (categoryName) => {
              <SearchBar />
           <ul className="public-navbar-menu">
           
-          <li className="public-navbar-item dropdown">
-  Hire Talent <span className="arrow">▾</span>
-  <ul className="dropdown-menu">
-    {categories.length === 0 ? (
-      <li style={{ padding: '10px', color: '#888' }}>Loading categories...</li>
-    ) : (
-      categories.map((cat) => (
-        <li key={cat._id} onClick={() => handleCategoryClick(cat.name)} style={{ cursor: 'pointer' }}>
-          {cat.name}
-        </li>
-      ))
-    )}
-  </ul>
+         <li
+  className="public-navbar-item dropdown"
+  onMouseEnter={() => setDropdownOpen(true)}
+  onMouseLeave={() => setDropdownOpen(false)}
+>
+  <span style={{ cursor: 'pointer' }}>
+    Hire Talent <span className="arrow">▾</span>
+  </span>
+
+  {dropdownOpen && (
+    <ul className="dropdown-menu">
+      {categories.length === 0 ? (
+        <li style={{ padding: '10px', color: '#888' }}>Loading categories...</li>
+      ) : (
+        categories.map((cat) => (
+          <li
+            key={cat._id}
+            onClick={() => {
+              handleCategoryClick(cat.name);
+              setDropdownOpen(false); // 👈 close dropdown on click
+            }}
+            style={{ cursor: 'pointer' }}
+          >
+            {cat.name}
+          </li>
+        ))
+      )}
+    </ul>
+  )}
 </li>
+
 
             <Link href="/about" className="public-nav-link"><li className="public-navbar-item">About Us</li></Link>
             <Link href="/services" className="public-nav-link"><li className="public-navbar-item">Services</li></Link>

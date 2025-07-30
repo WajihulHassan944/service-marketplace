@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import "./gigform.css";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories } from "@/redux/features/categorySlice"; // update path based on your file structure
+import { fetchCategories } from "@/redux/features/categorySlice"; // update path if needed
 
 const GigForm = ({ onNext, gigData, setGigData }) => {
   const dispatch = useDispatch();
@@ -18,12 +18,19 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
   const handleChange = (e) => {
     const { id, value } = e.target;
 
-    // Reset subcategory when category changes
+    // Reset dependent fields when parent changes
     if (id === "category") {
       setGigData((prev) => ({
         ...prev,
         category: value,
-        subcategory: "", // reset subcategory
+        subcategory: "",
+        subcategorychild: ""
+      }));
+    } else if (id === "subcategory") {
+      setGigData((prev) => ({
+        ...prev,
+        subcategory: value,
+        subcategorychild: ""
       }));
     } else {
       setGigData((prev) => ({ ...prev, [id]: value }));
@@ -31,8 +38,12 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
   };
 
   // Get subcategories of selected category
-  const subcategories =
-    categories.find((cat) => cat.name === gigData.category)?.subcategories || [];
+  const selectedCategory = categories.find((cat) => cat.name === gigData.category);
+  const subcategories = selectedCategory?.subcategories || [];
+
+  // Get subcategorychild array
+  const selectedSubcategory = subcategories.find((subcat) => subcat.name === gigData.subcategory);
+  const subcategoryChildren = selectedSubcategory?.subcategories || [];
 
   return (
     <div className="gig-form-container">
@@ -87,13 +98,34 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
           >
             <option value="">Select a Subcategory</option>
             {subcategories.map((subcat, idx) => (
-              <option key={idx} value={subcat}>
-                {subcat}
+              <option key={idx} value={subcat.name}>
+                {subcat.name}
               </option>
             ))}
           </select>
         </div>
       </div>
+
+      {gigData.subcategory && (
+        <div className="form-section">
+          <label htmlFor="subcategorychild" className="form-label">
+            Subcategory Child
+          </label>
+          <select
+            id="subcategorychild"
+            className="form-input"
+            value={gigData.subcategorychild}
+            onChange={handleChange}
+          >
+            <option value="">Select a Subcategory Child</option>
+            {subcategoryChildren.map((child, idx) => (
+              <option key={idx} value={child}>
+                {child}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <div className="form-section two-columns">
         <div>

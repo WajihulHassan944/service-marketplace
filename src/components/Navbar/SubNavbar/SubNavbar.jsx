@@ -1,28 +1,29 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategories } from '@/redux/features/categorySlice';
+import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import './SubNavbar.css';
-
+import { baseUrl } from '@/const';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCategories } from '@/redux/features/categorySlice';
 const SubNavbar = () => {
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const { categories, status, error } = useSelector((state) => state.categories);
-
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const timeoutRef = useRef(null);
   const navbarRef = useRef(null);
+  const router = useRouter();
 
-  // Fetch categories
+
+  const dispatch = useDispatch();
+  const { categories, status } = useSelector((state) => state.categories);
+
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchCategories());
     }
-  }, [dispatch, status]);
+  }, [status, dispatch]);
 
-  // Drag-to-scroll effect
+
+  // Drag-to-scroll
   useEffect(() => {
     const el = navbarRef.current;
     if (!el) return;
@@ -75,24 +76,21 @@ const SubNavbar = () => {
   };
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setHoveredCategory(null), 500);
+    timeoutRef.current = setTimeout(() => setHoveredCategory(null), 400);
   };
+const handleClick = ({ category, sub, child }) => {
+  setHoveredCategory(null); // 👈 Hide megamenu on click
+  const params = new URLSearchParams();
+  if (category) params.append('category', category);
+  if (sub) params.append('sub', sub);
+  if (child) params.append('child', child);
+  router.push(`/services?${params.toString()}`);
+};
 
-  const handleCategoryClick = (category) => {
-    router.push(`/services?category=${encodeURIComponent(category)}`);
-  };
-
-  const handleSubCategoryClick = (category, subCategory) => {
-    router.push(
-      `/services?category=${encodeURIComponent(category)}&subCategory=${encodeURIComponent(subCategory)}`
-    );
-  };
-
-  if (status === 'loading') return <div className="sub-navbar">Loading categories...</div>;
-  if (status === 'failed') return <div className="sub-navbar">Error: {error}</div>;
 
   return (
-    <div className="sub-navbar" ref={navbarRef}>
+   <div className="sub-navbar" ref={navbarRef} key={hoveredCategory === null ? 'closed' : 'open'}>
+
       {categories.map((category, index) => (
         <div
           key={category._id}
@@ -100,26 +98,39 @@ const SubNavbar = () => {
           onMouseEnter={() => handleMouseEnter(index)}
           onMouseLeave={handleMouseLeave}
         >
-          <span onClick={() => handleCategoryClick(category.name)}>
+          <span onClick={() => handleClick({ category: category.name })}>
             {category.name}
           </span>
 
-          {hoveredCategory === index && (
+          {hoveredCategory === index && category.subcategories.length > 0 && (
             <div
-              className="popup"
+              className="mega-menu"
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={handleMouseLeave}
             >
-              <ul>
-                {category.subcategories?.map((sub, i) => (
-                  <li
-                    key={i}
-                    onClick={() => handleSubCategoryClick(category.name, sub)}
-                  >
-                    {sub}
-                  </li>
-                ))}
-              </ul>
+              {category.subcategories.map((sub, i) => (
+                <div key={i} className="mega-column">
+                  <h4 onClick={() => handleClick({ category: category.name, sub: sub.name })}>
+                    {sub.name}
+                  </h4>
+                  <ul>
+                    {sub.subcategories.map((child, j) => (
+                      <li
+                        key={j}
+                        onClick={() =>
+                          handleClick({
+                            category: category.name,
+                            sub: sub.name,
+                            child: child,
+                          })
+                        }
+                      >
+                        {child}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           )}
         </div>

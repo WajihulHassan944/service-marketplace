@@ -40,17 +40,12 @@
     font-size: 15px;
   }
   
-  .public-navbar-menu .dropdown:hover .dropdown-menu {
-    display: block !important;
-  }
-  
   .arrow {
     font-size: 14px;
     margin-left: 4px;
   }
   
   .public-navbar-menu .dropdown-menu {
-    display: none !important;
     position: absolute;
     top: 100%;
     left: 0;
@@ -283,7 +278,6 @@
 }
 
 .dropdown-menu {
-  display: none;
   position: absolute;
   top: 100%;
   left: 0;
@@ -295,9 +289,6 @@
   z-index: 1000;
 }
 
-.dropdown:hover .dropdown-menu {
-  display: block;
-}
 
 .public-navbar-actions {
   display: flex;

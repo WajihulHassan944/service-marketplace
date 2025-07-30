@@ -64,6 +64,7 @@ useEffect(() => {
             gigTitle: g.gigTitle,
             category: g.category,
             subcategory: g.subcategory,
+            subcategorychild:g.subcategorychild,
             searchTag: g.searchTag,
             imagesToDelete: [],
             positiveKeywords: Array.isArray(g.positiveKeywords)
@@ -98,6 +99,7 @@ useEffect(() => {
         gigTitle: "",
         category: "",
         subcategory: "",
+        subcategorychild: "",
         searchTag: "",
         positiveKeywords: "",
         packages: {

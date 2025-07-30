@@ -1,49 +1,6 @@
 /* Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap');
 
-/* Suisse Int’l - Custom Local Fonts */
-@font-face {
-  font-family: 'Suisse Int\'l';
-  src: url('/fonts/fonnts.com-Suisse_Intl_Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Suisse Int\'l';
-  src: url('/fonts/fonnts.com-Suisse_Intl_Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Suisse Int\'l';
-  src: url('/fonts/fonnts.com-Suisse_Intl_Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Suisse Int\'l';
-  src: url('/fonts/fonnts.com-SuisseIntl-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Suisse Int\'l';
-  src: url('/fonts/fonnts.com-Suisse_Intl_Book.ttf') format('truetype');
-  font-weight: 350;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Suisse Int\'l Mono';
-  src: url('/fonts/fonnts.com-Suisse_Intl_Mono.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-
 /* Global Reset & Layout */
 * {
   margin: 0;
@@ -54,7 +11,7 @@
 body {
   overflow-x: hidden;
   margin: 0;
-  font-family: 'Suisse Int\'l', 'Plus Jakarta Sans', sans-serif;
+  font-family:  'Plus Jakarta Sans', sans-serif;
 }
 
 .admin-main {
@@ -118,4 +75,27 @@ body {
   color: #333;
   font-size: 14px;
   cursor: pointer;
+}
+
+
+
+  .heart-btn {
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.01);
+}
+
+.heart-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* light hover effect */
+  color: red;
+}
+
+.heart-btn.wishlisted:hover {
+  background-color: rgba(224, 36, 94, 0.1); /* subtle red-ish hover for wishlisted */
 }

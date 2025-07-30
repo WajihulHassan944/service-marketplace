@@ -146,4 +146,10 @@
   height: 24px;
   font-size: 14px;
   cursor: pointer;
+}.image-error-msg {
+  color: #dc3545;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
 }

@@ -6,7 +6,7 @@ const TalentPromo = () => {
   return (
     <section className="talent-container">
       <div className="talent-image">
-        <img src="/assets/homeThird/one.png" alt="Talent working" fill priority />
+        <img src="/assets/homeThird/one.png" alt="Talent working" />
       </div>
 
       <div className="talent-content">

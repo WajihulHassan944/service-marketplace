@@ -31,6 +31,7 @@ const PublishGig = ({ onBack, gigData }) => {
       formData.append('gigDescription', gigData.gigDescription);
       formData.append('offerPackages', gigData.offerPackages);
       formData.append('hourlyRate', gigData.hourlyRate.toString());
+      formData.append('subcategorychild', gigData.subcategorychild);
 
       // Process positiveKeywords
       formData.append(
@@ -86,7 +87,7 @@ if (isEdit && gigData.imagesToDelete?.length > 0) {
 
   // Handle PDF
 if (gigData.pdf?.file) {
-  // User uploaded a new PDF
+  // User uploaded a new PDF   subcategorychild
   formData.append("gigPdf", gigData.pdf.file);
 } else if (gigData.removePdf) {
   // User chose to remove the existing PDF

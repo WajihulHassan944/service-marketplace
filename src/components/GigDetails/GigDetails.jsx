@@ -9,6 +9,11 @@ import Link from "next/link";
 import GigListSection from "./Gigslist";
 import toast from "react-hot-toast";
 import { FiShare2 } from 'react-icons/fi';
+import { FaSpinner } from 'react-icons/fa';
+import './LoadingSpinner.css';
+import { FaHome } from 'react-icons/fa';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+
 const GigDetails = () => {
    const userLoggedIn = useSelector((state) => state.user);
   const searchParams = useSearchParams();
@@ -77,11 +82,55 @@ useEffect(() => {
         });
     }
   }, [gigIdParam]);
-
-  if (loading) return <p>Loading gig details...</p>;
+  const isWishlisted = userLoggedIn?.wishlist?.includes(gig._id);
+  
+if (loading) return (
+  <div className="loading-container">
+    <FaSpinner className="spinner" size={40} />
+    <p className="loading-text">Loading gig details...</p>
+  </div>
+);
   if (!gig) return <p>No gig found</p>;
   const pkg = gig?.packages?.[packageType];
  
+
+  const toggleWishlist = async (e) => {
+    e.stopPropagation(); // prevent card click
+
+    if (!userLoggedIn?._id) {
+      toast.error("Please log in to use the wishlist.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await fetch(`${baseUrl}/users/toggle-wishlist`, {
+        method: 'POST',
+       credentials: 'include',
+headers: {
+  'Content-Type': 'application/json',
+}
+,
+        body: JSON.stringify({ gigId: gig._id }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        toast.success(data.message);
+        window.location.reload();
+      } else {
+        toast.error(data.message || "Something went wrong.");
+      }
+    } catch (err) {
+      console.error("Toggle wishlist error:", err);
+      toast.error("Error toggling wishlist.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
 const handleShareClick = (e) => {
   e.stopPropagation();
   if (!userLoggedIn?._id) return;
@@ -93,7 +142,7 @@ const handleShareClick = (e) => {
   return (
     <div className={styles.containerGigDetails}>
       <nav className={styles.breadcrumb}>
-        <span>🏠 / {gig.category}</span> / <span>{gig.subcategory}</span>
+        <span><FaHome style={{ marginRight: "4px", marginTop:'5px' }} /> / {gig.category}</span> / <span>{gig.subcategory}</span>
       </nav>
 
       <h1 className={styles.title}>{gig.gigTitle}</h1>
@@ -107,11 +156,21 @@ const handleShareClick = (e) => {
         </div>
       </div>
 
-{userLoggedIn?._id && (
+<div className={styles.btnsgigDetailswrap}>
+  {userLoggedIn?._id && userLoggedIn.currentDashboard === "buyer" && (
   <button className={styles.sharebtn} onClick={handleShareClick}>
     <FiShare2 size={18} />
   </button>
 )}
+ <button
+  className={`heart-btn ${isWishlisted ? 'wishlisted' : ''}`}
+  onClick={toggleWishlist}
+  disabled={loading}
+>
+  {isWishlisted ? <AiFillHeart size={20} color="#e0245e" /> : <AiOutlineHeart size={20} />}
+</button>
+</div>
+
 
 </div>
 

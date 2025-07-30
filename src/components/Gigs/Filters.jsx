@@ -79,6 +79,15 @@ useEffect(() => {
     ? categories.find((cat) => cat.name === currentCategory)?.icon
     : null;
   const IconComponent = Icons[selectedIcon] || FaFolderOpen;
+const clearMultipleQueryParams = (...keys) => {
+  const params = new URLSearchParams(searchParams);
+
+  keys.forEach((key) => {
+    params.delete(key);
+  });
+
+  router.push(`?${params.toString()}`);
+};
 
   return (
     <div className="container-filters">
@@ -98,7 +107,9 @@ useEffect(() => {
         <div className="category-bar-scroll" ref={scrollRef}>
            <button
     className={`category-btn ${!currentCategory ? 'active' : ''}`}
-    onClick={() => updateQuery('category', '')}
+  onClick={() => clearMultipleQueryParams('category', 'sub', 'child')}
+
+
   >
     <div className="icon-circle">
       <FaThLarge />

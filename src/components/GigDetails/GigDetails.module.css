@@ -839,3 +839,7 @@
 .gigheaderImage.fade-out {
   opacity: 0;
 }
+.btnsgigDetailswrap{
+  display: flex;
+  gap: 15px;
+}
