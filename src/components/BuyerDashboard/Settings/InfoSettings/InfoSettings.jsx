@@ -19,6 +19,7 @@ const InfoSettings = () => {
     speciality: '',
     description: '',
     skills: [],
+    languages: [],
     profileImg: null,
   });
   const [editableEmail, setEditableEmail] = useState(false);
@@ -26,6 +27,7 @@ const InfoSettings = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 const [newSkill, setNewSkill] = useState('');
+const [newLanguage, setNewLanguage] = useState('');
 
 const handleAddSkill = () => {
   if (newSkill.trim() && !formData.skills.includes(newSkill.trim())) {
@@ -56,10 +58,27 @@ const handleRemoveSkill = (skillToRemove) => {
         profileImg: null,
         description: user.sellerDetails?.description || '',
         skills: user.sellerDetails?.skills || [],
+        languages: user.sellerDetails?.languages || [],
       });
       setPreviewImg(user.profileUrl || null);
     }
   }, [user]);
+const handleAddLanguage = () => {
+  if (newLanguage.trim() && !formData.languages.includes(newLanguage.trim())) {
+    setFormData((prev) => ({
+      ...prev,
+      languages: [...prev.languages, newLanguage.trim()],
+    }));
+    setNewLanguage('');
+  }
+};
+
+const handleRemoveLanguage = (languageToRemove) => {
+  setFormData((prev) => ({
+    ...prev,
+    languages: prev.languages.filter((lang) => lang !== languageToRemove),
+  }));
+};
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -91,6 +110,9 @@ const handleRemoveSkill = (skillToRemove) => {
       if (formData.profileImg) form.append('profileImg', formData.profileImg);
 if (formData.description) form.append('description', formData.description);
 if (formData.skills.length) form.append('skills', JSON.stringify(formData.skills));
+if (formData.languages.length) {
+  form.append('languages', JSON.stringify(formData.languages)); // ✅ added
+}
 
       const res = await fetch(`${baseUrl}/users/update-profile`, {
         method: 'PUT',
@@ -201,6 +223,29 @@ if (formData.skills.length) form.append('skills', JSON.stringify(formData.skills
     placeholder="Write something about yourself..."
     className='textarea-info'
   ></textarea>
+</div>
+<div className="form-group">
+  <label>Languages</label>
+  <div className="skills-input-row">
+    <input
+      type="text"
+      value={newLanguage}
+      onChange={(e) => setNewLanguage(e.target.value)}
+      placeholder="Add a language and press Enter"
+      onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddLanguage())}
+    />
+    <button type="button" className="change-email-btn" onClick={handleAddLanguage}>
+      Add
+    </button>
+  </div>
+  <div className="skills-list">
+    {formData.languages.map((language, idx) => (
+      <span key={idx} className="skill-tag">
+        {language}
+        <button type="button" onClick={() => handleRemoveLanguage(language)}>✕</button>
+      </span>
+    ))}
+  </div>
 </div>
 
 <div className="form-group">

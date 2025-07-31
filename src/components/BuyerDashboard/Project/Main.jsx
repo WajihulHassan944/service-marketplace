@@ -43,7 +43,7 @@ const [showReviewPopup, setShowReviewPopup] = useState(false);
       <div className="top-grid">
         <div className="left-column">
        <ProjectTimeline order={order} setShowReviewPopup={setShowReviewPopup} fetchOrder={fetchOrder} />
-
+<OrderDeliveries order={order} />
           <RecentFiles order={order} />
           <OrderActions order={order} setShowReviewPopup={setShowReviewPopup} fetchOrder={fetchOrder} />
           </div>
@@ -51,7 +51,7 @@ const [showReviewPopup, setShowReviewPopup] = useState(false);
         <div className="right-column">
           <OrderDetails order={order} />
           <SubmittedRequirements order={order} />
-          <OrderDeliveries order={order} />
+          
         </div>
       </div>
   {showReviewPopup && <ReviewPopup onClose={() => setShowReviewPopup(false)} fetchOrder={fetchOrder} orderId={order._id} />}

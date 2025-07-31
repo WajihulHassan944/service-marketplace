@@ -13,14 +13,14 @@
   .containerGigDetails .title {
     font-size: 28px;
     font-weight: bold;
-    margin-bottom: 16px;
+    margin-bottom: 22px;
   }
   
   .containerGigDetails .sellerInfo {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 30px;
   }
   
   .containerGigDetails .profileImage {
@@ -37,6 +37,7 @@
   .containerGigDetails .rating {
     font-size: 14px;
     color: #444;
+    margin-top: 5px;
   }
   
   .containerGigDetails .mainContent {
@@ -61,13 +62,16 @@
   
   .aboutSection h2 {
     font-size: 20px;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
   }
   
   .aboutSection h3 {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 12px;
+    font-size: 15px;
+    color: #1a1919;
+
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
   }
   
   .techStack {
@@ -155,18 +159,19 @@
   .reviewsSection {
     padding: 40px 0;
     font-size: 14px;
+    max-width: 850px;
   }
   
   .reviewSummary {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
+    margin-top: 20px;
   }
   
   .leftStats {
     width: 55%;
   }
-  
   .ratingRow {
     display: flex;
     align-items: center;
@@ -257,12 +262,14 @@
   .userInfo img {
     width: 40px;
     height: 40px;
+    object-fit: cover;
     border-radius: 50%;
   }
   
   .location {
     color: #777;
     font-size: 13px;
+    margin-top: 3px;
   }
   
   .stars {
@@ -826,7 +833,7 @@
   position: relative;
   width: 100%;
   max-width: 800px;
-  margin: 0 auto;
+ 
 }
 .gigheaderImage {
   width: 100%;
@@ -843,4 +850,15 @@
 .btnsgigDetailswrap{
   display: flex;
   gap: 15px;
+}
+.gigDesc{
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: 0.1px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.fixedWidth{
+  width: 180px;
 }

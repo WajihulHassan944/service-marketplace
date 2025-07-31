@@ -1,0 +1,48 @@
+/* About Section */
+.aboutSection-container {
+  border: 1px solid #e1e1e1;
+  padding: 24px;
+  border-radius: 6px;
+  background-color: #fff;
+  margin-bottom: 24px;
+  width: 65%;
+}
+
+.aboutSection-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 16px;
+  column-gap: 24px;
+}
+
+.aboutSection-row .aboutSection-label {
+  color: #777;
+  font-size: 14px;
+}
+
+.aboutSection-row .aboutSection-value {
+  font-weight: 600;
+  font-size: 15px;
+  color: #222;
+}
+
+.aboutSection-fullWidth {
+  grid-column: span 2;
+}
+
+.aboutSection-divider {
+  border: none;
+  border-top: 1px solid #eaeaea;
+  margin: 20px 0;
+}
+
+.aboutSection-description h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.aboutSection-description p {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+}

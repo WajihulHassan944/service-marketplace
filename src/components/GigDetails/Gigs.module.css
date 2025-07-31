@@ -84,6 +84,216 @@
   font-size: 0.85rem;
   color: #666;
 }
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 50, 0.4);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Main popup container */
+.popupContent {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Heading */
+.popupContent h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #0a6ed1;
+  text-align: center;
+}
+
+/* Labels */
+.popupContent label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Textarea input */
+.popupContent textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* File input styling */
+.fileLabel {
+  margin-top: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.fileInputStyled {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+/* Payment Options */
+.paymentOptions {
+  background-color: #f4f8ff;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #cde1ff;
+}
+
+.paymentOptions h4 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #0a6ed1;
+}
+
+.paymentOption {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+}
+
+.paymentOption input[type="radio"] {
+  accent-color: #0a6ed1;
+}
+
+/* Card visual */
+.cardDetails {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.cardDetails img {
+  width: 32px;
+  height: auto;
+}
+
+/* Footer Actions */
+.popupActions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.popupActions-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.popupActions-btn:first-child {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.popupActions-btn:first-child:hover {
+  background-color: #ccc;
+}
+
+.popupActions-btn:last-child {
+  background-color: #0a6ed1;
+  color: white;
+}
+
+.popupActions-btn:last-child:hover {
+  background-color: #005bb5;
+}
+
+/* Disabled state */
+.popupActions-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.paymentRow {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.paymentOption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background-color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: border 0.3s;
+}
+
+.paymentOption:hover {
+  border-color: #0a6ed1;
+}
+
+.optionNote {
+  margin: 0.25rem 0 0 0;
+  color: #666;
+  font-size: 0.875rem;
+}
+
+.cardDetails {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.cardDetails img {
+  width: 36px;
+  height: auto;
+}
+.popupOverlay input[type="radio"]{
+  margin-right: 10px;
+  margin-top: 1px;
+}
+.spaceddivindetails{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 
 /* Responsive layout for mobile */
 @media (max-width: 768px) {
@@ -114,4 +324,19 @@
   .headerCell {
     display: none; /* hide column headers for mobile for simplicity */
   }
+}
+.purchaseBtn {
+  background-color: rgb(17, 17, 17);
+  color: white;
+  padding: 8px 30px;
+  border: none;
+  border-radius: 7px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.purchaseBtn:hover {
+  background-color: black;
 }

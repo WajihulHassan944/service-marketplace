@@ -4,7 +4,7 @@ import "./SubmitWorkPopup.css";
 import { baseUrl } from "@/const";
 import { toast } from "react-hot-toast";
 
-export default function SubmitWorkPopup({ onClose, orderId }) {
+export default function SubmitWorkPopup({ onClose, orderId , onSubmitSuccess }) {
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -50,6 +50,10 @@ export default function SubmitWorkPopup({ onClose, orderId }) {
       }
 
       toast.success("Work submitted successfully!");
+       if (onSubmitSuccess) {
+      onSubmitSuccess(); 
+    }
+
       onClose();
     } catch (error) {
       console.error(error);

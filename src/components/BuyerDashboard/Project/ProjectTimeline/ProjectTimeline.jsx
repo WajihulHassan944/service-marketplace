@@ -157,7 +157,25 @@ const dueDate = new Date(order.deliveryDueDate);
 
 
 
-      {showPopup && <SubmitWorkPopup onClose={() => setShowPopup(false)} orderId={order._id} />}
+    {showPopup && (
+  <SubmitWorkPopup
+    onClose={() => setShowPopup(false)}
+    orderId={order._id}
+    onSubmitSuccess={() => {
+      fetchOrder(); // ✅ Re-fetch order from backend
+      setShowPopup(false);
+      setShowSuccessPopup(false); // ✅ Show success confirmation
+    }}
+  />
+)}
+{!showPopup && order.status === 'delivered' && user.currentDashboard === "seller" && (
+  <div className="success-popup">
+    <FiCheckCircle size={36} color="#007bff" />
+    <h3 style={{ color: "#007bff" }}>Work Submitted</h3>
+    <p>Your delivery has been sent. Please wait for the client to review and respond.</p>
+  </div>
+)}
+
     </div>
 
   );

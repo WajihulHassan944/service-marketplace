@@ -34,15 +34,10 @@ export default function Profile({ sellerData }) {
           <Header seller={sellerData.user} />
           <ContactCard seller={sellerData.user} />
         </div>
-        <About
-          description={
-            sellerData.user?.sellerDetails?.description
-              ? sellerData.user.sellerDetails.description
-              : "No description added yet"
-          }
-        />
+        <About seller={sellerData.user} />
+
         <Skills skills={sellerData.user?.sellerDetails?.skills ? sellerData.user.sellerDetails.skills : "No Skills added yet"} />
-        <Gigs gigs={sellerData.gigs} />
+        <Gigs sellerData={sellerData} />
         <Portfolio
           portfolios={sellerData.portfolios}
           id={sellerData.user._id}

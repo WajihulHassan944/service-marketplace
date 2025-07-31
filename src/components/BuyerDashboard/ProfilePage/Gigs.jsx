@@ -2,9 +2,19 @@
 import "./Styles.css";
 import Link from "next/link";
 import { useState } from "react";
+import GigCard from "../../../components/Gigs/GigCard"; // Make sure you import this if it's external
 
-export default function Gigs({ gigs }) {
+export default function Gigs({ sellerData }) {
+  console.log(sellerData);
   const [visibleCount, setVisibleCount] = useState(4); // Show 4 initially
+ const gigs = sellerData.gigs;
+  const activeGigs = gigs?.filter(gig => gig.status === 'active') || [];
+console.log("active gigs are", activeGigs);
+  const handleViewMore = () => {
+    setVisibleCount(prev => prev + 4);
+  };
+
+  const isAllVisible = visibleCount >= activeGigs.length;
 
   if (!gigs || gigs.length === 0) {
     return (
@@ -15,61 +25,39 @@ export default function Gigs({ gigs }) {
     );
   }
 
-  const handleViewMore = () => {
-    setVisibleCount(prev => prev + 4);
-  };
-
-  const isAllVisible = visibleCount >= gigs.length;
-
   return (
     <div className="gigs-container">
       <h3>My Gigs</h3>
-      <div className="gigs-grid">
-        {gigs.slice(0, visibleCount).map((gig) => {
-          const gigImage = gig.images?.[0]?.url || "/assets/gigs/dummy.png";
-          const gigTitle = gig.gigTitle || "Untitled Gig";
-         const price = gig.packages?.basic?.price
-  ? `PKR ${gig.packages.basic.price * 278}`
-  : gig.packages?.standard?.price
-  ? `PKR ${gig.packages.standard.price * 278}`
-  : gig.packages?.premium?.price
-  ? `PKR ${gig.packages.premium.price * 278}`
-  : "Price not set";
-
-
-          return (
-           <>{
-  gig.status === 'active' ? (
-    <Link
-      href={`/services-details?gigId=${gig._id}`}
-      key={gig._id}
-      className="gig-card"
-    >
-      <img src={gigImage} alt={gigTitle} />
-      <h4>{gigTitle}</h4>
-      <p>{price}</p>
-    </Link>
-  ) : (
-    <div
-      key={gig._id}
-      className="gig-card gig-card-disabled"
-      title="This gig is not active"
-      style={{ opacity: 0.5, cursor: 'not-allowed', pointerEvents: 'none' }}
-    >
-      <img src={gigImage} alt={gigTitle} />
-      <h4>{gigTitle}</h4>
-      <p>{price}</p>
-    </div>
-  )
-}
-</>
-          );
-        })}
+      <div className="popular-services-homeoage-wrap">
+        {activeGigs.length === 0 ? (
+          <p className="no-gigs-message">
+            No active gigs found at the moment. Please check back later.
+          </p>
+        ) : (
+          activeGigs
+            .slice(0, visibleCount)
+            .map((gig) => (
+              <GigCard
+                key={gig._id}
+                data={{
+                  gigId: gig._id,
+                  image: gig.images?.[0]?.url,
+                  avatar: sellerData.user.profileUrl,
+                  sellerName: `${gig.userId?.firstName || ''} ${gig.userId?.lastName || ''}`,
+                  badge: 'New Seller',
+                  title: gig.gigTitle,
+                  rating: 5,
+                  reviews: 0,
+                  price: `$${gig.packages?.basic?.price || gig.packages?.standard?.price || 'N/A'}`,
+                  offersVideo: true,
+                }}
+              />
+            ))
+        )}
       </div>
-
       {!isAllVisible && (
         <button className="view-gig" onClick={handleViewMore}>
-          View more ({Math.max(gigs.length - visibleCount, 0)} remaining)
+          View more ({Math.max(activeGigs.length - visibleCount, 0)} remaining)
         </button>
       )}
     </div>

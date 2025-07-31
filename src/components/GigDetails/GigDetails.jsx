@@ -1,7 +1,7 @@
 'use client';
 import Image from "next/image";
 import styles from "./GigDetails.module.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { baseUrl } from "@/const";
 import { useSelector } from "react-redux";
@@ -13,9 +13,11 @@ import { FaSpinner } from 'react-icons/fa';
 import './LoadingSpinner.css';
 import { FaHome } from 'react-icons/fa';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-
+import AboutSec from "./aboutgig/aboutgig";
+import { FiSearch } from 'react-icons/fi';
 const GigDetails = () => {
    const userLoggedIn = useSelector((state) => state.user);
+    const [searchTerm, setSearchTerm] = useState("");
   const searchParams = useSearchParams();
   const gigIdParam = searchParams.get("gigId");
   const [showPopup, setShowPopup] = useState(false);
@@ -23,6 +25,8 @@ const GigDetails = () => {
   const [file, setFile] = useState(null);
   const [packageType, setpackageType] = useState('standard');
   const [gig, setGig] = useState(null);
+  const [sellerAnalytics, setsellerAnalytics] = useState(null);
+    const [buyerReviews, setbuyerReviews] = useState(null);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadingOrder, setLoadingOrder] = useState(false);
@@ -33,7 +37,7 @@ const router = useRouter();
 const [paymentMethod, setPaymentMethod] = useState("balance");
 const [currentImageIndex, setCurrentImageIndex] = useState(0);
 const [fade, setFade] = useState(false);
-
+console.log("buyer review are: ", buyerReviews);
 const changeImage = (newIndex) => {
   setFade(true);
   setTimeout(() => {
@@ -69,10 +73,14 @@ useEffect(() => {
       fetch(`${baseUrl}/gigs/getGigById/${gigIdParam}`)
         .then((res) => res.json())
         .then((data) => {
-          if (data.success) {
+          if (data.success) { 
+         console.log("mine rev",data.buyerReviews);
             setGig(data.gig);
+            setsellerAnalytics(data.sellerAnalytics);
             setUser(data.user);
             setClients(data.clients);
+            setbuyerReviews(data.buyerReviews);
+            
           }
           setLoading(false);
         })
@@ -82,7 +90,27 @@ useEffect(() => {
         });
     }
   }, [gigIdParam]);
-  
+    const filteredReviews = useMemo(() => {
+    return buyerReviews?.filter((review) =>
+      review.review.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm, buyerReviews]);
+
+  // Calculate breakdown stats
+  const ratingCounts = useMemo(() => {
+    const counts = [0, 0, 0, 0, 0]; // Index 0 = 1 star, 4 = 5 stars
+    buyerReviews?.forEach((r) => {
+      const idx = Math.round(r.overallRating) - 1;
+      counts[idx] += 1;
+    });
+    return counts;
+  }, [buyerReviews]);
+
+  const totalReviews = buyerReviews?.length;
+  const averageRating =
+    buyerReviews?.reduce((acc, r) => acc + r.overallRating, 0) / (totalReviews || 1);
+
+  const getBarWidth = (count) => (totalReviews ? `${(count / totalReviews) * 100}%` : "0%");
 if (loading) return (
   <div className="loading-container">
     <FaSpinner className="spinner" size={40} />
@@ -130,6 +158,9 @@ headers: {
     }
   };
 
+const communicationAvg = buyerReviews?.reduce((acc, r) => acc + r.communicationLevel, 0) / (totalReviews || 1);
+const deliveryAvg = buyerReviews?.reduce((acc, r) => acc + r.serviceAsDescribed, 0) / (totalReviews || 1);
+const valueAvg = buyerReviews?.reduce((acc, r) => acc + r.recommendToFriend, 0) / (totalReviews || 1);
 
 
 const handleShareClick = (e) => {
@@ -149,13 +180,34 @@ const handleShareClick = (e) => {
       <h1 className={styles.title}>{gig.gigTitle}</h1>
 
 <div className={styles.spaceddivindetails}>
-        <div className={styles.sellerInfo}>
-        <Image src={gig.userId.profileUrl} alt="Seller Profile" width={50} height={50} className={styles.profileImage} />
-        <div>
-          <strong>{gig.userId.firstName} {gig.userId.lastName}</strong> <span className={styles.level}>{gig.userId?.sellerDetails?.level}</span>
-          <div className={styles.rating}>★★★★★ <span>(No reviews)</span></div>
-        </div>
-      </div>
+       <div className={styles.sellerInfo}>
+  <Image
+    src={gig.userId.profileUrl}
+    alt="Seller Profile"
+    width={50}
+    height={50}
+    className={styles.profileImage}
+  />
+  <div>
+    <strong>{gig.userId.firstName} {gig.userId.lastName}</strong>
+    <span className={styles.level}>{gig.userId?.sellerDetails?.level}</span>
+    
+    <div className={styles.rating}>
+      {averageRating > 0 ? (
+        <>
+          {"★".repeat(Math.round(averageRating))}
+          {"☆".repeat(5 - Math.round(averageRating))}
+          <span> ({totalReviews} review{totalReviews > 1 ? 's' : ''})</span>
+        </>
+      ) : (
+        <>
+          ☆☆☆☆☆ <span>(No reviews yet)</span>
+        </>
+      )}
+    </div>
+  </div>
+</div>
+
 
 <div className={styles.btnsgigDetailswrap}>
   {userLoggedIn?._id && userLoggedIn.currentDashboard === "buyer" && (
@@ -216,12 +268,16 @@ const handleShareClick = (e) => {
 
           <section className={styles.aboutSection}>
             <h2>About this gig</h2>
-            <h3>{gig.gigTitle} | No Projects Completed</h3>
-            <p>{gig.gigDescription}</p>
+            <h3><span>{gig.gigTitle}</span> | <span>{gig.userId?.sellerDetails?.completedOrdersCount === 0 ? (
+  <span>No Projects Completed</span>
+) : (
+  <span>{gig.userId.sellerDetails.completedOrdersCount} Projects Completed</span>
+)}</span>
+</h3>
+            <p className={styles.gigDesc}>{gig.gigDescription}</p>
             <h5 style={{margin:'15px 0', fontSize:'17px'}}>About Seller</h5>
-            <p>
-            {gig.userId.sellerDetails?.description ? gig.userId.sellerDetails?.description : "No description added"}
-            </p>
+            <AboutSec seller={gig.userId} sellerAnalytics={sellerAnalytics} />
+
           </section>
 
           <section className={styles.techStack}>
@@ -240,9 +296,11 @@ const handleShareClick = (e) => {
   currentGig={gig}  
 />
      {clients.length > 0 && (
-  <div style={{border: '1px solid black',padding: ' 0px 12px', width: '100%', marginTop: '20px', }}>
-    <strong style={{ fontSize: '18px', marginBottom: '10px', display: 'block' }}>Among my Clients</strong>
-    <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+    <>
+    <strong style={{ fontSize: '18px', marginBottom: '10px', display: 'block', paddingTop: '5px'}}>Among my Clients</strong>
+  
+  <div style={{border: '1px solid #eee', borderRadius: '8px', padding: ' 10px 15px', width: '100%', marginTop: '20px', }}>
+    <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap', padding: '15px' }}>
       {clients.map((client) => (
         <div key={client._id} style={{ textAlign: 'center', maxWidth: '100px' }}>
           <img
@@ -261,7 +319,7 @@ const handleShareClick = (e) => {
         </div>
       ))}
     </div>
-  </div>
+  </div> </>
 )}
         </div>
 
@@ -279,7 +337,7 @@ const handleShareClick = (e) => {
     key={pkgName}
     className={packageType === pkgName ? styles.active : ''}
     onClick={() => setpackageType(pkgName)}
-    style={{}}
+    style={{cursor:'pointer'}}
   >
     {pkgName.charAt(0).toUpperCase() + pkgName.slice(1)}
   </span>
@@ -289,15 +347,15 @@ const handleShareClick = (e) => {
 
         <div className={styles.packageCardPadded}>
           <div className={styles.price}>${pkg.price}</div>
-          <p className={styles.subscription}>Save up to 20% with <span className={styles.subscribeLink}>Subscribe to Save</span></p>
-          <p className={styles.desc}><strong>{pkg.packageName}</strong> — {pkg.description}</p>
+          <p className={styles.subscription}><span className={styles.subscribeLink}>{pkg.packageName}</span></p>
+          <p className={styles.desc}>{pkg.description}</p>
 
           <div className={styles.meta}>
             <span>⏱ {pkg.deliveryTime} Day{pkg.deliveryTime > 1 ? 's' : ''} Delivery</span>
             <span>⟳ {pkg.revisions === -1 ? 'Unlimited' : `${pkg.revisions} Revisions`}</span>
           </div>
 
-          <div className={styles.included}><span>What's Included</span><span>▾</span></div>
+          <div className={styles.included}><span>Included in package</span><span>▾</span></div>
 
           <button className={styles.continueBtn} onClick={() => setShowPopup(true)}>
             Purchase →
@@ -431,9 +489,97 @@ if (referrerId) {
   </div>
 )}
 
+   <section className={styles.reviewsSection}>
+      <h2>Reviews</h2>
 
+      <div className={styles.reviewSummary}>
+        <div className={styles.leftStats}>
+          <p><strong>{totalReviews} reviews for this Gig</strong></p>
 
+        <div className={styles.ratingRow}>
+  <span className={styles.fixedWidth}>Seller communication level</span>
+  <div className={styles.bar}>
+    <div
+      className={styles.filled}
+      style={{ width: `${(communicationAvg / 5) * 100}%` }}
+    ></div>
+  </div>
+  <span>★{communicationAvg.toFixed(1)}</span>
+</div>
+<div className={styles.ratingRow}>
+  <span className={styles.fixedWidth}>Quality of delivery</span>
+  <div className={styles.bar}>
+    <div
+      className={styles.filled}
+      style={{ width: `${(deliveryAvg / 5) * 100}%` }}
+    ></div>
+  </div>
+  <span>★ {deliveryAvg.toFixed(1)}</span>
+</div>
+<div className={styles.ratingRow}>
+  <span className={styles.fixedWidth}>Value of delivery</span>
+  <div className={styles.bar}>
+    <div
+      className={styles.filled}
+      style={{ width: `${(valueAvg / 5) * 100}%` }}
+    ></div>
+  </div>
+  <span>★ {valueAvg.toFixed(1)}</span>
+</div>
 
+        </div>
+
+        <div className={styles.rightStats}>
+          <div className={styles.totalStars}>
+            <span>{"★".repeat(Math.round(averageRating))}</span>
+            <strong>{averageRating.toFixed(1)}</strong>
+          </div>
+
+         
+        </div>
+      </div>
+
+      <div className={styles.reviewFilters}>
+        <input
+          type="text"
+          placeholder="Search reviews"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      <button type="button" className="search-btn">
+  <FiSearch size={18} />
+</button>
+        <select>
+          <option>Most relevant</option>
+        </select>
+      </div>
+
+      {filteredReviews.map((review, index) => (
+        <div key={index} className={styles.reviewCard}>
+          <div className={styles.userInfo}>
+            <img src={review.reviewedByBuyer.profileUrl} alt="avatar" />
+            <div>
+              <strong>
+                {review.reviewedByBuyer.firstName} {review.reviewedByBuyer.lastName}
+              </strong>
+              <div className={styles.location}>{review.reviewedByBuyer.country}</div>
+            </div>
+          </div>
+          <div className={styles.stars}>
+            {"★".repeat(Math.round(review.overallRating))}{" "}
+           <span>{review.overallRating.toFixed(1)}</span> •{" "}
+<span>
+  {new Date(review.createdAt).toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+  })}
+</span>
+
+          </div>
+          <p>{review.review}</p>
+        </div>
+      ))}
+    </section>
 
 
 
