@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Signup.css';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -25,7 +25,7 @@ const SignupForm = () => {
     lastName: '',
     email: '',
     password: '',
-    country: 'Pakistan',
+    country: '',
     linkedUrl: '',
     speciality: '',
   description: '',
@@ -65,6 +65,26 @@ const handleImageChange = (e) => {
     setImagePreview(URL.createObjectURL(file));
   }
 };
+useEffect(() => {
+  const fetchCountry = async () => {
+    try {
+      const res = await fetch('https://ipwho.is/');
+      const data = await res.json();
+      if (data && data.success && data.country) {
+        setFormData(prev => ({ ...prev, country: data.country }));
+      } else {
+        setFormData(prev => ({ ...prev, country: 'Unknown' }));
+      }
+    } catch (err) {
+      console.error('Failed to fetch country:', err);
+      setFormData(prev => ({ ...prev, country: 'Unknown' }));
+    } finally {
+      setLoadingCountry(false);
+    }
+  };
+
+  fetchCountry();
+}, []);
 
 
   const handleSubmit = async (e) => {
@@ -133,6 +153,7 @@ if (referrerId) data.append("referrerId", referrerId);
           body: JSON.stringify({
   token: tokenResponse.access_token,
   referrerId: localStorage.getItem("referrerId") || null,
+  country: formData.country
 }),
 
         });
@@ -208,14 +229,13 @@ if (referrerId) data.append("referrerId", referrerId);
             required
           />
 
-          <select name="country" value={formData.country} onChange={handleChange}>
-            <option>Pakistan</option>
-            <option>United States</option>
-            <option>United Kingdom</option>
-            <option>India</option>
-            <option>Germany</option>
-          </select>
-
+           <input
+            type="text"
+            name="country"
+            placeholder="Country"
+            value={formData.country}
+            disabled
+          />
           {role === 'seller' && (
             <>
               <input
@@ -264,7 +284,7 @@ if (referrerId) data.append("referrerId", referrerId);
             </>
           )}
 
-          <div className="image-upload-wrapper">
+          {/* <div className="image-upload-wrapper">
             <label htmlFor="imageUpload" className="custom-file-label">
               {imagePreview ? (
                 <img src={imagePreview} alt="Preview" className="image-preview" />
@@ -279,7 +299,7 @@ if (referrerId) data.append("referrerId", referrerId);
               onChange={handleImageChange}
               style={{ display: 'none' }}
             />
-          </div>
+          </div> */}
 
 
           {error && <p className="error-text">{error}</p>}

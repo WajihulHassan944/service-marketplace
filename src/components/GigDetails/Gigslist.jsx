@@ -87,11 +87,17 @@ const buyer = useSelector((state) => state.user);
         {allKeys.map((key) => (
           <React.Fragment key={key}>
             <div className={styles.firstCol}>{formatLabel(key)}</div>
-            {columns.map((pkgType) => (
-              <div key={pkgType + key} className={styles.cell}>
-                {formatValue(activePackages[pkgType][key])}
-              </div>
-            ))}
+           {columns.map((pkgType) => (
+  <div
+    key={pkgType + key}
+    className={`${styles.cell} ${
+      key === "description" ? styles.descriptionCell : ""
+    }`}
+  >
+    {formatValue(activePackages[pkgType][key])}
+  </div>
+))}
+
           </React.Fragment>
         ))}
 

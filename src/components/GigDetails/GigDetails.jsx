@@ -348,7 +348,7 @@ const handleShareClick = (e) => {
         <div className={styles.packageCardPadded}>
           <div className={styles.price}>${pkg.price}</div>
           <p className={styles.subscription}><span className={styles.subscribeLink}>{pkg.packageName}</span></p>
-          <p className={styles.desc}>{pkg.description}</p>
+          <p className={styles.descPackageRight}>{pkg.description}</p>
 
           <div className={styles.meta}>
             <span>⏱ {pkg.deliveryTime} Day{pkg.deliveryTime > 1 ? 's' : ''} Delivery</span>

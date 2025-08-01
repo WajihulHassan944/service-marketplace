@@ -147,6 +147,7 @@
     display: inline-block;
     margin-top: 4px;
     line-height: 1.4;
+     max-width: 120px;
   }
   
   .cellSpecial {
@@ -380,12 +381,18 @@
   font-weight: 600;
   cursor: pointer;
 }
-
-.desc {
+.descPackageRight {
   font-size: 13px;
   color: #333;
   margin-bottom: 20px;
   line-height: 1.5;
+  max-width: 300px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* show up to 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
 }
 
 .meta {
@@ -857,6 +864,7 @@
   letter-spacing: 0.1px;
   margin-top: 20px;
   margin-bottom: 50px;
+  max-width: 800px;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .fixedWidth{

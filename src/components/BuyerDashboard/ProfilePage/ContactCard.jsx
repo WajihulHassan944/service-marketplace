@@ -81,7 +81,7 @@ const countryTimezoneMap = {
         </div>
       </div>
 
-      <button className="btn-contact" onClick={handleContact} disabled={!user?._id}>
+      <button className="btn-contact" onClick={handleContact}>
         <FaPaperPlane style={{ marginRight: '8px' }} />
         Contact me
       </button>

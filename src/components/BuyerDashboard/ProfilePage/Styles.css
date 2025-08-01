@@ -102,10 +102,6 @@
   justify-content: center;
   cursor: pointer;
 }
-.btn-contact:disabled {
-  opacity: 0.8;
-  cursor: not-allowed;
-}
 
 .response-time {
   text-align: center;
