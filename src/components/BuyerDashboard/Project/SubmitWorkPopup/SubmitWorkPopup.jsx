@@ -25,15 +25,16 @@ export default function SubmitWorkPopup({ onClose, orderId , onSubmitSuccess }) 
   };
 
   const handleSubmit = async () => {
-    if (!message.trim() || !file) {
+    if (!message.trim()) {
       toast.error("Please enter a message and attach a valid file.");
       return;
     }
 
     const formData = new FormData();
     formData.append("message", message);
+   if(file){
     formData.append("file", file);
-
+    }
     try {
       setSubmitting(true);
 
@@ -63,7 +64,7 @@ export default function SubmitWorkPopup({ onClose, orderId , onSubmitSuccess }) 
     }
   };
 
-  const isFormValid = message.trim() && file;
+  const isFormValid = message.trim();
 
   return (
     <div className="swp-overlay">
@@ -91,7 +92,7 @@ export default function SubmitWorkPopup({ onClose, orderId , onSubmitSuccess }) 
             <span>Attach file</span>
             <input type="file" hidden onChange={handleFileChange} />
           </label>
-          <span className="swp-max-size">Max file size: 20 MB</span>
+          <span className="swp-max-size">Max file size: 20 MB &nbsp;(optional)</span>
           {file && <div className="swp-file-name">{file.name}</div>}
         </div>
 

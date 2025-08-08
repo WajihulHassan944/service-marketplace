@@ -9,7 +9,7 @@
 }
 
 .spinner {
-  font-size: 5.5rem;
+  font-size: 4rem !important;
   margin-bottom: 1rem;
   animation: spin 1s linear infinite;
 }

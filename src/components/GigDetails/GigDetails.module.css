@@ -1,25 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 .containerGigDetails {
     max-width: 1250px;
     margin: 0 auto;
     padding: 24px;
+     font-family: 'Plus Jakarta Sans', sans-serif !important;
+  
   }
   
   .containerGigDetails .breadcrumb {
-    font-size: 14px;
+    font-size: 15px;
     color: #777;
-    margin-bottom: 16px;
+    margin-bottom: 25px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 7px;
   }
   
+  .containerGigDetails .breadcrumb span{
+    color: #2a3547;
+  }
   .containerGigDetails .title {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: bold;
     margin-bottom: 22px;
+    color: #161d29;
   }
   
   .containerGigDetails .sellerInfo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
     margin-bottom: 30px;
   }
   
@@ -30,19 +43,34 @@
   
   .containerGigDetails .level {
     font-size: 14px;
-    margin-left: 6px;
-    color: #888;
+    margin-left: 9px;
+    color: #2a3547;
   }
-  
+  .specialty{
+    color: #2a3547;
+    margin: 5px 0;
+    font-size: 17px;
+  }
   .containerGigDetails .rating {
     font-size: 14px;
     color: #444;
     margin-top: 5px;
   }
-  
+  .rating {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.rating span {
+  margin-left: 5px;
+  font-size: 13px;
+  color: #555;
+}
+
   .containerGigDetails .mainContent {
     display: flex;
-    gap: 24px;
     justify-content: space-between;
     margin-bottom: 40px;
   }
@@ -55,7 +83,15 @@
     margin-bottom: 24px;
   }
   
-  
+  .sellerDetailsTitle{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: #2a3547;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif !important;
+
+  }
   .aboutSection {
     margin-bottom: 40px;
   }
@@ -232,7 +268,20 @@
     border: none;
     border-radius: 4px;
   }
-  
+  .contactme{
+    text-decoration: none;
+    color: #161d29;
+    border:1px solid #000000;
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-size: 15px;
+    transition: 0.2s ease;
+    margin-bottom: 30px;
+  }
+    .contactme:hover{
+      background: #000000;
+      color: #fff;
+    }
   .reviewFilters select {
     padding: 6px;
     border-radius: 4px;
@@ -333,8 +382,7 @@
  padding-bottom: 16px;
   width: 500px;
   background-color: #fff;
-  /* font-family: sans-serif; */
-  max-height: 450px;
+  height: fit-content;
 }
 
 .tabs {
@@ -342,11 +390,13 @@
   font-weight: bold;
   margin-bottom: 16px;
   border-bottom: 2px solid #eee;
+  background: #f9f9f9;
+    color: #2a3547;
 }
 .tabs span{
   padding: 15px;
   background: #f9f9f9;
-  width: 110px;
+  width: 115px;
   text-align: center;
 }
 .tabs span:nth-of-type(2){
@@ -354,8 +404,8 @@
   border-right:  2px solid #eee;
 }
 .tabs .active {
-  color: #1dbf73;
-  border-bottom: 2px solid #1dbf73;
+  color: #000000;
+  border-bottom: 2px solid #000000;
   padding-bottom: 4px;
   background: #fff;
   
@@ -364,7 +414,7 @@
 .price {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 4px;
+  color: #2a3547;
 }
 .packageCardPadded{
   padding: 16px;
@@ -372,19 +422,17 @@
 }
 .subscription {
   font-size: 13px;
-  color: #666;
-  margin-bottom: 20px;
+  color: #5a6a85;
+  margin-bottom: 10px;
 }
 
-.subscribeLink {
-  color: #1dbf73;
-  font-weight: 600;
-  cursor: pointer;
+.colDiv{
+  margin-bottom: 35px;
 }
 .descPackageRight {
   font-size: 13px;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   line-height: 1.5;
   max-width: 300px;
   display: -webkit-box;
@@ -414,36 +462,58 @@
 }
 
 .continueBtn {
-  background-color: #1dbf73;
+  background-color: #000000;
   color: white;
   font-weight: bold;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   width: 100%;
   padding: 10px;
   cursor: pointer;
   font-size: 14px;
-}
-
-.compare {
-  color: #1dbf73;
-  font-size: 13px;
-  text-align: center;
-  margin: 12px 0;
-  cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .contactBtn {
   background-color: #fafafa;
-  border: 1px solid #ddd;
+  border: 1px solid #000000;
   width: 100%;
   padding: 10px;
   font-weight: bold;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
   text-decoration: none;
   color: #333;
 }
+.flexedDivDetailsGig{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.flexedDivDetailsGig h3{
+  color: #161d29;
+  font-size: 17px;
+}
+.metaDescPackage{
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.includedList {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.includedItem {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #000; /* black text */
+}
+
 @media (max-width: 768px) {
   
   .containerGigDetails {
@@ -606,8 +676,22 @@
   max-width: 500px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.3s ease-in-out;
+  position: relative;
 }
-
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  z-index: 1001;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 /* Heading */
 .popupContent h3 {
   font-size: 1.5rem;
@@ -865,8 +949,145 @@
   margin-top: 20px;
   margin-bottom: 50px;
   max-width: 800px;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .fixedWidth{
   width: 180px;
+}
+
+
+.client-container {
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.client-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 6px;
+}
+
+.client-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.client-popup {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 10px;
+  border-radius: 8px;
+  z-index: 10;
+  min-width: 160px;
+  display: none;
+  text-align: center;
+}
+
+.client-container:hover .client-popup {
+  display: block;
+}
+
+.client-popup img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.client-popup div {
+  font-size: 13px;
+}
+
+.faqSectionGigDetails {
+  padding: 30px 0;
+  max-width: 850px;
+  margin-bottom: 10px;
+}
+
+.faqTitle {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.faqItem {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 18px 0;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.faqHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.questionText {
+  font-size: 16px;
+  font-weight: 500;
+  color: #222;
+}
+
+.faqArrow {
+  transition: transform 0.3s ease;
+  color: #666;
+}
+
+.faqArrow.open {
+  transform: rotate(180deg);
+}
+
+.faqBody {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  padding-top: 0;
+}
+
+.faqBody.open {
+  max-height: 300px; /* Adjust based on expected content height */
+  opacity: 1;
+  padding-top: 10px;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+}
+
+.noFaqMsg {
+  font-size: 15px;
+  color: #777;
+  padding: 10px 0;
+  font-style: italic;
+}
+@keyframes slideFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-5px);
+    max-height: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 300px;
+  }
+}
+
+.faqBody {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.faqBody.open {
+  animation: slideFadeIn 0.3s ease forwards;
+  padding-top: 10px;
 }

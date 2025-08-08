@@ -7,8 +7,8 @@ import { fetchGigs } from '@/redux/features/gigsSlice';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { baseUrl } from '@/const';
-
-
+import { RxCross2 } from 'react-icons/rx';
+import gigDetailsStyles from './GigDetails.module.css';
 
 const GigListSection = ({ userId, excludeGigId, currentGig }) => {
   const dispatch = useDispatch();
@@ -137,6 +137,13 @@ onClick={() => {
       {showPopup && selectedPackage && (
   <div className={styles.popupOverlay}>
     <div className={styles.popupContent}>
+    <button
+        className={gigDetailsStyles.closeButton}
+        onClick={() => setShowPopup(false)}
+        aria-label="Close popup"
+      >
+        <RxCross2 size={22} />
+      </button>
       <h3>Provide Additional Information</h3>
 
       <label>Enter any additional requirements:</label>

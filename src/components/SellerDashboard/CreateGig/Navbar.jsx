@@ -10,8 +10,9 @@ import GigGallery from "./GigGallery/GigGallery";
 import PublishGig from "./PublishGig/PublishGig";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "next/navigation";
+import GigFaqs from "./Faqs/GigFaqs";
 
-const steps = ["Overview", "Pricing", "Description", "Gallery", "Publish"];
+const steps = ["Overview", "Pricing", "Description","Faqs", "Gallery", "Publish"];
 
 const Navbar = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -79,6 +80,7 @@ useEffect(() => {
             hourlyRate: g.hourlyRate?.toString() || "",
             images: g.images || [],
             videoIframes: g.videoIframes || [],
+             faqs: g.faqs || [],
            pdf: {
   url: g.pdf?.url || "",
   public_id: g.pdf?.public_id || "",
@@ -111,6 +113,7 @@ useEffect(() => {
         hourlyRate: "",
         images: [],
         videoIframes: [],
+        faqs:[],
         pdf: "",
       });
     }
@@ -162,6 +165,13 @@ useEffect(() => {
       gigData={gigData}
       setGigData={setGigData}
     />,
+    <GigFaqs
+    key="gigFaqs"
+      onNext={handleNext}
+      onBack={handleBack}
+      gigData={gigData}
+      setGigData={setGigData}
+      />,
     <GigGallery
       key="giggallery"
       onNext={handleNext}

@@ -81,7 +81,7 @@ const ReviewPopup = ({ onClose, orderId,  fetchOrder }) => {
   return (
     <div className="review-popup-overlay">
       <div className="review-popup">
-        <h2 className="popup-title">DosTask Reviews</h2>
+        <h2 className="popup-title">doTask Reviews</h2>
 
         <div className="review-flex-container">
           <div className="overall-rating">

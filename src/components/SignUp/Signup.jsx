@@ -234,7 +234,7 @@ if (referrerId) data.append("referrerId", referrerId);
             name="country"
             placeholder="Country"
             value={formData.country}
-            disabled
+            onChange={handleChange}
           />
           {role === 'seller' && (
             <>

@@ -1,5 +1,6 @@
 import React from 'react';
 import './OrdersDetails.css';
+import CapitalizeFirstWord from '@/utils/CapitalizeFirstWord';
 
 export default function OrderDetails({ order }) {
   if (!order) return null;
@@ -23,7 +24,7 @@ export default function OrderDetails({ order }) {
   return (
     <div className="order-card">
       <h3 className="order-title">Order Details</h3>
-
+<h5 className='gig-title-order-details'><CapitalizeFirstWord>{gigId.gigTitle}</CapitalizeFirstWord></h5>
       <img
         src={gigId?.images?.[0]?.url || '/assets/gigs/dummy.png'}
         alt="gig image"
@@ -32,7 +33,7 @@ export default function OrderDetails({ order }) {
 
       <div className="order-info">
         <div className="order-price">
-          <span className="product-name">{packageDetails?.packageName || 'N/A'} package</span> ·{' '}
+          <span className="product-name"><CapitalizeFirstWord>{packageDetails?.packageName || 'N/A'}</CapitalizeFirstWord> package</span> ·{' '}
           <span className="price">${totalAmount?.toFixed(2)}</span>
         </div>
 
@@ -50,10 +51,10 @@ export default function OrderDetails({ order }) {
           {statusLabelMap[status] || 'In Progress'}
         </div>
 
-        <div className="due-time">
+        {order.status != "cancelled" && <div className="due-time">
           <span className="due-icon">○</span>
           Due in {diffDays} days {diffHours} hours
-        </div>
+        </div>}
       </div>
     </div>
   );

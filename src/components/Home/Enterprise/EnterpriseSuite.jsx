@@ -27,11 +27,10 @@ export default function EnterpriseSuite() {
         </div>
 
         <div className="imageBlock">
-          <Image
+          <img
             src="/assets/homeThird/enterprise.png"
             alt="Man working from home in wheelchair"
             width={700}
-            height={500}
             className="image"
           />
         </div>

@@ -13,6 +13,8 @@ const ManageCategories = () => {
   const [image, setImage] = useState(null);
   const [subcategories, setSubcategories] = useState('');
   const [editingId, setEditingId] = useState(null);
+  const [nestedSubcategories, setNestedSubcategories] = useState([]);
+
 
   const fetchCategories = async () => {
     try {
@@ -32,7 +34,13 @@ const ManageCategories = () => {
     const formData = new FormData();
     formData.append('name', name);
     formData.append('icon', icon);
-    formData.append('subcategories', subcategories); // comma-separated
+const formattedSubcategories = nestedSubcategories.map((sub) => ({
+  name: sub.name,
+  subcategories: sub.subcategories.split(',').map((s) => s.trim()).filter(Boolean),
+}));
+
+formData.append('subcategories', JSON.stringify(formattedSubcategories));
+
     if (image) formData.append('image', image);
 
     const method = editingId ? 'PUT' : 'POST';
@@ -56,13 +64,39 @@ const ManageCategories = () => {
       console.error('Submit error:', error);
     }
   };
+const addSubcategory = () => {
+  setNestedSubcategories([...nestedSubcategories, { name: '', subcategories: '' }]);
+};
 
-  const handleEdit = (cat) => {
-    setName(cat.name);
-    setIcon(cat.icon);
-    setSubcategories(cat.subcategories.join(', '));
-    setEditingId(cat._id);
-  };
+const updateSubcategoryName = (index, value) => {
+  const updated = [...nestedSubcategories];
+  updated[index].name = value;
+  setNestedSubcategories(updated);
+};
+
+const updateSubSubcategories = (index, value) => {
+  const updated = [...nestedSubcategories];
+  updated[index].subcategories = value;
+  setNestedSubcategories(updated);
+};
+
+const removeSubcategory = (index) => {
+  const updated = [...nestedSubcategories];
+  updated.splice(index, 1);
+  setNestedSubcategories(updated);
+};
+
+const handleEdit = (cat) => {
+  setName(cat.name);
+  setIcon(cat.icon);
+  setEditingId(cat._id);
+  setNestedSubcategories(
+    cat.subcategories.map((sub) => ({
+      name: sub.name,
+      subcategories: sub.subcategories.join(', ')
+    }))
+  );
+};
 
   const handleDelete = async (id) => {
     try {
@@ -81,13 +115,14 @@ const ManageCategories = () => {
     }
   };
 
-  const resetForm = () => {
-    setName('');
-    setIcon('');
-    setImage(null);
-    setSubcategories('');
-    setEditingId(null);
-  };
+const resetForm = () => {
+  setName('');
+  setIcon('');
+  setImage(null);
+  setNestedSubcategories([]);
+  setEditingId(null);
+};
+
 
   return (
     <div className="manage-categories">
@@ -111,15 +146,26 @@ const ManageCategories = () => {
           <label>Upload Image:</label>
           <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
 
-          <label>
-            Sub Categories: <span className="note">(comma separated)</span>
-          </label>
-          <input
-            type="text"
-            value={subcategories}
-            onChange={(e) => setSubcategories(e.target.value)}
-            placeholder="e.g., Cricket, Football, MMA"
-          />
+          <label>Subcategories:</label>
+{nestedSubcategories.map((sub, idx) => (
+  <div key={idx} className="subcategory-group">
+    <input
+      type="text"
+      placeholder="Subcategory Name"
+      value={sub.name}
+      onChange={(e) => updateSubcategoryName(idx, e.target.value)}
+    />
+    <input
+      type="text"
+      placeholder="Comma-separated sub-subcategories"
+      value={sub.subcategories}
+      onChange={(e) => updateSubSubcategories(idx, e.target.value)}
+    />
+    <button onClick={() => removeSubcategory(idx)} className="remove-btn">Remove</button>
+  </div>
+))}
+<button className="add-btn" onClick={addSubcategory}>+ Add Subcategory</button>
+
 
           <button className="add-btn" onClick={handleSubmit}>
             {editingId ? 'Update Category' : 'Add Category'}
@@ -171,20 +217,29 @@ const ManageCategories = () => {
         </div>
       </div>
 
-      {/* Subcategory Popup */}
-      {popupData && (
-        <div className="subcategory-popup">
-          <div className="popup-content">
-            <h4>Subcategories for {popupData.name}</h4>
-            <ul>
-              {popupData.subcategories.map((sub, i) => (
-                <li key={i}>{sub}</li>
-              ))}
-            </ul>
-            <button onClick={() => setPopupData(null)} className="add-btn">Close</button>
-          </div>
-        </div>
-      )}
+    {popupData && (
+  <div className="subcategory-popup">
+    <div className="popup-content">
+      <h4>Subcategories for {popupData.name}</h4>
+      <ul>
+        {popupData.subcategories.map((sub, i) => (
+          <li key={i}>
+            <strong>{sub.name}</strong>
+            {sub.subcategories?.length > 0 && (
+              <ul style={{ marginLeft: "1rem", listStyleType: "circle" }}>
+                {sub.subcategories.map((nested, j) => (
+                  <li key={j}>{nested}</li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+      <button onClick={() => setPopupData(null)} className="add-btn">Close</button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

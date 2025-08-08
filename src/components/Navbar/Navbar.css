@@ -100,7 +100,7 @@
   }
   
   .green-btn {
-    background-color: #00b289;
+    background-color: #3a5afe;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -298,7 +298,7 @@
 }
 
 .public-green-btn {
-  background-color: #00b289;
+  background-color: #3a5afe;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -309,12 +309,12 @@
 }
 
 .public-green-btn:hover {
-  background-color: #009f79;
+  background-color: #3a5afe;
 }
 .public-green-btn-bordered{
   background-color: #fff;
-  color: #00b289;
-  border: 2px solid #00b289;
+  color: #3a5afe;
+  border: 2px solid #3a5afe;
   padding: 5px 13px;
   font-size: 13px;
   border-radius: 4px;
@@ -323,9 +323,9 @@
 }
 
 .public-green-btn-bordered:hover{
-  background-color: #00b289;
+  background-color: #3a5afe;
   color: #fff;
-  border: 2px solid #00b289;
+  border: 2px solid #3a5afe;
  
 }
 .public-navbar-burger {

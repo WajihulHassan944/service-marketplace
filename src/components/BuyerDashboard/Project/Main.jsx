@@ -6,10 +6,14 @@ import OrderDetails from "./OrdersDetails/OrdersDetails";
 import RecentFiles from "./RecentFiles/RecentFiles";
 import SubmittedRequirements from "./SubmittedRequirements/SubmittedRequirements";
 import "./Main.css";
+
+import { FaSpinner } from 'react-icons/fa';
+import "../../GigDetails/LoadingSpinner.css";
 import { baseUrl } from "@/const";
 import OrderActions from "./OrderActions/OrderActions";
 import OrderDeliveries from "./OrderDeliveries/OrderDeliveries";
 import ReviewPopup from "./ReviewPopup/ReviewPopup";
+import RevisionRequest from "./RevisionRequest/RevisionRequest";
 export default function Main() {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -34,8 +38,12 @@ const [showReviewPopup, setShowReviewPopup] = useState(false);
   
     if (orderId) fetchOrder();
   }, [orderId]);
-
-  if (loading) return <div>Loading order details...</div>;
+if (loading) return (
+  <div className="loading-container">
+    <FaSpinner className="spinner" size={40} />
+    <p className="loading-text">Loading order details...</p>
+  </div>
+);
   if (!order) return <div>Order not found.</div>;
 
   return (
@@ -43,6 +51,7 @@ const [showReviewPopup, setShowReviewPopup] = useState(false);
       <div className="top-grid">
         <div className="left-column">
        <ProjectTimeline order={order} setShowReviewPopup={setShowReviewPopup} fetchOrder={fetchOrder} />
+     {order.revisionRequests && (  <RevisionRequest revisionRequests={order.revisionRequests} /> )}
 <OrderDeliveries order={order} />
           <RecentFiles order={order} />
           <OrderActions order={order} setShowReviewPopup={setShowReviewPopup} fetchOrder={fetchOrder} />

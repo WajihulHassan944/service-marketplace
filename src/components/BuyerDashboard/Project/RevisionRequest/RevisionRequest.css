@@ -1,0 +1,48 @@
+.rev-box-wrapper {
+  background: white;
+  padding: 20px;
+  max-width: 800px;
+  margin: 30px auto;
+  border-radius: 10px;
+  box-shadow: 0 0 2px #919eab33, 0 12px 24px -4px #919eab1f;
+}
+
+.rev-box-title {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+  text-align: left;
+}
+
+.rev-box-empty {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+}
+
+.rev-box-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rev-box-item {
+  padding: 15px;
+  border-left: 4px solid #539bff;
+  margin-bottom: 15px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  position: relative;
+}
+
+.rev-box-message {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.rev-box-date {
+  font-size: 13px;
+  color: #888;
+}

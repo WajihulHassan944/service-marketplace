@@ -10,7 +10,8 @@ export default function ProjectTimeline({ order, setShowReviewPopup,  fetchOrder
   if (!order) return null;
   const [loading, setLoading] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-
+const [showRevisionInput, setShowRevisionInput] = useState(false);
+const [revisionMessage, setRevisionMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const buyerName = `${order.buyerId.firstName} ${order.buyerId.lastName}`;
   const sellerName = `${order.sellerId.firstName} ${order.sellerId.lastName}`;
@@ -42,10 +43,11 @@ const dueDate = new Date(order.deliveryDueDate);
       completed: true,
     },
     {
-      id: 4,
-      title: `${sellerName} delivers the order`,
-      completed: order.status === 'delivered' || order.status === 'completed',
-    },
+  id: 4,
+  title: order.status === 'cancelled' ? 'Order cancelled' : `${sellerName} delivers the order`,
+  completed: order.status === 'cancelled' || order.status === 'delivered' || order.status === 'completed',
+},
+
     {
       id: 5,
       title: `${buyerName} reviews and approves the work`,
@@ -56,7 +58,11 @@ const dueDate = new Date(order.deliveryDueDate);
       title: 'Project complete',
       completed: order.status === 'completed',
     },
-  ];
+  ].filter(step => {
+  // Hide steps 5 and 6 if order is cancelled
+  if (order.status === 'cancelled') return step.id < 5;
+  return true;
+});
 
 
    const handleApproveDelivery = async () => {
@@ -80,6 +86,39 @@ const dueDate = new Date(order.deliveryDueDate);
     } catch (error) {
       console.error("❌ Error approving delivery:", error);
       toast.error("Something went wrong while approving the delivery.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const handleRequestRevision = async () => {
+    try {
+      setLoading(true);
+
+      const res = await fetch(`${baseUrl}/orders/revision/${order._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+        message: revisionMessage,
+        }),
+      });
+
+      const data = await res.json();
+
+     if (data.success) {
+  toast.success("Revision request sent successfully.");
+  fetchOrder();
+  setShowRevisionInput(false);
+  setRevisionMessage("");
+} else {
+        toast.error(data.message || "Failed to request revision.");
+      }
+    } catch (error) {
+      console.error("❌ Error requesting revision:", error);
+      toast.error("Something went wrong while requesting a revision.");
     } finally {
       setLoading(false);
     }
@@ -122,21 +161,68 @@ const dueDate = new Date(order.deliveryDueDate);
 )}
   {user.currentDashboard === "buyer" && order.status === "delivered" && (
         <div className="approve-delivery-box">
-          <p className="timeline-due">
+         <h3>Order Delivered!</h3>
+    
+         <center> <p className="approve-text-delivery">
             Please review the delivery made by the seller by viewing the deliveries section.
-          </p>
+          </p></center>
 
+         <div className='flexed-div-orderDetails'>
           <button
-            className="submit-btn"
+            className="submit-btn-deliveryBuyerApprove"
             onClick={handleApproveDelivery}
             disabled={loading}
-            style={{ backgroundColor: "#007bff" }}
+          
           >
             {loading ? "Processing..." : "Approve Final Delivery"}
           </button>
+          
+        <button
+  className="submit-btn-deliveryBuyerRevision"
+  onClick={() => setShowRevisionInput(true)}
+  disabled={loading || showRevisionInput}
+>
+  {loading ? "Processing..." : "Request a revision"}
+</button>
+ 
+          </div>
+
 
            </div>
       )}
+
+      
+{showRevisionInput && (
+  <div className="revision-box">
+    <textarea
+      className="revision-textarea"
+      placeholder="Describe what needs to be revised..."
+      value={revisionMessage}
+      onChange={(e) => setRevisionMessage(e.target.value)}
+    />
+    <div className="revision-button-group">
+      <button
+        className="btn-deliveryBuyerRevisionSubmit"
+        onClick={handleRequestRevision}
+        disabled={loading || !revisionMessage.trim()}
+      >
+        {loading ? "Processing..." : "Send Revision Request"}
+      </button>
+      <button
+        className="cancel-btn-revision"
+        onClick={() => {
+          setShowRevisionInput(false);
+          setRevisionMessage("");
+        }}
+        disabled={loading}
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+)}
+
+
 {showSuccessPopup && (
   <div className="success-popup">
     <FiCheckCircle size={36} color="#007bff" />
@@ -171,7 +257,7 @@ const dueDate = new Date(order.deliveryDueDate);
 {!showPopup && order.status === 'delivered' && user.currentDashboard === "seller" && (
   <div className="success-popup">
     <FiCheckCircle size={36} color="#007bff" />
-    <h3 style={{ color: "#007bff" }}>Work Submitted</h3>
+    <h3 style={{ color: "#007bff", margin:'10px 0' }}>Work Submitted</h3>
     <p>Your delivery has been sent. Please wait for the client to review and respond.</p>
   </div>
 )}

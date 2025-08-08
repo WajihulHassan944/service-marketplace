@@ -46,6 +46,7 @@ const PublishGig = ({ onBack, gigData }) => {
 
       // Process videoIframes
       formData.append('videoIframes', JSON.stringify(gigData.videoIframes || []));
+      formData.append('faqs', JSON.stringify(gigData.faqs || []));
 
       // Prepare formattedPackages
       const formattedPackages = {};

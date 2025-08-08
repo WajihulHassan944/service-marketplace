@@ -137,7 +137,7 @@
   .upwork-right {
     flex: 1;
     max-width: 450px;
-    background: #04b400;
+    background: rgb(0, 115, 230);
     color: #fff;
     padding: 60px 40px;
     border-radius: 8px;

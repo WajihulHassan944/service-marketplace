@@ -67,7 +67,7 @@
 
 .green-card {
   flex: 1 1 250px;
-  background-color: #14a800;
+  background-color: rgb(0, 115, 230);
   color: white;
   text-decoration: none;
   padding: 20px;
@@ -76,7 +76,7 @@
 }
 
 .green-card:hover {
-  background-color: #108a00;
+  background-color: rgb(0, 115, 230);
   transform: translateY(-4px);
 }
 

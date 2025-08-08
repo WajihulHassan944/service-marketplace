@@ -35,7 +35,7 @@
   }
   
   .how-works {
-    color: #1dbf73;
+    color: #003cff;
     margin-left: 10px;
     cursor: pointer;
     font-weight: 500;
@@ -63,14 +63,14 @@
   }
   
   .category-btn.active {
-    border: 2px solid #1dbf73;
-    background-color: #f3fdf8;
+    border: 2px solid #3a5afe;
+    /* background-color: #f3fdf8; */
   }
   
   .icon-circle {
     width: 32px;
     height: 32px;
-    background-color: #f3fdf8;
+    /* background-color: #f3fdf8; */
     border-radius: 50%;
   }
   
@@ -115,7 +115,7 @@
     align-items: center;
     gap: 6px;
     font-weight: 500;
-    color: #1dbf73;
+    color: #003cff;
   }
   
   .toggle-label input {
@@ -144,7 +144,7 @@
   }
   
   .toggle-label input:checked + .switch {
-    background-color: #1dbf73;
+    background-color:#003cff;
   }
   
   .toggle-label input:checked + .switch::before {
@@ -221,12 +221,12 @@
   .icon-circle {
     width: 32px;
     height: 32px;
-    background-color: #f3fdf8;
+    /* background-color: #f3fdf8; */
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #1dbf73;
+    color:#003cff;
     font-size: 16px;
   }
   
