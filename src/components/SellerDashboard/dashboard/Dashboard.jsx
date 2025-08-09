@@ -6,10 +6,11 @@ import { FiMoreHorizontal, FiCreditCard, FiUsers, FiFolder, FiChevronDown, FiChe
 import Link from "next/link";
 import SellerProfile from "./SellerProfile/SellerProfile";
 import { useSelector } from "react-redux";
+import DashboardNotification from "./DashboardNotifications";
 
 const Dashboard = () => {
   const [openFAQ, setOpenFAQ] = useState(null); // 0: first one open by default
-const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
  const {
     activeOrdersCount,
     totalOrderValue,
@@ -20,6 +21,7 @@ const user = useSelector((state) => state.user);
   const toggleFAQ = (index) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
+
 
  const faqData = [
   {
@@ -117,38 +119,7 @@ const user = useSelector((state) => state.user);
             </div>
           </div>
 
-          <div className="card-buyer notifications-card">
-  <div className="card-header-buyer notificationHeader">
-    <h3>Notifications</h3>
-  </div>
-  <div className="notification-item sent">
-    <div className="notif-title">
-      <FiCreditCard className="notif-icon" /> <strong>Payment Sent</strong>
-    </div>
-    <p>You requested <a href="#">payment</a> of $124 from Upwork via Payoneer MaterCard</p>
-    <span className="notif-time">5 mins ago</span>
-  </div>
-
-  <div className="notification-item ended">
-    <div className="notif-title">
-      <FiUsers className="notif-icon" /> <strong>Contract Ended</strong>
-    </div>
-    <p><a href="#">John Dnoe</a> ended your <a href="#">contract</a> “Dashboard Web Design”</p>
-    <span className="notif-time">2 days ago</span>
-  </div>
-
-  <div className="notification-item received">
-    <div className="notif-title">
-      <FiCreditCard className="notif-icon" /> <strong>Payment Received</strong>
-    </div>
-    <p><a href="#">Elon Musk</a> sent you a <a href="#">payment</a> of $2 500 000 000 000 000 000 000</p>
-    <span className="notif-time">5 days ago</span>
-  </div>
-
-  
-
-  <Link href="/notifications" className="see-all">See All ↝</Link>
-</div>
+      <DashboardNotification />
 
 
         </div>

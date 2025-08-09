@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./GigGallery.css";
 import { FaInfoCircle } from 'react-icons/fa';
 import { FaTrash } from 'react-icons/fa';
@@ -12,7 +12,13 @@ const [validImages, setValidImages] = useState([]);
     images: useRef(null),
     pdf: useRef(null),
   };
-const handleDrop = (e) => {
+  useEffect(() => {
+    if (gigData.images && gigData.images.length > 0) {
+      setValidImages(gigData.images);
+    }
+  }, [gigData.images]);
+console.log(validImages);
+  const handleDrop = (e) => {
   e.preventDefault();
   const files = Array.from(e.dataTransfer.files).filter(file =>
     file.type.startsWith("image/")
@@ -137,7 +143,7 @@ const handleImageChange = (e) => {
         </div>
       );
     }
-
+console.log(validImages);
     return (
      <div
   className="upload-box"

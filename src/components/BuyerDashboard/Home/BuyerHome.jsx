@@ -4,6 +4,7 @@ import "./BuyerHome.css";
 import { FiMoreHorizontal, FiCreditCard, FiUsers, FiFolder, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import DashboardNotification from "@/components/SellerDashboard/dashboard/DashboardNotifications";
 
 const BuyerHome = () => {
       const user = useSelector((state) => state.user);
@@ -96,39 +97,7 @@ const BuyerHome = () => {
             </div>
           </div>
 
-          <div className="card-buyer notifications-card">
-  <div className="card-header-buyer notificationHeader">
-    <h3>Notifications</h3>
-  </div>
-  <div className="notification-item sent">
-    <div className="notif-title">
-      <FiCreditCard className="notif-icon" /> <strong>Payment Sent</strong>
-    </div>
-    <p>You requested <a href="#">payment</a> of $124 from Upwork via Payoneer MaterCard</p>
-    <span className="notif-time">5 mins ago</span>
-  </div>
-
-  <div className="notification-item ended">
-    <div className="notif-title">
-      <FiUsers className="notif-icon" /> <strong>Contract Ended</strong>
-    </div>
-    <p><a href="#">John Dnoe</a> ended your <a href="#">contract</a> “Dashboard Web Design”</p>
-    <span className="notif-time">2 days ago</span>
-  </div>
-
-  <div className="notification-item received">
-    <div className="notif-title">
-      <FiCreditCard className="notif-icon" /> <strong>Payment Received</strong>
-    </div>
-    <p><a href="#">Elon Musk</a> sent you a <a href="#">payment</a> of $2 500 000 000 000 000 000 000</p>
-    <span className="notif-time">5 days ago</span>
-  </div>
-
-  
-
-  <Link href="/notifications" className="see-all">See All ↝</Link>
-</div>
-
+<DashboardNotification />
 
         </div>
 

@@ -38,7 +38,7 @@ const NotificationPopup = ({ closePopup }) => {
   const fetchNotifications = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${baseUrl}/notifications/latest`, {
+      const res = await fetch(`${baseUrl}/notifications/me`, {
         credentials: "include"
       });
       const data = await res.json();
