@@ -54,12 +54,12 @@ if (loading) return (
      {order.revisionRequests && (  <RevisionRequest revisionRequests={order.revisionRequests} /> )}
 <OrderDeliveries order={order} />
           <RecentFiles order={order} />
-          <OrderActions order={order} setShowReviewPopup={setShowReviewPopup} fetchOrder={fetchOrder} />
           </div>
 
         <div className="right-column">
           <OrderDetails order={order} />
           <SubmittedRequirements order={order} />
+          <OrderActions order={order} setShowReviewPopup={setShowReviewPopup} fetchOrder={fetchOrder} />
           
         </div>
       </div>

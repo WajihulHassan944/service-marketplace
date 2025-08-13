@@ -38,8 +38,8 @@ const SearchedSellersSection = () => {
     fetchSellers();
   }, [searchQuery]);
 
-  const handleCardClick = (userId) => {
-    router.push(`/profile?id=${userId}`);
+  const handleCardClick = (userName) => {
+    router.push(`/profile/${userName}`);
   };
 
   return (
@@ -64,7 +64,7 @@ const SearchedSellersSection = () => {
             <div
               key={seller._id}
               className="searched-sellers-section__card"
-              onClick={() => handleCardClick(seller._id)}
+              onClick={() => handleCardClick(seller.userName)}
               style={{ cursor: 'pointer' }}
             >
               <img

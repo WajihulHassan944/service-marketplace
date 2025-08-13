@@ -23,8 +23,8 @@ export default function CardCarousel() {
     carouselRef.current?.scrollBy({ left: 300, behavior: 'smooth' });
   };
 
-  const goToProfile = (userId) => {
-    router.push(`/profile?id=${userId}`);
+  const goToProfile = (userName) => {
+    router.push(`/profile/${userName}`);
   };
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export default function CardCarousel() {
             <div
               key={idx}
               className="card"
-              onClick={() => goToProfile(person._id)}
+              onClick={() => goToProfile(person.userName)}
               style={{ cursor: 'pointer' }}
             >
               <div className="image-container">

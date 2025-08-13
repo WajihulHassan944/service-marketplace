@@ -19,26 +19,20 @@
   color: blue;
 }
 
-/* Mega menu - full width and centered (max 600px) */
 .mega-menu {
   position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 1250px;
+  top: 18%;
   background-color: #fff;
   padding: 25px 30px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
   column-gap: 30px;
   row-gap: 25px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   border: 1px solid #eaeaea;
   border-radius: 8px;
   z-index: 100;
-  min-height: 80vh;
+  min-height: 40vh;
   overflow-y: auto;
 }
 

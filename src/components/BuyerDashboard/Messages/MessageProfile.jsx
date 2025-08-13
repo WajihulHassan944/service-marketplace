@@ -87,7 +87,7 @@ const isSeller = reduxUser.currentDashboard === "seller";
 
       <div className="action-buttons">
    <Link
-  href={`${isSeller ? '/buyer' : ''}/profile?id=${userId}`}
+  href={`${isSeller ? '/buyer' : ''}/profile/${user.userName}`}
   className="view-proposal-btn"
 >
   View profile

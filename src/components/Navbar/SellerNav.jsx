@@ -150,7 +150,7 @@ useEffect(() => {
             </button>
                 </div>
                 <ul className="dropdown-links-user">
-                  <Link href={`/profile?id=${user._id}`} onClick={() => setDropdownOpen(false)}><li><FaUser /> Profile</li></Link>
+                  <Link href={`/profile/${user.userName}`} onClick={() => setDropdownOpen(false)}><li><FaUser /> Profile</li></Link>
                   <Link href="/settings/myinfo" onClick={() => setDropdownOpen(false)}><li><FaCog /> Settings</li></Link>
                   <Link href="/" onClick={() => logout(() => setDropdownOpen(false))}><li><FaSignOutAlt /> Log out</li></Link>
                 </ul>

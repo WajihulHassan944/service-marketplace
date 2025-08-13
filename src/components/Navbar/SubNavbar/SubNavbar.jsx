@@ -102,37 +102,63 @@ const handleClick = ({ category, sub, child }) => {
             {category.name}
           </span>
 
-          {hoveredCategory === index && category.subcategories.length > 0 && (
-            <div
-              className="mega-menu"
-              onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={handleMouseLeave}
+{hoveredCategory === index && category.subcategories.length > 0 && (
+  <div
+    className="mega-menu"
+style={{
+  width: `${category.subcategories.length * 154}px`,
+  left: (() => {
+    const categoryEls = Array.from(navbarRef.current?.querySelectorAll('.category-item') || []);
+    const item = categoryEls[index];
+    if (!item) return '0px';
+
+    const rect = item.getBoundingClientRect();
+    const menuWidth = category.subcategories.length * 150; // match width calc
+    const viewportWidth = window.innerWidth;
+    const sidePadding = 140; // px
+
+    let leftPos = rect.left + rect.width / 2 - menuWidth / 2;
+
+    // Clamp with padding
+    if (leftPos < sidePadding) leftPos = sidePadding;
+    if (leftPos + menuWidth > viewportWidth - sidePadding) {
+      leftPos = viewportWidth - sidePadding - menuWidth;
+    }
+
+    return `${leftPos}px`;
+  })(),
+  transform: 'none',
+}}
+
+    onMouseEnter={() => handleMouseEnter(index)}
+    onMouseLeave={handleMouseLeave}
+  >
+    {category.subcategories.map((sub, i) => (
+      <div key={i} className="mega-column">
+        <h4 onClick={() => handleClick({ category: category.name, sub: sub.name })}>
+          {sub.name}
+        </h4>
+        <ul>
+          {sub.subcategories.map((child, j) => (
+            <li
+              key={j}
+              onClick={() =>
+                handleClick({
+                  category: category.name,
+                  sub: sub.name,
+                  child: child,
+                })
+              }
             >
-              {category.subcategories.map((sub, i) => (
-                <div key={i} className="mega-column">
-                  <h4 onClick={() => handleClick({ category: category.name, sub: sub.name })}>
-                    {sub.name}
-                  </h4>
-                  <ul>
-                    {sub.subcategories.map((child, j) => (
-                      <li
-                        key={j}
-                        onClick={() =>
-                          handleClick({
-                            category: category.name,
-                            sub: sub.name,
-                            child: child,
-                          })
-                        }
-                      >
-                        {child}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          )}
+              {child}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+)}
+
         </div>
       ))}
     </div>

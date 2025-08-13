@@ -138,7 +138,7 @@ const handleResolutionAction = async (action) => {
 
 
   return (
-    <div className="recent-files-container" style={{ marginTop: "20px" }}>
+    <div className="recent-files-container" >
       <div className="recent-files-header orderactionheader">Order Actions</div>
 
       <div className="order-actions-links">
