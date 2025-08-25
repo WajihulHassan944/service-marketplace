@@ -1,67 +1,67 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-export default function withoutAdminAuth(Component) {
-  return function PublicOnlyAdminComponent(props) {
-    const user = useSelector((state) => state.user);
-    const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const [redirecting, setRedirecting] = useState(false);
+function WithoutAdminAuthInner(Component, props) {
+  const user = useSelector((state) => state.user);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [redirecting, setRedirecting] = useState(false);
 
-    useEffect(() => {
-      if (
-        user.isHydrated &&
-        user.isAuthenticated &&
-        (user.role?.includes("superadmin") || user.role?.includes("admin"))
-      ) {
-        // If superadmin/admin tries to access /admin/login
-        if (pathname === "/admin/login") {
-          setRedirecting(true);
+  useEffect(() => {
+    if (
+      user.isHydrated &&
+      user.isAuthenticated &&
+      (user.role?.includes("superadmin") || user.role?.includes("admin"))
+    ) {
+      if (pathname === "/admin/login") {
+        setRedirecting(true);
 
-          // Look for ?redirect=... in URL
-          const redirect = searchParams.get("redirect");
-
-          if (redirect) {
-            router.replace(redirect);
-          } else {
-            router.replace("/admin");
-          }
+        const redirect = searchParams.get("redirect");
+        if (redirect) {
+          router.replace(redirect);
+        } else {
+          router.replace("/admin");
         }
       }
-    }, [user.isHydrated, user.isAuthenticated, user.role, pathname, searchParams, router]);
-
-    // While Redux is hydrating
-    if (!user.isHydrated) {
-      return (
-        <div className="auth-spinner-container">
-          <div className="auth-spinner"></div>
-        </div>
-      );
     }
+  }, [user, pathname, searchParams, router]);
 
-    // While redirecting
-    if (redirecting) {
-      return (
-        <div className="auth-spinner-container">
-          <div className="auth-spinner"></div>
-        </div>
-      );
-    }
+  if (!user.isHydrated || redirecting) {
+    return (
+      <div className="auth-spinner-container">
+        <div className="auth-spinner"></div>
+      </div>
+    );
+  }
 
-    // If authenticated superadmin/admin and still on login page → block it
-    if (
-      user.isAuthenticated &&
-      (user.role?.includes("superadmin") || user.role?.includes("admin")) &&
-      pathname === "/admin/login"
-    ) {
-      return null;
-    }
+  if (
+    user.isAuthenticated &&
+    (user.role?.includes("superadmin") || user.role?.includes("admin")) &&
+    pathname === "/admin/login"
+  ) {
+    return null;
+  }
 
-    // Otherwise allow access
-    return <Component {...props} />;
+  return <Component {...props} />;
+}
+
+export default function withoutAdminAuth(Component) {
+  return function Wrapper(props) {
+    return (
+      <Suspense
+        fallback={
+          <div className="auth-spinner-container">
+            <div className="auth-spinner"></div>
+          </div>
+        }
+      >
+        <WithoutAdminAuthInner Component={Component} {...props} />
+      </Suspense>
+    );
   };
 }

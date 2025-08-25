@@ -1,44 +1,58 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-export default function withoutAuth(Component) {
-  return function PublicOnlyComponent(props) {
-    const user = useSelector((state) => state.user);
-    const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const [redirecting, setRedirecting] = useState(false);
+function WithoutAuthInner({ Component, props }) {
+  const user = useSelector((state) => state.user);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [redirecting, setRedirecting] = useState(false);
 
-    useEffect(() => {
-      if (user.isHydrated && user.isAuthenticated) {
-        if (pathname === "/login" || pathname === "/register") {
-          setRedirecting(true);
+  useEffect(() => {
+    if (user.isHydrated && user.isAuthenticated) {
+      if (pathname === "/login" || pathname === "/register") {
+        setRedirecting(true);
 
-          // Look for ?redirect=... in URL
-          const redirect = searchParams.get("redirect");
+        const redirect = searchParams.get("redirect");
 
-          if (redirect) {
-            router.replace(redirect);
-          } else if (user.currentDashboard === "seller") {
-            router.replace("/seller/dashboard");
-          } else if (user.currentDashboard === "buyer") {
-            router.replace("/buyer/dashboard");
-          }
+        if (redirect) {
+          router.replace(redirect);
+        } else if (user.currentDashboard === "seller") {
+          router.replace("/seller/dashboard");
+        } else if (user.currentDashboard === "buyer") {
+          router.replace("/buyer/dashboard");
         }
       }
-    }, [user.isHydrated, user.isAuthenticated, user.currentDashboard, pathname, searchParams, router]);
-
-    if (!user.isHydrated || redirecting) {
-      return (
-        <div className="auth-spinner-container">
-          <div className="auth-spinner"></div>
-        </div>
-      );
     }
+  }, [user, pathname, searchParams, router]);
 
-    return <Component {...props} />;
+  if (!user.isHydrated || redirecting) {
+    return (
+      <div className="auth-spinner-container">
+        <div className="auth-spinner"></div>
+      </div>
+    );
+  }
+
+  return <Component {...props} />;
+}
+
+export default function withoutAuth(Component) {
+  return function Wrapper(props) {
+    return (
+      <Suspense
+        fallback={
+          <div className="auth-spinner-container">
+            <div className="auth-spinner"></div>
+          </div>
+        }
+      >
+        <WithoutAuthInner Component={Component} props={props} />
+      </Suspense>
+    );
   };
 }
