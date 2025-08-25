@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-function WithoutAdminAuthInner(Component, props) {
+function WithoutAdminAuthInner({ Component, props }) {
   const user = useSelector((state) => state.user);
   const router = useRouter();
   const pathname = usePathname();
@@ -47,6 +47,7 @@ function WithoutAdminAuthInner(Component, props) {
     return null;
   }
 
+  // ✅ Render actual Component
   return <Component {...props} />;
 }
 
@@ -60,7 +61,7 @@ export default function withoutAdminAuth(Component) {
           </div>
         }
       >
-        <WithoutAdminAuthInner Component={Component} {...props} />
+        <WithoutAdminAuthInner Component={Component} props={props} />
       </Suspense>
     );
   };
