@@ -7,6 +7,7 @@ import { IoCheckmarkDoneOutline, IoTrashOutline } from 'react-icons/io5';
 import { FiRefreshCcw } from 'react-icons/fi';
 import './AdminNotifications.css';
 import { baseUrl } from '@/const';
+import withAdminAuth from '@/hooks/withAdminAuth';
 
 const AdminNotifications = () => {
   const user = useSelector((state) => state.user);
@@ -190,4 +191,4 @@ const AdminNotifications = () => {
   );
 };
 
-export default AdminNotifications;
+export default withAdminAuth(AdminNotifications);

@@ -4,7 +4,8 @@ import './ResolutionCenter.css';
 import { FiMapPin, FiClock } from 'react-icons/fi';
 import Link from 'next/link';
 import moment from 'moment';
-
+import { baseUrl } from '@/const';
+import withAdminAuth from '@/hooks/withAdminAuth';
 const ResolutionCenter = () => {
   const [disputedOrders, setDisputedOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +14,7 @@ const ResolutionCenter = () => {
   useEffect(() => {
     const fetchDisputedOrders = async () => {
       try {
-        const res = await fetch('https://backend-service-marketplace.vercel.app/api/orders/disputed');
+        const res = await fetch(`${baseUrl}/orders/disputed`);
         const data = await res.json();
         setDisputedOrders(data.disputedOrders || []);
       } catch (err) {
@@ -100,4 +101,4 @@ const ResolutionCenter = () => {
   );
 };
 
-export default ResolutionCenter;
+export default withAdminAuth(ResolutionCenter);

@@ -1,4 +1,6 @@
+"use client";
 import LoginPage from '@/components/Login/Login'
+import withoutAuth from '@/hooks/withoutAuth'
 import React from 'react'
 
 const page = () => {
@@ -9,4 +11,4 @@ const page = () => {
   )
 }
 
-export default page
+export default withoutAuth(page)

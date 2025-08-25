@@ -42,11 +42,52 @@
 
 .form-group input,
 .form-group select,
-.form-group textarea {
+.form-group textarea,
+.date-picker-input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
+  width: 100%;
+}
+
+.date-picker-input {
+  cursor: pointer;
+}
+
+.custom-upload {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.upload-box input[type="file"] {
+  display: none;
+}
+
+.upload-button-custom {
+  background-color: #0f256e;
+  color: #fff;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s;
+}
+
+.upload-button-custom:hover {
+  background-color: #213b9b;
+}
+
+.file-name-display {
+  font-size: 13px;
+  color: #444;
 }
 
 .client-form-save-button {
@@ -59,6 +100,10 @@
   border-radius: 6px;
   cursor: pointer;
   width: fit-content;
+}
+
+.client-form-save-button:hover {
+  background-color: #213b9b;
 }
 
 @media (max-width: 768px) {
@@ -88,4 +133,11 @@
     width: 100%;
     text-align: center;
   }
+}
+.flex-end{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
 }

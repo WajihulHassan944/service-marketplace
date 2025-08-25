@@ -60,7 +60,6 @@ useEffect(() => {
           };
 
           setGigData({
-            userId: g.userId,
             offerPackages: true,
             gigTitle: g.gigTitle,
             category: g.category,
@@ -96,7 +95,6 @@ useEffect(() => {
     } else if (user?._id) {
       // New gig
       setGigData({
-        userId: user._id,
         offerPackages: true,
         gigTitle: "",
         category: "",

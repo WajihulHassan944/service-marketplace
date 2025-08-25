@@ -3,6 +3,7 @@ import React from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 import './RecentTransactions.css';
 import EarningAnalytics from './analytics-section/EarningAnalytics';
+import withAdminAuth from '@/hooks/withAdminAuth';
 
 const Page = () => {
   return (
@@ -78,4 +79,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAdminAuth(Page);

@@ -5,18 +5,18 @@ import { FaHashtag, FaEdit } from 'react-icons/fa';
 import { FiMessageCircle } from 'react-icons/fi';
 import './disputeDetails.css';
 import toast from 'react-hot-toast';
-
+import { baseUrl } from '@/const';
 const Dispute = () => {
   const searchParams = useSearchParams();
   const orderId = searchParams.get('orderId');
-
+const [processingAction, setProcessingAction] = useState(null);
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const fetchOrderDetails = async () => {
     try {
       const res = await fetch(
-        `https://backend-service-marketplace.vercel.app/api/orders/order-by-id/${orderId}`
+        `${baseUrl}/orders/order-by-id/${orderId}`
       );
       const data = await res.json();
       if (data.success) {
@@ -33,22 +33,26 @@ const Dispute = () => {
     if (orderId) fetchOrderDetails();
   }, [orderId]);
 
-  const handleAction = async (action) => {
-    try {
-      const res = await fetch(
-        `https://backend-service-marketplace.vercel.app/api/orders/resolution-response/${orderId}?action=${action}&userId=${order?.resolutionRequest?.requestedBy}`,
-        { method: 'GET' }
-      );
-      const data = await res.json();
-      if (data.success) {
-        toast.error(`Dispute ${action}ed successfully`);
-        fetchOrderDetails(); // Refresh order data
-      }
-    } catch (err) {
-      console.error(`Error performing ${action}:`, err);
-    }
-  };
+  
 
+  const handleAction = async (action) => {
+  try {
+    setProcessingAction(action);
+    const res = await fetch(
+      `${baseUrl}/orders/resolution-response/${orderId}?action=${action}&userId=${order?.resolutionRequest?.requestedBy}&isAdmin=true`,
+      { method: 'GET' }
+    );
+    const data = await res.json();
+    if (data.success) {
+      toast.success(`Dispute ${action}ed successfully`);
+      await fetchOrderDetails();
+    }
+  } catch (err) {
+    console.error(`Error performing ${action}:`, err);
+  } finally {
+    setProcessingAction(null);
+  }
+};
   if (loading) return <div className="resolution-wrapper-new">Loading...</div>;
   if (!order) return <div className="resolution-wrapper-new">Order not found</div>;
 
@@ -66,6 +70,7 @@ const Dispute = () => {
         </div>
 
         <h2 className="resolution-header">Dispute Resolution Details</h2>
+        <h5 className='resolution-dispute-message'>Dispute Message:</h5>
         <p className="resolution-description">{order.resolutionRequest.message}</p>
 
         <div className="resolution-section-title">
@@ -89,12 +94,22 @@ const Dispute = () => {
         </ul>
 {order.resolutionRequest?.status === "open" && (
         <div className="dispute-actions">
-          <button className="resolution-submit-btn" onClick={() => handleAction('accept')}>
-            Accept Dispute
-          </button>
-          <button className="resolution-reject-btn" onClick={() => handleAction('reject')}>
-            Reject Dispute
-          </button>
+         <button
+  className="resolution-submit-btn"
+  onClick={() => handleAction('accept')}
+  disabled={processingAction === 'accept'}
+>
+  {processingAction === 'accept' ? <div className="spinner" /> : 'Accept Dispute'}
+</button>
+
+<button
+  className="resolution-reject-btn"
+  onClick={() => handleAction('reject')}
+  disabled={processingAction === 'reject'}
+>
+  {processingAction === 'reject' ? <div className="spinner" /> : 'Reject Dispute'}
+</button>
+
           <a
             href={`/admin/messages?receiverId=${order.resolutionRequest.requestedBy}`}
             className="resolution-msg-btn"

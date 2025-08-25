@@ -7,6 +7,7 @@ import {
   loginUser,
   setCurrentDashboard,
   initializeDashboardFromStorage,
+  setHydrated,
 } from '@/redux/features/userSlice';
 import { baseUrl } from '@/const';
 
@@ -16,7 +17,10 @@ const UserInitializer = () => {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   useEffect(() => {
-    // ✅ Load localStorage dashboard early
+    // ✅ Hydration flag
+    dispatch(setHydrated(true));
+
+    // ✅ Load dashboard from localStorage first
     dispatch(initializeDashboardFromStorage());
 
     const fetchUser = async () => {

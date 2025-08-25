@@ -1,4 +1,7 @@
+'use client';
+
 import Notifications from '@/components/BuyerDashboard/Notifications/Notifications'
+import withAuth from '@/hooks/withAuth'
 import React from 'react'
 
 const page = () => {
@@ -9,4 +12,4 @@ const page = () => {
   )
 }
 
-export default page
+export default withAuth(page)

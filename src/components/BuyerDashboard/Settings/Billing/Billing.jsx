@@ -24,6 +24,7 @@ const Billing = () => {
           userId: user._id,
           stripeCardId: cardId,
         }),
+        credentials: "include",
       });
       const data = await res.json();
       if (data.success) {
@@ -52,6 +53,7 @@ const Billing = () => {
           userId: user._id,
           stripeCardId: cardId,
         }),
+        credentials: "include",
       });
       const data = await res.json();
       if (data.success) {

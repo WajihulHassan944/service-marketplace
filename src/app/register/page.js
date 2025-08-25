@@ -1,5 +1,7 @@
+"use client";
 import React, { Suspense } from 'react';
 import SignupForm from '@/components/SignUp/Signup';
+import withoutAuth from '@/hooks/withoutAuth';
 
 const Page = () => {
   return (
@@ -9,4 +11,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withoutAuth(Page);

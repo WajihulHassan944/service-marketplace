@@ -47,6 +47,7 @@ const BillingForm = ({ onClose }) => {
         userId: user._id,
         paymentMethodId: paymentMethod.id,
       }),
+      credentials: "include", 
     });
 
     const data = await res.json();

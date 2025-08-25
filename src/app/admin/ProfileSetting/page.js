@@ -1,9 +1,12 @@
+'use client';
+import withAdminAuth from '@/hooks/withAdminAuth';
 import ProfileSetting from './ProfileSetting';
 
-export default function Page() {
+const Page = () => {
   return (
     <div>
       <ProfileSetting/>
     </div>
   );
 }
+export default withAdminAuth(Page)

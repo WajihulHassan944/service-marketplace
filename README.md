@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# doTask Service Marketplace – Frontend
 
-## Getting Started
+This is the **frontend application** of the doTask Service Marketplace, built with **Next.js**. It connects with the backend API to provide users with a seamless service marketplace experience.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Tech Stack
+
+* **Framework:** [Next.js](https://nextjs.org/) (App Router)
+* **State Management:** Redux Toolkit
+* **APIs:** REST APIs via fetch
+* **Authentication:** Google OAuth (via backend integration)
+* **Other Tools:** reCAPTCHA, Cloudinary, Stripe, Zoom
+
+---
+
+## 📂 Project Structure
+
+```
+frontend/
+├── public/                 # Static assets
+│   ├── assets/             # Images, icons, etc.
+│   ├── fonts/              # Custom fonts
+│
+├── src/
+│   ├── app/                # Next.js App Router pages & layouts
+│   ├── components/         # Reusable React components
+│   ├── const/              # Constant values (e.g., config, enums)
+│   ├── hooks/              # Custom React hooks
+│   ├── redux/              # Redux slices, store configuration
+│   └── utils/              # Helper and utility functions
+│
+├── .gitignore              # Ignored files for Git
+├── jsconfig.json           # Path aliases and JS config
+├── next.config.mjs         # Next.js configuration
+├── package.json            # Project dependencies and scripts
+└── package-lock.json       # Dependency lock file
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## ⚙️ Setup & Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Clone the repository**
 
-## Learn More
+   git clone https://github.com/WajihulHassan944/service-marketplace
+   cd doTask-frontend
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install dependencies**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   npm install
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Configure Environment Variables**
+   Create a `.env.local` file in the root directory with the required values:
 
-## Deploy on Vercel
+   NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
+   NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Run the development server**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   npm run dev
+
+   The app will be available at [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 📦 Available Scripts
+
+* `npm run dev` – Start development server
+* `npm run build` – Build for production
+* `npm run start` – Run production build
+* `npm run lint` – Run ESLint checks
+
+---
+

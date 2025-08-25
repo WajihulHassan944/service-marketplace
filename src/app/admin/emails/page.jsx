@@ -8,6 +8,7 @@ import {
 } from 'react-icons/md';
 import { FaTimes } from 'react-icons/fa';
 import { baseUrl } from '@/const';
+import withAdminAuth from '@/hooks/withAdminAuth';
 
 const EmailUI = () => {
   const [emails, setEmails] = useState([]);
@@ -261,4 +262,4 @@ const fetchEmails = async (folder) => {
   );
 };
 
-export default EmailUI;
+export default withAdminAuth(EmailUI);

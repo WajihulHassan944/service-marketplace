@@ -23,7 +23,6 @@ const PublishGig = ({ onBack, gigData }) => {
       const formData = new FormData();
 
       // Append basic fields
-      formData.append('userId', gigData.userId);
       formData.append('gigTitle', gigData.gigTitle);
       formData.append('category', gigData.category);
       formData.append('subcategory', gigData.subcategory);

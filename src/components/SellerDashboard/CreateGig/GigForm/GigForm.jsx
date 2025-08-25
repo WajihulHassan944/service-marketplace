@@ -128,7 +128,7 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
       )}
 
       <div className="form-section two-columns">
-        <div>
+        {/* <div>
           <label htmlFor="searchTag" className="form-label">
             Search tags
           </label>
@@ -140,7 +140,7 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
             value={gigData.searchTag}
             onChange={handleChange}
           />
-        </div>
+        </div> */}
 
         <div>
           <label htmlFor="positiveKeywords" className="form-label">

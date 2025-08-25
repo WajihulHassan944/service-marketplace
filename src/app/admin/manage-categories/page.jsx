@@ -4,6 +4,7 @@ import './ManageCategories.css';
 import { FaHome, FaEdit, FaTrash } from 'react-icons/fa';
 import { baseUrl } from '@/const';
 import toast from 'react-hot-toast';
+import withAdminAuth from '@/hooks/withAdminAuth';
 const ManageCategories = () => {
   const [categories, setCategories] = useState([]);
   const [popupData, setPopupData] = useState(null);
@@ -244,4 +245,4 @@ const resetForm = () => {
   );
 };
 
-export default ManageCategories;
+export default withAdminAuth(ManageCategories);

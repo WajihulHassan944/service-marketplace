@@ -4,9 +4,8 @@ import Pusher from "pusher-js";
 import Image from "next/image";
 import { FiMessageCircle, FiSend, FiPaperclip, FiSearch } from "react-icons/fi";
 import "./MessagesMainAdmin.css";
-
+import { baseUrl } from "@/const";
 const SUPERADMIN_ID = "6836a8ab3503274446274b32";
-const API_BASE = "https://backend-service-marketplace.vercel.app/api";
 
 const MessagesMainAdmin = () => {
   const [admin, setAdmin] = useState(null);
@@ -19,7 +18,7 @@ const MessagesMainAdmin = () => {
   // Fetch superadmin info
   useEffect(() => {
     const fetchAdmin = async () => {
-      const res = await fetch(`${API_BASE}/users/getUserById/${SUPERADMIN_ID}`);
+      const res = await fetch(`${baseUrl}/users/getUserById/${SUPERADMIN_ID}`);
       const data = await res.json();
       if (data.success) setAdmin(data.data);
     };

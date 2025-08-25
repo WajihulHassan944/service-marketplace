@@ -1,4 +1,6 @@
+'use client';
 import AddClients from '@/components/BuyerDashboard/Settings/add-clients/add-clients'
+import withAuth from '@/hooks/withAuth'
 import React from 'react'
 
 const page = () => {
@@ -9,4 +11,4 @@ const page = () => {
   )
 }
 
-export default page
+export default withAuth(page)

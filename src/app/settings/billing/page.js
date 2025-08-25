@@ -1,4 +1,6 @@
+'use client';
 import Billing from '@/components/BuyerDashboard/Settings/Billing/Billing'
+import withAuth from '@/hooks/withAuth'
 import React from 'react'
 
 const page = () => {
@@ -9,4 +11,4 @@ const page = () => {
   )
 }
 
-export default page
+export default withAuth(page)

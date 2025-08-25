@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { baseUrl } from "@/const";
 import { loginUser, setCurrentDashboard } from "@/redux/features/userSlice";
 import { useDispatch } from "react-redux";
+import withoutAdminAuth from "@/hooks/withoutAdminAuth";
 const Login = () => {
   const router = useRouter();
 const dispatch = useDispatch();
@@ -133,4 +134,4 @@ setLoading(true);
   );
 };
 
-export default Login;
+export default withoutAdminAuth(Login);

@@ -20,6 +20,7 @@ const TopUpModal = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user._id, amount: Number(amount) }),
+        credentials: "include", 
       });
 
       const data = await res.json();

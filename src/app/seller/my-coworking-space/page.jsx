@@ -4,6 +4,7 @@ import "./CoworkingSpace.css";
 import { useSelector } from "react-redux";
 import { baseUrl } from "@/const";
 import { useRouter } from "next/navigation";
+import withAuth from "@/hooks/withAuth";
 
 const CoworkingSpace = () => {
   const user = useSelector((state) => state.user);
@@ -153,4 +154,4 @@ const handleCoworkerAction = async (orderId, action) => {
   );
 };
 
-export default CoworkingSpace;
+export default withAuth(CoworkingSpace);

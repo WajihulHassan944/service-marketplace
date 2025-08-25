@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import './MyClients.css';
 import Sidebar from '../Sidebar/Sidebar';
 import { baseUrl } from '@/const';
+import { Globe } from "lucide-react";
 import toast from 'react-hot-toast';
 
 const ClientList = () => {
@@ -52,28 +53,38 @@ const ClientList = () => {
     }
   };
 
-  return (
-    <div className="client-list-page">
-      <Sidebar />
-      <div className="client-list-container">
-        <h2 className="client-list-heading">My Clients</h2>
-        {loading ? (
-          <p className="status-message">Loading...</p>
-        ) : error ? (
-          <p className="status-message error">{error}</p>
-        ) : clients.length === 0 ? (
-          <p className="status-message">No clients found.</p>
-        ) : (
-          <div className="client-cards-wrapper">
-            {clients.map((client) => (
-              <div className="client-card" key={client._id}>
+return (
+  <div className="client-list-page">
+    <Sidebar />
+    <div className="client-list-container">
+      <h2 className="client-list-heading">My Clients</h2>
+
+      {loading ? (
+        <p className="status-message">Loading...</p>
+      ) : error ? (
+        <p className="status-message error">{error}</p>
+      ) : clients.length === 0 ? (
+        <p className="status-message">No clients found.</p>
+      ) : (
+        <div className="client-cards-wrapper">
+          {clients.map((client) => (
+            <div className="client-card" key={client._id}>
+              <div className="client-card-header">
                 <img
                   src={client.profileUrl}
                   alt={client.name}
                   className="client-image"
                 />
-                <h3>{client.name}</h3>
-                <p className="client-country">{client.country}</p>
+              </div>
+              <div className="client-card-body">
+                <h3 className="client-name">{client.name}</h3>
+                <p className="client-date">
+                  {client.workMonth} {client.workYear}
+                </p>
+                <p className="client-description">{client.description}</p>
+                <p className="client-country"><Globe size={17} style={{ marginRight: "6px" }} /> {client.country}</p>
+              </div>
+              <div className="client-card-footer">
                 <button
                   className="delete-btn"
                   onClick={() => handleDeleteClient(client._id)}
@@ -81,12 +92,14 @@ const ClientList = () => {
                   Delete
                 </button>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
-  );
+  </div>
+);
+
 };
 
 export default ClientList;

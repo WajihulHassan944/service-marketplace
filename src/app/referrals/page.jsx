@@ -3,6 +3,7 @@ import React from 'react';
 import './referrals.css';
 import Sidebar from '@/components/BuyerDashboard/Settings/Sidebar/Sidebar';
 import { useSelector } from 'react-redux';
+import withAuth from '@/hooks/withAuth';
 
 const page = () => {
   const user = useSelector((state) => state.user);
@@ -83,4 +84,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default withAuth(page);

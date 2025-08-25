@@ -344,10 +344,6 @@
 
 
 .descriptionCell {
-  max-width: 220px;
-  display: -webkit-box;
-  -webkit-line-clamp: 5; /* limit to 3 lines */
-  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-word;

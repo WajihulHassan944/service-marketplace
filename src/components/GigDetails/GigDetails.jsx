@@ -19,6 +19,7 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import AboutSec from "./aboutgig/aboutgig";
 import { FiSearch } from 'react-icons/fi';
 import CapitalizeFirstWord from "@/utils/CapitalizeFirstWord";
+import SellerClients from "./SellerClients/SellerClients";
 const GigDetails = () => {
    const userLoggedIn = useSelector((state) => state.user);
     const [searchTerm, setSearchTerm] = useState("");
@@ -44,7 +45,34 @@ const router = useRouter();
 const [paymentMethod, setPaymentMethod] = useState("balance");
 const [currentImageIndex, setCurrentImageIndex] = useState(0);
 const [fade, setFade] = useState(false);
-console.log("buyer review are: ", buyerReviews);
+
+
+const getYouTubeEmbedUrl = (url) => {
+  try {
+    const parsed = new URL(url);
+
+    // Case 1: standard watch link: https://www.youtube.com/watch?v=76MVs_AkjTY
+    if (parsed.hostname.includes("youtube.com") && parsed.searchParams.get("v")) {
+      return `https://www.youtube.com/embed/${parsed.searchParams.get("v")}`;
+    }
+
+    // Case 2: short link: https://youtu.be/76MVs_AkjTY
+    if (parsed.hostname === "youtu.be") {
+      return `https://www.youtube.com/embed${parsed.pathname}`;
+    }
+
+    // fallback (if already embed or unexpected format)
+    return url;
+  } catch {
+    return url;
+  }
+};
+
+const slides = [
+  ...(gig?.images || []),
+  ...(gig?.videoIframes?.map((url) => ({ type: "video", url: getYouTubeEmbedUrl(url) })) || []),
+];
+
 const changeImage = (newIndex) => {
   setFade(true);
   setTimeout(() => {
@@ -52,19 +80,15 @@ const changeImage = (newIndex) => {
     setFade(false);
   }, 200); // Match half of transition duration for smoothness
 };
-
 const handlePrevImage = () => {
-  const newIndex =
-    currentImageIndex === 0 ? gig.images.length - 1 : currentImageIndex - 1;
+  const newIndex = currentImageIndex === 0 ? slides.length - 1 : currentImageIndex - 1;
   changeImage(newIndex);
 };
 
 const handleNextImage = () => {
-  const newIndex =
-    currentImageIndex === gig.images.length - 1 ? 0 : currentImageIndex + 1;
+  const newIndex = currentImageIndex === slides.length - 1 ? 0 : currentImageIndex + 1;
   changeImage(newIndex);
 };
-
 
 useEffect(() => {
   const referrerIdFromUrl = searchParams.get("referrerId");
@@ -205,7 +229,7 @@ const handleShareClick = (e) => {
       <div>
         <strong>
           <CapitalizeFirstWord>{gig.userId.firstName}</CapitalizeFirstWord>{' '}
-          {gig.userId.lastName}
+         {gig.userId.lastName.charAt(0).toUpperCase()}.
         </strong>
         <span className={styles.level}>{gig.userId?.sellerDetails?.level}</span>
 
@@ -234,34 +258,8 @@ const handleShareClick = (e) => {
           )}
         </div>
       </div>
-      {clients.length > 0 && (
-    <>
-    {/* <strong style={{ fontSize: '18px', marginBottom: '10px', display: 'block', paddingTop: '5px'}}>Among my Clients</strong> */}
-  
-  <div style={{borderRadius: '8px', padding: ' 10px 15px', marginTop: '20px', marginBottom: '20px', }}>
-<div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap', padding: '15px' }}>
-  {clients.map((client) => (
-    <div key={client._id} className={styles['client-container']}>
-      <img
-        src={client.profileUrl}
-        alt={client.name}
-        className={styles['client-image']}
-      />
-      <div className={styles['client-name']}>{client.name}</div>
-
-      <div className={styles['client-popup']}>
-        <img src={client.profileUrl} alt={client.name} />
-        <div style={{ fontWeight: '600' }}>{client.name}</div>
-        <div>{client.country}</div>
-      </div>
+   
     </div>
-  ))}
-</div>
-
-  </div> </>
-)}
-    </div>
-
 <div className={styles.btnsgigDetailswrap}>
   {userLoggedIn?._id && userLoggedIn.currentDashboard === "buyer" && (
   <button className={styles.sharebtn} onClick={handleShareClick}>
@@ -280,6 +278,7 @@ const handleShareClick = (e) => {
 
 </div>
 
+<SellerClients clients={clients} />
       <div className={styles.mainContent}>
         <div className={styles.leftContent}>
       
@@ -289,20 +288,40 @@ const handleShareClick = (e) => {
 <div className={styles.imageSlider}>
   {gig.images?.length > 0 && (
     <>
-     <Image
-  src={gig.images[currentImageIndex].url}
-  alt={`Gig Image ${currentImageIndex + 1}`}
-  width={800}
-  height={500}
-  className={`${styles.gigheaderImage} ${fade ? styles['fade-out'] : ''}`}
-/>
+    {slides.length > 0 && (
+  <>
+    {slides[currentImageIndex].type === "video" ? (
+      <iframe
+        width="800"
+        height="500"
+        src={slides[currentImageIndex].url}
+        title={`Gig Video ${currentImageIndex + 1}`}
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        className={`${styles.gigheaderImage} ${fade ? styles["fade-out"] : ""}`}
+      ></iframe>
+    ) : (
+      <Image
+        src={slides[currentImageIndex].url}
+        alt={`Gig Image ${currentImageIndex + 1}`}
+        width={800}
+        height={500}
+        className={`${styles.gigheaderImage} ${fade ? styles["fade-out"] : ""}`}
+      />
+    )}
 
-      {gig.images.length > 1 && (
-        <>
-          <button onClick={handlePrevImage} className={styles.arrowLeft}>‹</button>
-          <button onClick={handleNextImage} className={styles.arrowRight}>›</button>
-        </>
-      )}
+    {slides.length > 1 && (
+      <>
+        <button onClick={handlePrevImage} className={styles.arrowLeft}>‹</button>
+        <button onClick={handleNextImage} className={styles.arrowRight}>›</button>
+      </>
+    )}
+  </>
+)}
+
+
+     
     </>
   )}
 </div>
@@ -388,17 +407,7 @@ const handleShareClick = (e) => {
 
           </section>
 
-          <section className={styles.techStack}>
-            <div>
-              <h4>Search Tag</h4>
-              <p>#{gig.searchTag}</p>
-            </div>
-            <div>
-              <h4>Positive Keywords</h4>
-              <p>{gig.positiveKeywords?.join(", ")}</p>
-            </div>
-          </section>
- 
+        
      <GigListSection 
   excludeGigId={gig._id}
   currentGig={gig}  
@@ -449,18 +458,40 @@ const handleShareClick = (e) => {
 
           <div className={styles.included}><span>Included in package</span><span>▾</span></div>
 <div className={styles.includedList}>
+  {/* Render deliveryTime and revisions as sentences */}
+  <div className={styles.includedItem}>
+    <FaCheck style={{ color: 'black', marginRight: '8px' }} />
+   <span>
+  {pkg.deliveryTime} day{pkg.deliveryTime !== 1 ? 's' : ''} delivery Time
+</span>
+
+  </div>
+ <div className={styles.includedItem}>
+  <FaCheck style={{ color: 'black', marginRight: '8px' }} />
+  <span>
+    {pkg.revisions === 0
+      ? 'No revisions offered'
+      : `${pkg.revisions} ${pkg.revisions === 1 ? 'Revision' : 'Revisions'}`}
+  </span>
+</div>
+
+
+  {/* Render all other keys except the excluded ones */}
   {Object.entries(pkg)
-    .filter(([key]) => key !== 'description') // exclude only 'description'
+    .filter(([key]) => 
+      !['description', 'packageName', 'price', 'deliveryTime', 'revisions'].includes(key)
+    )
     .slice(0, 7) // limit to first 7 items
-    .map(([key, value], index) => (
+    .map(([key], index) => (
       <div key={index} className={styles.includedItem}>
         <FaCheck style={{ color: 'black', marginRight: '8px' }} />
         <span style={{ textTransform: 'capitalize' }}>
-          {key.replace(/([A-Z])/g, ' $1')} {typeof value === 'boolean' ? '' : `- ${value}`}
+          {key.replace(/([A-Z])/g, ' $1')}
         </span>
       </div>
     ))}
 </div>
+
           <button className={styles.continueBtn} onClick={() => setShowPopup(true)}>
             Purchase →
           </button>
@@ -718,8 +749,13 @@ if (referrerId) {
       ))}
     </section>
 
-
-
+  <section className={styles.techStack}>
+            <div>
+              <h4>Positive Keywords</h4>
+              <p>{gig.positiveKeywords?.join(", ")}</p>
+            </div>
+          </section>
+ 
 
 
     </div>

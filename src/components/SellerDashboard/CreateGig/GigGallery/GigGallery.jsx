@@ -194,7 +194,7 @@ console.log(validImages);
         </p>
         <input
           type="url"
-          placeholder="Paste video URL here"
+          placeholder="https://www.youtube.com/watch?v=76MVs_AkjTY"
           className="upload-box wide"
           value={gigData.videoIframes && gigData.videoIframes.length > 0 ? gigData.videoIframes[0] : ""}
           onChange={handleVideoChange}

@@ -16,10 +16,25 @@ const DescriptionEditor = ({ onNext, onBack, gigData, setGigData }) => {
   }, []); // ✅ run only once on mount
 
   const handleContentChange = (e) => {
-    const text = e.currentTarget.innerText;
-    setCharCount(text.length);
-    setGigData((prev) => ({ ...prev, gigDescription: text }));
-  };
+  let text = e.currentTarget.innerText;
+
+  if (text.length > 1200) {
+    text = text.slice(0, 1200);
+    editorRef.current.innerText = text;
+
+    // Move caret to the end after trimming
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.selectNodeContents(editorRef.current);
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  setCharCount(text.length);
+  setGigData((prev) => ({ ...prev, gigDescription: text }));
+};
+
 
   const handleHourlyRateChange = (e) => {
     const value = e.target.value;

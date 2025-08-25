@@ -7,8 +7,7 @@ import { baseUrl } from '@/const';
 const JobCard = ({ gigId, title, postedDate, status, sellerName, sellerImage, refreshGigs }) => {
   const [message, setMessage] = useState('');
  const router = useRouter();
-
-  const handleAction = async (type) => {
+const handleAction = async (type) => {
   let url = '';
 
   if (type === 'approve' || type === 'reject') {
@@ -20,6 +19,10 @@ const JobCard = ({ gigId, title, postedDate, status, sellerName, sellerImage, re
   try {
     const res = await fetch(url, {
       method: type === 'delete' ? 'DELETE' : 'GET',
+      credentials: 'include', // ✅ add this for admin too
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     if (type === 'delete') {

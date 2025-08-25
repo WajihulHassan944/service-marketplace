@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import './manageJobs.css';
 import JobCard from './ManageServices';
 import { FaChevronDown } from "react-icons/fa";
-
+import { baseUrl } from '@/const';
+import withAdminAuth from '@/hooks/withAdminAuth';
 const ManageServices = () => {
   const [gigs, setGigs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,7 +20,7 @@ const ManageServices = () => {
 
   const fetchGigs = async () => {
     try {
-      const res = await fetch('https://backend-service-marketplace.vercel.app/api/gigs/all');
+      const res = await fetch(`${baseUrl}/gigs/all`);
       const data = await res.json();
       if (data.success) {
         setGigs(data.gigs);
@@ -95,4 +96,4 @@ const ManageServices = () => {
   );
 };
 
-export default ManageServices;
+export default withAdminAuth(ManageServices);

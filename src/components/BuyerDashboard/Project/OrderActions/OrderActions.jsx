@@ -119,7 +119,7 @@ const handleResolutionSubmit = async () => {
 const handleResolutionAction = async (action) => {
   try {
     const res = await fetch(
-      `https://backend-service-marketplace.vercel.app/api/orders/resolution-response/${order._id}?action=${action}&userId=${user._id}`
+      `${baseUrl}/orders/resolution-response/${order._id}?action=${action}&userId=${user._id}`
     );
 
     const data = await res.json();
@@ -142,7 +142,7 @@ const handleResolutionAction = async (action) => {
       <div className="recent-files-header orderactionheader">Order Actions</div>
 
       <div className="order-actions-links">
-        {!isBuyer && (
+        {!isBuyer && order.status != "disputed" && (
           <button className="action-of-order" onClick={() => setCoworkerPopup(true)}>
             <FiUserPlus size={20} /> Invite a coworker
           </button>
@@ -243,9 +243,9 @@ const handleResolutionAction = async (action) => {
               <p className="resolution-item">
                 <strong>Reason:</strong> {order.resolutionRequest.reason}
               </p>
-              <p className="resolution-item">
+              {/* <p className="resolution-item">
                 <strong>Message:</strong> {order.resolutionRequest.message}
-              </p>
+              </p> */}
 
               <div className="resolution-actions">
               <button

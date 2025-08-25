@@ -1,9 +1,12 @@
+'use client';
+import withAdminAuth from '@/hooks/withAdminAuth';
 import SeeAllAdmin from './SeeAllAdmin';
 
-export default function Page() {
+const Page = () => {
   return (
     <div>
       <SeeAllAdmin />
     </div>
   );
 }
+export default withAdminAuth(Page)

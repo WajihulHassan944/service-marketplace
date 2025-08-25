@@ -160,10 +160,10 @@ const handleChange = (e) => {
                     name={`packages.${pkg}.known.description`}
                     value={gigData.packages[pkg].known?.description || ''}
                     onChange={(e) => handleDescriptionChange(pkg, e)}
-                    maxLength={1200}
+                    maxLength={100}
                     placeholder="Describe your offering"
                   />
-                  <div className="char-count">{charCount[pkg]}/1200</div>
+                  {/* <div className="char-count">{charCount[pkg]}/100</div> */}
                 </td>
               ))}
             </tr>

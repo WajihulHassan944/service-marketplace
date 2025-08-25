@@ -15,6 +15,7 @@ import { MdOutlinePending } from "react-icons/md";
 import Breadcrumb from './Breadcrumb/Breadcrumb';
 import Addnote from './Addnote/Addnote';
 import { baseUrl } from '@/const';
+import withAuth from '@/hooks/withAuth';
 
 const Page = () => {
   const [showModal, setShowModal] = useState(false);
@@ -159,4 +160,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

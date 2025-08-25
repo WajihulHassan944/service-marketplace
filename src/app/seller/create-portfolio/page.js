@@ -1,5 +1,7 @@
+'use client';
 import React, { Suspense } from 'react';
 import CreatePortfolio from '@/components/BuyerDashboard/Settings/CreatePortfolio/CreatePortfolio';
+import withAuth from '@/hooks/withAuth';
 
 const Page = () => {
   return (
@@ -9,4 +11,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);
