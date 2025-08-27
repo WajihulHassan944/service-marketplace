@@ -259,3 +259,17 @@ color: #333;
 .custom-checkbox-wrapper a:hover {
   text-decoration: none;
 }
+.password-rules {
+  font-size: 13px;
+  margin: 6px 0 12px;
+  padding-left: 20px;
+}
+.password-rules li {
+  margin-bottom: 3px;
+}
+.password-rules li.valid {
+  color: green;
+}
+.password-rules li.invalid {
+  color: red;
+}

@@ -14,7 +14,8 @@ const SignupForm = () => {
   const searchParams = useSearchParams();
   const role = searchParams.get('role') || 'buyer';
   const [agreedToTerms, setAgreedToTerms] = useState(false);
-
+const [passwordErrors, setPasswordErrors] = useState([]);
+const [isPasswordValid, setIsPasswordValid] = useState(false);
 
   /* ---------- pop‑up state ---------- */
   const [showPopup, setShowPopup] = useState(false);
@@ -48,11 +49,26 @@ const handleResumeChange = (e) => {
     setResumeFile(file);
   }
 };
+const validatePassword = (password) => {
+  const errors = [];
+  if (password.length < 8) errors.push("Minimum 8 characters");
+  if (!/[A-Z]/.test(password)) errors.push("At least 1 uppercase letter");
+  if (!/[a-z]/.test(password)) errors.push("At least 1 lowercase letter");
+  if (!/[0-9]/.test(password)) errors.push("At least 1 number");
+  if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) errors.push("At least 1 special character (!@#$%^&*)");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  setPasswordErrors(errors);
+  setIsPasswordValid(errors.length === 0);
+};
+ const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prev) => ({ ...prev, [name]: value }));
+
+  if (name === "password") {
+    validatePassword(value);
+  }
+};
+
 
 const handleImageChange = (e) => {
   const file = e.target.files[0];
@@ -91,6 +107,12 @@ useEffect(() => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    
+if (!isPasswordValid) {
+  setError("Password does not meet security requirements.");
+  setLoading(false);
+  return;
+}
 
     const data = new FormData();
     data.append('firstName', formData.firstName);
@@ -220,14 +242,34 @@ if (referrerId) data.append("referrerId", referrerId);
             onChange={handleChange}
             required
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password (8 or more characters)"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+        <input
+  type="password"
+  name="password"
+  placeholder="Password (8 or more characters)"
+  value={formData.password}
+  onChange={handleChange}
+  required
+/>
+{/* inline password rules */}
+{formData.password && (
+  <ul className="password-rules">
+    <li className={formData.password.length >= 8 ? "valid" : "invalid"}>
+      Minimum 8 characters
+    </li>
+    <li className={/[A-Z]/.test(formData.password) ? "valid" : "invalid"}>
+      At least 1 uppercase letter
+    </li>
+    <li className={/[a-z]/.test(formData.password) ? "valid" : "invalid"}>
+      At least 1 lowercase letter
+    </li>
+    <li className={/[0-9]/.test(formData.password) ? "valid" : "invalid"}>
+      At least 1 number
+    </li>
+    <li className={/[!@#$%^&*(),.?":{}|<>]/.test(formData.password) ? "valid" : "invalid"}>
+      At least 1 special character (!@#$%^&*)
+    </li>
+  </ul>
+)}
 
            <input
             type="text"
