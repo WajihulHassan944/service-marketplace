@@ -8,6 +8,18 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { baseUrl } from '@/const';
 import { FiCheckCircle } from 'react-icons/fi';
 import { FaCheck } from 'react-icons/fa';
+import Select from "react-select";
+import countries from "i18n-iso-countries";
+import enLocale from "i18n-iso-countries/langs/en.json";
+
+countries.registerLocale(enLocale);
+
+const countryOptions = Object.entries(countries.getNames("en")).map(
+  ([code, name]) => ({
+    value: code,
+    label: name,
+  })
+);
 
 const SignupForm = () => {
   const router = useRouter();
@@ -32,7 +44,7 @@ const [isPasswordValid, setIsPasswordValid] = useState(false);
   description: '',
   personalportfoliolink: '',
   });
-
+  
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
   const [loading, setLoading] = useState(false);
@@ -271,13 +283,17 @@ if (referrerId) data.append("referrerId", referrerId);
   </ul>
 )}
 
-           <input
-            type="text"
-            name="country"
-            placeholder="Country"
-            value={formData.country}
-            onChange={handleChange}
-          />
+         <Select
+  options={countryOptions}
+  value={countryOptions.find((opt) => opt.label === formData.country)}
+  onChange={(selected) =>
+    setFormData((prev) => ({ ...prev, country: selected?.label || "" }))
+  }
+  placeholder="Select your country"
+  className="country-select"
+  classNamePrefix="select"
+/>
+
           {role === 'seller' && (
             <>
               <input
