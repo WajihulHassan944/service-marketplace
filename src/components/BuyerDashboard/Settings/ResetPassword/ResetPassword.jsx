@@ -44,7 +44,8 @@ const ResetPassword = () => {
       const res = await fetch(`${baseUrl}/users/reset-password-request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, captchaToken })
+        body: JSON.stringify({ ...formData, captchaToken }),
+         credentials: 'include',
       });
 
       const data = await res.json();

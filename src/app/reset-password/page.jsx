@@ -1,7 +1,6 @@
 'use client';
 import React, { Suspense } from 'react';
 import ResetPasswordConfirm from './ResetPasswordConfirm';
-import withAuth from '@/hooks/withAuth';
 
 const Page = () => {
   return (
@@ -11,4 +10,4 @@ const Page = () => {
   );
 };
 
-export default withAuth(Page);
+export default Page;
