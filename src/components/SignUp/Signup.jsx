@@ -106,8 +106,6 @@ useEffect(() => {
     } catch (err) {
       console.error('Failed to fetch country:', err);
       setFormData(prev => ({ ...prev, country: 'Unknown' }));
-    } finally {
-      setLoadingCountry(false);
     }
   };
 
