@@ -7,6 +7,19 @@ import { FaUserCircle } from 'react-icons/fa';
 import Sidebar from '../Sidebar/Sidebar';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '@/const';
+import Select from "react-select";
+import countries from "i18n-iso-countries";
+import enLocale from "i18n-iso-countries/langs/en.json";
+
+countries.registerLocale(enLocale);
+
+const countryOptions = Object.entries(countries.getNames("en")).map(
+  ([code, name]) => ({
+    value: code,
+    label: name,
+  })
+);
+
 const InfoSettings = () => {
   const user = useSelector((state) => state.user);
   const [formData, setFormData] = useState({
@@ -117,6 +130,7 @@ if (formData.languages.length) {
       const res = await fetch(`${baseUrl}/users/update-profile`, {
         method: 'PUT',
         body: form,
+         credentials: 'include',
       });
 
       const data = await res.json();
@@ -162,13 +176,17 @@ if (formData.languages.length) {
 
         <div className="form-group">
           <label>Country</label>
-          <input
-            type="text"
-            name="country"
-            value={formData.country}
-            onChange={handleInputChange}
-            placeholder="Enter your country"
-          />
+         <Select
+  options={countryOptions}
+  value={countryOptions.find((opt) => opt.label === formData.country)}
+  onChange={(selected) =>
+    setFormData((prev) => ({ ...prev, country: selected?.label || "" }))
+  }
+  placeholder="Select your country"
+  className="country-select"
+  classNamePrefix="select"
+/>
+
         </div>
 
         <div className="form-group">
