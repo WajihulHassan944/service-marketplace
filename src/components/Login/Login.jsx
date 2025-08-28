@@ -186,7 +186,9 @@ const LoginPage = () => {
           />
           Continue with Google
         </button>
-
+<div className='forgotPasswordText'>
+  <Link href="/forgot-password">Forgot Password?</Link>
+</div>
         <div className="signup-text">
           <hr />
           <span>Don't have an account?</span>

@@ -7,7 +7,7 @@
   }
   
   .sidebar {
-    width: 220px;
+    width: 230px;
     background-color: #fff;
     padding: 20px 0;
   }
@@ -30,6 +30,7 @@
     cursor: pointer;
     font-weight: 400;
     border-radius: 10px;
+    font-size: 15px;
    
   
   }

@@ -1,36 +1,82 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { CheckCircle, XCircle } from 'lucide-react'; // ✅ icons
 import './reset-password.css';
 import { baseUrl } from '@/const';
+
+// Password validator (returns array of missing rules)
+const validatePassword = (password) => {
+  const errors = [];
+  if (password.length < 8) errors.push("Minimum 8 characters");
+  if (!/[A-Z]/.test(password)) errors.push("At least 1 uppercase letter");
+  if (!/[a-z]/.test(password)) errors.push("At least 1 lowercase letter");
+  if (!/[0-9]/.test(password)) errors.push("At least 1 number");
+  if (!/[!@#$%^&*(),.?\":{}|<>]/.test(password)) errors.push("At least 1 special character (!@#$%^&*)");
+  return errors;
+};
+
 const ResetPasswordConfirm = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
-const router = useRouter();
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     newPassword: '',
     confirmPassword: ''
   });
 
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState({ type: '', text: '' }); // type = success | error
+  const [errors, setErrors] = useState([]);
+  const [confirmError, setConfirmError] = useState('');
+
+  const computeRuleStatus = (pwd) => ({
+    minLen: pwd.length >= 8,
+    upper: /[A-Z]/.test(pwd),
+    lower: /[a-z]/.test(pwd),
+    number: /[0-9]/.test(pwd),
+    special: /[!@#$%^&*(),.?":{}|<>]/.test(pwd)
+  });
 
   const handleChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
+    const { name, value } = e.target;
+    const newForm = { ...formData, [name]: value };
+    setFormData(newForm);
+
+    if (name === 'newPassword' || name === 'confirmPassword') {
+      const validationErrors = validatePassword(newForm.newPassword);
+      setErrors(validationErrors);
+
+      if (newForm.confirmPassword && newForm.newPassword !== newForm.confirmPassword) {
+        setConfirmError('Passwords do not match.');
+      } else {
+        setConfirmError('');
+      }
+
+      setMessage({ type: '', text: '' }); // clear old messages
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (formData.newPassword !== formData.confirmPassword) {
-      return setMessage('Passwords do not match.');
-    }
+    setMessage({ type: '', text: '' });
+    setConfirmError('');
 
     if (!token) {
-      return setMessage('Missing or invalid token.');
+      setMessage({ type: 'error', text: 'Missing or invalid token.' });
+      return;
+    }
+
+    const validationErrors = validatePassword(formData.newPassword);
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    if (formData.newPassword !== formData.confirmPassword) {
+      setConfirmError('Passwords do not match.');
+      return;
     }
 
     setLoading(true);
@@ -41,29 +87,36 @@ const router = useRouter();
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           token,
-          newPassword: formData.newPassword
+          newPassword: formData.newPassword,
+          confirmPassword: formData.confirmPassword
         })
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Something went wrong.');
 
-      setMessage('✅ Password has been reset successfully.');
-      setTimeout(() => {
-      router.push('/');
-    }, 1000);
+      setMessage({ type: 'success', text: 'Password has been reset successfully.' });
+      setFormData({ newPassword: '', confirmPassword: '' });
+      setErrors([]);
+      setConfirmError('');
+
+      setTimeout(() => router.push('/login'), 1200);
     } catch (err) {
-      setMessage(err.message || '❌ Failed to reset password.');
+      setMessage({ type: 'error', text: err.message || 'Failed to reset password.' });
     } finally {
       setLoading(false);
     }
   };
 
+  const ruleStatus = computeRuleStatus(formData.newPassword);
+  const isPasswordValid = validatePassword(formData.newPassword).length === 0;
+  const isConfirmMatching = formData.newPassword === formData.confirmPassword && formData.confirmPassword.length > 0;
+
   return (
     <div className="reset-confirm-container">
       <div className="reset-confirm-box">
         <h2 className="reset-title">Set New Password</h2>
-        <form onSubmit={handleSubmit} className="reset-form">
+        <form onSubmit={handleSubmit} className="reset-form" noValidate>
           <label>New Password</label>
           <input
             type="password"
@@ -72,8 +125,19 @@ const router = useRouter();
             onChange={handleChange}
             placeholder="Enter new password"
             required
+            autoComplete="new-password"
           />
 
+          {/* Live password rule list */}
+            {formData.newPassword && (
+          <ul className="password-rules" aria-live="polite">
+            <li className={ruleStatus.minLen ? 'valid' : 'invalid'}>Minimum 8 characters</li>
+            <li className={ruleStatus.upper ? 'valid' : 'invalid'}>At least 1 uppercase letter</li>
+            <li className={ruleStatus.lower ? 'valid' : 'invalid'}>At least 1 lowercase letter</li>
+            <li className={ruleStatus.number ? 'valid' : 'invalid'}>At least 1 number</li>
+            <li className={ruleStatus.special ? 'valid' : 'invalid'}>At least 1 special character (!@#$%^&*)</li>
+          </ul>
+            )}
           <label>Confirm New Password</label>
           <input
             type="password"
@@ -82,11 +146,28 @@ const router = useRouter();
             onChange={handleChange}
             placeholder="Confirm new password"
             required
+            autoComplete="new-password"
           />
 
-          {message && <p className="reset-message">{message}</p>}
+          {confirmError && <p className="reset-confirm-error">{confirmError}</p>}
 
-          <button type="submit" className="reset-btn" disabled={loading || !token}>
+          {/* Success/Error message */}
+          {message.text && (
+            <p className={`reset-message ${message.type}`}>
+              {message.type === 'success' ? (
+                <CheckCircle size={18} className="icon success-icon" />
+              ) : (
+                <XCircle size={18} className="icon error-icon" />
+              )}
+              {message.text}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            className="reset-btn"
+            disabled={loading || !token || !isPasswordValid || !isConfirmMatching}
+          >
             {loading ? 'Resetting...' : 'Reset Password'}
           </button>
         </form>

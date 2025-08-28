@@ -205,6 +205,7 @@ if (referrerId) data.append("referrerId", referrerId);
 
   return (
     <>
+    <div className='signup-wrap'>
       <div className="signup-container">
         <h2>{role !== 'seller' ? 'Sign up' : 'Apply as Freelancer'}</h2>
 
@@ -403,6 +404,7 @@ if (referrerId) data.append("referrerId", referrerId);
           </div>
         </div>
       )}
+      </div>
     </>
   );
 };

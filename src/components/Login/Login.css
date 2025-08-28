@@ -3,7 +3,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
+      background-image: url(/assets/backgroundVerification.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
     padding: 1rem;
   }
   
@@ -13,7 +16,8 @@
     padding: 2rem;
     border: 1px solid #ddd;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    
+    box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.14);
     text-align: center;
     background-color: white;
   }
@@ -80,8 +84,8 @@
   
   .outline-btn {
     background-color: white;
-    border: 2px solid #1f2a60;
-    color: #1f2a60;
+    border: 1px solid #333;
+    color: #000;
   }
   
   .outline-btn:hover {
@@ -138,3 +142,28 @@
     }
   }
   
+
+
+  .forgotPasswordText {
+  display: flex;
+  justify-content: center; /* Aligns link to the end */
+  margin-top: 8px;
+}
+
+.forgotPasswordText a {
+  font-size: 14px;
+  font-weight: 500;
+  color: #325ab0; /* nice blue shade */
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.2s ease;
+  font-style: italic;
+}
+
+.forgotPasswordText a:hover {
+  color: #1d4ed8; /* darker blue on hover */
+  transform: translateX(2px); /* subtle hover animation */
+}
+
+.forgotPasswordText a:active {
+  color: #0f172a; /* pressed state */
+}

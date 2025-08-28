@@ -5,12 +5,13 @@ import Image from 'next/image';
 import './InfoSettings.css';
 import { FaUserCircle } from 'react-icons/fa';
 import Sidebar from '../Sidebar/Sidebar';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { baseUrl } from '@/const';
 import Select from "react-select";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
-
+import { refreshAndDispatchUser } from '@/utils/refreshUser';
+import { CheckCircle, XCircle } from "lucide-react";
 countries.registerLocale(enLocale);
 
 const countryOptions = Object.entries(countries.getNames("en")).map(
@@ -22,6 +23,8 @@ const countryOptions = Object.entries(countries.getNames("en")).map(
 
 const InfoSettings = () => {
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  
   const [formData, setFormData] = useState({
     userId: '',
     firstName: '',
@@ -38,7 +41,7 @@ const InfoSettings = () => {
   const [editableEmail, setEditableEmail] = useState(false);
   const [previewImg, setPreviewImg] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState(null);
 const [newSkill, setNewSkill] = useState('');
 const [newLanguage, setNewLanguage] = useState('');
 
@@ -109,8 +112,7 @@ const handleRemoveLanguage = (languageToRemove) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage('');
-
+  
     try {
       const form = new FormData();
       form.append('userId', formData.userId);
@@ -136,10 +138,10 @@ if (formData.languages.length) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Update failed.');
 
-      setMessage('✅ Profile updated successfully.');
-      window.location.reload();
+    setMessage({ type: "success", text: "Profile updated successfully." });
+        await refreshAndDispatchUser(dispatch);
     } catch (err) {
-      setMessage(`❌ ${err.message}`);
+     setMessage({ type: "error", text: err.message });
     } finally {
       setLoading(false);
     }
@@ -318,7 +320,16 @@ if (formData.languages.length) {
         <button type="submit" className="save-btn" disabled={loading}>
           {loading ? 'Saving...' : 'Save Changes'}
         </button>
-        {message && <p className="form-message">{message}</p>}
+     {message && (
+        <div className={`form-message ${message.type}`}>
+          {message.type === "success" ? (
+            <CheckCircle size={18} />
+          ) : (
+            <XCircle size={18} />
+          )}
+          <span>{message.text}</span>
+        </div>
+      )}
       </form>
     </div>
   );

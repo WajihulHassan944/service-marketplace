@@ -1,0 +1,72 @@
+.verify-container {
+  min-height: 83vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(/assets/backgroundVerification.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: Arial, sans-serif;
+}
+
+.verify-card {
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 10px;
+  
+    box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.14);
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.verify-icon {
+  margin-bottom: 15px;
+}
+
+.verify-icon.success {
+  color: #16a34a;
+}
+
+.verify-icon.error {
+  color: #dc2626;
+}
+
+.verify-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #111;
+}
+
+.verify-text {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.verify-btn {
+  display: inline-block;
+  background: #0f6cbd;
+  color: #fff;
+  font-weight: 500;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-bottom: 12px;
+}
+
+.verify-btn:hover {
+  background: #0d164d;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
