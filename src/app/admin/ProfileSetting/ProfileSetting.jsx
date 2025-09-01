@@ -100,6 +100,7 @@ const handleSubmit = async () => {
       const res = await fetch(`${baseUrl}/users/update-profile`, {
         method: "PUT",
         body: profileForm,
+          credentials: 'include',
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
