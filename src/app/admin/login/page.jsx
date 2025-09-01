@@ -7,17 +7,17 @@ import { baseUrl } from "@/const";
 import { loginUser, setCurrentDashboard } from "@/redux/features/userSlice";
 import { useDispatch } from "react-redux";
 import withoutAdminAuth from "@/hooks/withoutAdminAuth";
+
+import toast from 'react-hot-toast';
 const Login = () => {
   const router = useRouter();
 const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 const [loading, setLoading] = useState(false);
 
 const handleLogin = async (e) => {
   e.preventDefault();
-  setError("");
 setLoading(true);
 
   try {
@@ -50,6 +50,7 @@ setLoading(true);
         // Dispatch Redux user
         dispatch(loginUser(userDetailsData.user));
 
+      toast.success("Login successful");
         // Determine top role
         const validRoles = data.user.role.filter((r) =>
           ["admin", "superadmin"].includes(r)
@@ -60,14 +61,14 @@ setLoading(true);
         dispatch(setCurrentDashboard(topRole));
         router.push("/admin");
       } else {
-        setError("Failed to fetch user details.");
+        toast.error("Failed to fetch user details.");
       }
     } else {
-      setError("Invalid credentials or unauthorized role.");
+      toast.error("Invalid credentials or unauthorized role.");
     }
   } catch (err) {
     console.error("Login error:", err);
-    setError("Something went wrong. Please try again.");
+    toast.error("Something went wrong. Please try again.");
   }
   finally{
     setLoading(false);
@@ -109,18 +110,10 @@ setLoading(true);
             required
           />
 
-          <div className="login-options">
-            <label className="rememberLabel">
-              <input type="checkbox" defaultChecked /> Remember this Device
-            </label>
-            <a href="#" className="forgot-password">
-              Forgot Password?
-            </a>
-          </div>
+          
 
-          {error && <p className="error-message">{error}</p>}
 
-         <button type="submit" className="login-button" disabled={loading}>
+         <button type="submit" className="login-button" disabled={loading} style={{marginTop:'20px'}}>
   {loading ? <span className="loader"></span> : "Sign In"}
 </button>
 
