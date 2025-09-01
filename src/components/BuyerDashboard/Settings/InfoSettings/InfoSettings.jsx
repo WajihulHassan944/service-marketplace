@@ -11,7 +11,7 @@ import Select from "react-select";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
 import { refreshAndDispatchUser } from '@/utils/refreshUser';
-import { CheckCircle, XCircle } from "lucide-react";
+import { toast } from 'react-hot-toast';
 countries.registerLocale(enLocale);
 
 const countryOptions = Object.entries(countries.getNames("en")).map(
@@ -41,7 +41,6 @@ const InfoSettings = () => {
   const [editableEmail, setEditableEmail] = useState(false);
   const [previewImg, setPreviewImg] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState(null);
 const [newSkill, setNewSkill] = useState('');
 const [newLanguage, setNewLanguage] = useState('');
 
@@ -137,11 +136,11 @@ if (formData.languages.length) {
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Update failed.');
-
-    setMessage({ type: "success", text: "Profile updated successfully." });
+      setLoading(false);
+toast.success("Profile updated successfully.")
         await refreshAndDispatchUser(dispatch);
     } catch (err) {
-     setMessage({ type: "error", text: err.message });
+      toast.error(err.message);
     } finally {
       setLoading(false);
     }
@@ -313,23 +312,12 @@ if (formData.languages.length) {
           <small>(jpg or png format)</small>
         </div>
 
-        <div className="form-group view-profile">
-          <a href={`/profile/${user._id}`}>My Profile</a>
-        </div>
+      
 
         <button type="submit" className="save-btn" disabled={loading}>
           {loading ? 'Saving...' : 'Save Changes'}
         </button>
-     {message && (
-        <div className={`form-message ${message.type}`}>
-          {message.type === "success" ? (
-            <CheckCircle size={18} />
-          ) : (
-            <XCircle size={18} />
-          )}
-          <span>{message.text}</span>
-        </div>
-      )}
+     
       </form>
     </div>
   );

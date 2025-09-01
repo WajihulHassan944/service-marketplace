@@ -12,7 +12,6 @@ import { loginUser, setCurrentDashboard } from '@/redux/features/userSlice';
 const LoginPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');

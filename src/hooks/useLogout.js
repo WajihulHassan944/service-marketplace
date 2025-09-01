@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { logoutUser } from '@/redux/features/userSlice';
 import { baseUrl } from '@/const';
 
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 const useLogout = () => {
   const dispatch = useDispatch();
   const router = useRouter();

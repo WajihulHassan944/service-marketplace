@@ -15,6 +15,7 @@ const ChangePassword = () => {
     newPassword: '',
     confirmPassword: ''
   });
+const [samePasswordError, setSamePasswordError] = useState('');
 
   useEffect(() => {
     if (user?.email) {
@@ -48,9 +49,16 @@ const ChangePassword = () => {
       [name]: value
     }));
 
-    if (name === 'newPassword') {
-      setPasswordErrors(validatePassword(value));
+   if (name === 'newPassword') {
+    setPasswordErrors(validatePassword(value));
+
+    // ✅ check against current password live
+    if (formData.currentPassword && value === formData.currentPassword) {
+      setSamePasswordError('New password cannot be the same as your current password.');
+    } else {
+      setSamePasswordError('');
     }
+  }
   };
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -65,6 +73,14 @@ const handleSubmit = async (e) => {
     toast.error('New password and confirm password do not match.');
     return;
   }
+  
+if (formData.currentPassword === formData.newPassword) {
+  setSamePasswordError('New password cannot be the same as your current password.');
+  toast.error('New password cannot be the same as your current password.');
+  return;
+} else {
+  setSamePasswordError('');
+}
 
   setLoading(true);
 
@@ -139,7 +155,9 @@ const handleSubmit = async (e) => {
             onChange={handleChange}
             required
           />
-
+{samePasswordError && (
+  <p className="error-message">{samePasswordError}</p>
+)}
           {/* ✅ Inline password rules */}
           {formData.newPassword && (
             <ul className="password-rules">

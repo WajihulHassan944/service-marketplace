@@ -1,14 +1,16 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaUpload, FaEdit } from "react-icons/fa";
 import "./profilesetting.css";
 import { baseUrl } from "@/const";
+import toast from 'react-hot-toast';
+import { refreshAndDispatchUser } from "@/utils/refreshUser";
 
 const ProfileSetting = () => {
   const user = useSelector((state) => state.user);
-
+const dispatch = useDispatch();
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -25,6 +27,7 @@ const ProfileSetting = () => {
   const [message, setMessage] = useState({ type: "", text: "" });
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef();
+const [passwordErrors, setPasswordErrors] = useState([]);
 
   useEffect(() => {
     if (user) {
@@ -42,6 +45,21 @@ const ProfileSetting = () => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm({ ...form, [name]: type === "checkbox" ? checked : value });
+
+    
+   if (name === 'newPassword') {
+    setPasswordErrors(validatePassword(value));
+   }
+  };
+const validatePassword = (password) => {
+    const errors = [];
+    if (password.length < 8) errors.push('At least 8 characters');
+    if (!/[A-Z]/.test(password)) errors.push('At least 1 uppercase letter');
+    if (!/[a-z]/.test(password)) errors.push('At least 1 lowercase letter');
+    if (!/[0-9]/.test(password)) errors.push('At least 1 number');
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password))
+      errors.push('At least 1 special character');
+    return errors;
   };
 
   const handleImageChange = (e) => {
@@ -65,7 +83,7 @@ const handleSubmit = async () => {
   const passwordChanged =
     form.currentPassword &&
     form.newPassword &&
-    form.newPassword === form.repeatPassword;
+    form.repeatPassword;
 
   try {
     let somethingChanged = false;
@@ -85,23 +103,43 @@ const handleSubmit = async () => {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
-      setMessage({ type: "success", text: "Profile updated successfully." });
+      toast.success("Profile updated successfully.");
       somethingChanged = true;
     }
 
     if (passwordChanged) {
+        if (form.newPassword !== form.repeatPassword) {
+    toast.error('New password and confirm password do not match.');
+    return;
+  }
+
+      if (passwordErrors.length > 0) {
+    toast.error('Please fix password requirements.');
+    return;
+  }  
+if (form.currentPassword === form.newPassword) {
+  toast.error('New password cannot be the same as your current password.');
+  return;
+} 
       const res = await fetch(`${baseUrl}/users/change-password`, {
-        method: "POST",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: user._id,
           currentPassword: form.currentPassword,
           newPassword: form.newPassword,
+          confirmPassword:form.repeatPassword
         }),
+         credentials: 'include',
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
-      setMessage({ type: "success", text: "Password changed successfully." });
+      toast.success("Password changed successfully.");
+     setForm((prev) => ({
+  ...prev,
+  currentPassword: "",
+  newPassword: "",
+  repeatPassword: "",
+}));
       somethingChanged = true;
     }
 
@@ -111,16 +149,14 @@ const handleSubmit = async () => {
 
     // 🔁 Refresh if either profile or password was updated
     if (somethingChanged) {
-      setTimeout(() => window.location.reload(), 1000);
+      refreshAndDispatchUser(dispatch);
     }
 
   } catch (err) {
-    setMessage({
-      type: "error",
-      text: err.message || "Something went wrong.",
-    });
+    toast.error(err.message || "Something went wrong.");
   } finally {
     setLoading(false);
+      setPasswordErrors([]);
   }
 };
 
@@ -217,6 +253,26 @@ const handleSubmit = async () => {
             onChange={handleChange}
           />
         </div>
+          {form.newPassword && (
+            <ul className="password-rules" style={{marginTop:'10px'}}>
+              <li className={form.newPassword.length >= 8 ? 'valid' : 'invalid'}>
+                Minimum 8 characters
+              </li>
+              <li className={/[A-Z]/.test(form.newPassword) ? 'valid' : 'invalid'}>
+                At least 1 uppercase letter
+              </li>
+              <li className={/[a-z]/.test(form.newPassword) ? 'valid' : 'invalid'}>
+                At least 1 lowercase letter
+              </li>
+              <li className={/[0-9]/.test(form.newPassword) ? 'valid' : 'invalid'}>
+                At least 1 number
+              </li>
+              <li className={/[!@#$%^&*(),.?":{}|<>]/.test(form.newPassword) ? 'valid' : 'invalid'}>
+                At least 1 special character
+              </li>
+            </ul>
+          )}
+
         <div className="checkbox-row">
           <input
             type="checkbox"

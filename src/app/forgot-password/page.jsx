@@ -3,18 +3,16 @@ import React, { useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import './ForgotPassword.css';
 import { baseUrl } from '@/const';
+import toast from 'react-hot-toast';
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [captchaToken, setCaptchaToken] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState(null);
-  const [error, setError] = useState(null);
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage(null);
-    setError(null);
-
+  
     if (!email) {
       setError("Email is required.");
       return;
@@ -36,15 +34,17 @@ const ForgotPassword = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || "Something went wrong. Please try again.");
+         setLoading(false);
+        toast.error(data.message || "Something went wrong. Please try again.");
       } else {
-        setMessage(data.message || "Password reset link has been sent to your email.");
+        setLoading(false);
+        toast.success(data.message || "Password reset link has been sent to your email.");
         setEmail('');
         setCaptchaToken(null);
       }
     } catch (err) {
       console.error("Forgot password error:", err);
-      setError("Something went wrong. Please try again later.");
+      toast.error("Something went wrong. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -84,9 +84,7 @@ const ForgotPassword = () => {
           </button>
         </form>
 
-        {error && <p className="forgotpass-error">{error}</p>}
-        {message && <p className="forgotpass-success">{message}</p>}
-
+       
         <div className="forgotpass-footer">
           <a href="/login">Back to Login</a>
         </div>

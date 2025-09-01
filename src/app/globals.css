@@ -122,3 +122,24 @@ body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* ✅ Password rules list */
+.password-rules {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  list-style: disc;
+  line-height: 1.4;
+}
+
+.password-rules li {
+  margin-bottom: 4px;
+}
+
+.password-rules .valid {
+  color: #16a34a; /* green */
+}
+
+.password-rules .invalid {
+  color: #dc2626; /* red */
+}

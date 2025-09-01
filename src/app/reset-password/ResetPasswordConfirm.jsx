@@ -1,10 +1,10 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { CheckCircle, XCircle } from 'lucide-react'; // ✅ icons
 import './reset-password.css';
 import { baseUrl } from '@/const';
 
+import toast from 'react-hot-toast';
 // Password validator (returns array of missing rules)
 const validatePassword = (password) => {
   const errors = [];
@@ -27,7 +27,6 @@ const ResetPasswordConfirm = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState({ type: '', text: '' }); // type = success | error
   const [errors, setErrors] = useState([]);
   const [confirmError, setConfirmError] = useState('');
 
@@ -54,17 +53,15 @@ const ResetPasswordConfirm = () => {
         setConfirmError('');
       }
 
-      setMessage({ type: '', text: '' }); // clear old messages
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage({ type: '', text: '' });
     setConfirmError('');
 
     if (!token) {
-      setMessage({ type: 'error', text: 'Missing or invalid token.' });
+      toast.error("Missing or invalid token.");
       return;
     }
 
@@ -76,6 +73,7 @@ const ResetPasswordConfirm = () => {
 
     if (formData.newPassword !== formData.confirmPassword) {
       setConfirmError('Passwords do not match.');
+      toast.error("Passwords do not match.")
       return;
     }
 
@@ -95,14 +93,17 @@ const ResetPasswordConfirm = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Something went wrong.');
 
-      setMessage({ type: 'success', text: 'Password has been reset successfully.' });
+      setLoading(false);
+      toast.success('Password has been reset successfully.');
       setFormData({ newPassword: '', confirmPassword: '' });
       setErrors([]);
       setConfirmError('');
 
       setTimeout(() => router.push('/login'), 1200);
     } catch (err) {
-      setMessage({ type: 'error', text: err.message || 'Failed to reset password.' });
+      
+      setLoading(false);
+      toast.error(err.message || 'Failed to reset password.');
     } finally {
       setLoading(false);
     }
@@ -151,18 +152,7 @@ const ResetPasswordConfirm = () => {
 
           {confirmError && <p className="reset-confirm-error">{confirmError}</p>}
 
-          {/* Success/Error message */}
-          {message.text && (
-            <p className={`reset-message ${message.type}`}>
-              {message.type === 'success' ? (
-                <CheckCircle size={18} className="icon success-icon" />
-              ) : (
-                <XCircle size={18} className="icon error-icon" />
-              )}
-              {message.text}
-            </p>
-          )}
-
+       
           <button
             type="submit"
             className="reset-btn"
