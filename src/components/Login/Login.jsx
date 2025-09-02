@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { useGoogleLogin } from '@react-oauth/google';
 import { baseUrl } from '../../const';
 import { loginUser, setCurrentDashboard } from '@/redux/features/userSlice';
-
+import { toast } from 'react-hot-toast';
 const LoginPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -52,8 +52,9 @@ const LoginPage = () => {
   };
 
   dispatch(loginUser(userWithWallet));
+  toast.success("Login successful.")
         } else {
-          setError('Failed to fetch user details.');
+          toast.error('Failed to fetch user details.');
           setLoading(false);
           return;
         }
@@ -77,11 +78,11 @@ const LoginPage = () => {
           router.push('/buyer/home');
         }
       } else {
-        setError(data.message || 'Login failed.');
+        toast.error(data.message || 'Login failed.');
       }
     } catch (err) {
       console.error('Login error:', err);
-      setError('Something went wrong. Please try again.');
+      toast.error('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -112,8 +113,9 @@ const LoginPage = () => {
 
           if (userDetailsRes.ok && userDetailsData.success) {
             dispatch(loginUser(userDetailsData.user));
+             toast.success("Login successful.")
           } else {
-            setError('Failed to fetch user details.');
+            toast.error('Failed to fetch user details.');
             setLoading(false);
             return;
           }
@@ -128,17 +130,17 @@ const LoginPage = () => {
             setError('Unrecognized role.');
           }
         } else {
-          setError(data.message || 'Google login failed.');
+          toast.error(data.message || 'Google login failed.');
         }
       } catch (err) {
         console.error('Google login error:', err);
-        setError('Something went wrong. Please try again.');
+        toast.error('Something went wrong. Please try again.');
       } finally {
         setLoading(false);
       }
     },
     onError: () => {
-      setError('Google login was cancelled or failed.');
+      toast.error('Google login was cancelled or failed.');
     },
   });
 
