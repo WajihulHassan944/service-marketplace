@@ -12,6 +12,7 @@ import Select from "react-select";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
 
+import { toast } from 'react-hot-toast';
 countries.registerLocale(enLocale);
 
 const countryOptions = Object.entries(countries.getNames("en")).map(
@@ -120,6 +121,12 @@ useEffect(() => {
     
 if (!isPasswordValid) {
   setError("Password does not meet security requirements.");
+  toast.error("Password does not meet security requirements.");
+  setLoading(false);
+  return;
+}
+ if (!agreedToTerms) {
+  toast.error("You must agree to the terms and conditions before signing up.");
   setLoading(false);
   return;
 }
@@ -159,21 +166,21 @@ if (referrerId) data.append("referrerId", referrerId);
             : 'A verification email has been sent to your email account. Kindly verify it.';
         setPopupMessage(message);
         setShowPopup(true);
-      } else {
-        setError(result.message || 'Registration failed');
-      }
+      }  else if (result.message === 'User Already Exists') {
+  toast.error(
+    "This email is already registered. Please log in with your email and password or use ‘Forgot Password’ to reset."
+  );
+  router.push('/login');
+} else {
+  toast.error(result.message || 'Registration failed');
+}
     } catch (err) {
       console.error(err);
-      setError('Something went wrong. Please try again.');
+      toast.error('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
-    if (!agreedToTerms) {
-  setError("You must agree to the terms and conditions before signing up.");
-  setLoading(false);
-  return;
-}
-
+   
   };
 
   const googleLogin = useGoogleLogin({
@@ -190,17 +197,21 @@ if (referrerId) data.append("referrerId", referrerId);
 
         });
         const result = await response.json();
-        if (response.ok || result.message === 'User already exists. Please login.') {
-          router.push('/login');
-        } else {
-          setError(result.message || 'Google login failed.');
-        }
+       if (response.ok) {
+  toast.success(result.message);
+  router.push('/login');
+} else if (result.message === 'User already exists. Please login.') {
+  toast.error("This email is already registered. Please log in with your email and password or use ‘Forgot Password’ to reset."); // or toast.warning()
+  router.push('/login');
+} else {
+  toast.error(result.message || 'Something went wrong');
+}
       } catch (err) {
         console.error(err);
-        setError('Google login failed. Please try again.');
+        toast.error('Google login failed. Please try again.');
       }
     },
-    onError: () => setError('Google login was cancelled or failed.'),
+    onError: () => toast.error('Google login was cancelled or failed.'),
   });
 
   return (
@@ -359,7 +370,6 @@ if (referrerId) data.append("referrerId", referrerId);
           </div> */}
 
 
-          {error && <p className="error-text">{error}</p>}
   <div className="terms-checkbox">
       <label className="custom-checkbox-wrapper">
         <div
@@ -380,7 +390,7 @@ if (referrerId) data.append("referrerId", referrerId);
           <button
   type="submit"
   className="submit-btn"
-  disabled={loading || !agreedToTerms}
+  disabled={loading}
 >
   {loading ? <span className="loader"></span> : 'Create my account'}
 </button>
