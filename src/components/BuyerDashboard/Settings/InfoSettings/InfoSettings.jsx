@@ -38,7 +38,6 @@ const InfoSettings = () => {
     languages: [],
     profileImg: null,
   });
-  const [editableEmail, setEditableEmail] = useState(false);
   const [previewImg, setPreviewImg] = useState(null);
   const [loading, setLoading] = useState(false);
 const [newSkill, setNewSkill] = useState('');
@@ -175,6 +174,16 @@ toast.success("Profile updated successfully.")
           </div>
         </div>
 
+ <div className="flexed-div">
+   <div className="form-group">
+            <label>Email <span>*</span></label>
+            <input
+              type="text"
+              name="email"
+              value={formData.email}
+              disabled
+            />
+          </div>
         <div className="form-group">
           <label>Country</label>
          <Select
@@ -189,27 +198,9 @@ toast.success("Profile updated successfully.")
 />
 
         </div>
-
-        <div className="form-group">
-          <label>Email <span>*</span></label>
-          <div className="email-row">
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              disabled={!editableEmail}
-            />
-            <button
-              type="button"
-              className="change-email-btn"
-              onClick={() => setEditableEmail(true)}
-            >
-              Change Email
-            </button>
-          </div>
-        </div>
-
+</div>
+     
+       
        {user.currentDashboard === "seller" && (
         <>
         <div className="form-group">
