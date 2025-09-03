@@ -176,7 +176,7 @@ toast.success("Profile updated successfully.")
 
  <div className="flexed-div">
    <div className="form-group">
-            <label>Email <span>*</span></label>
+            <label>Email</label>
             <input
               type="text"
               name="email"
