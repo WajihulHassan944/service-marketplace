@@ -15,6 +15,8 @@ import { toast } from 'react-hot-toast';
 countries.registerLocale(enLocale);
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { getCountries, getCountryCallingCode } from "libphonenumber-js";
+import { logoutUser } from '@/redux/features/userSlice';
+import { useRouter } from 'next/navigation';
 const countryOptions = Object.entries(countries.getNames("en")).map(
   ([code, name]) => ({
     value: code,
@@ -29,7 +31,7 @@ const phoneCodeOptions = getCountries().map((countryCode) => ({
 const InfoSettings = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  
+  const router = useRouter();
   const [formData, setFormData] = useState({
     userId: '',
     firstName: '',
@@ -163,6 +165,18 @@ if (formData.languages.length) {
       });
 
       const data = await res.json();
+    if ([440, 401].includes(res.status)) {
+  dispatch(logoutUser());
+  toast.error(
+    res.status === 440
+      ? 'You have been logged out due to inactivity.'
+      : 'Please log in to continue.'
+  );
+  router.push('/login');
+  return; // ⛔ stop here
+}
+
+
       if (!res.ok) throw new Error(data.message || 'Update failed.');
       setLoading(false);
 toast.success("Profile updated successfully.")

@@ -3,11 +3,13 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 import {
   loginUser,
   setCurrentDashboard,
   initializeDashboardFromStorage,
   setHydrated,
+  logoutUser,
 } from '@/redux/features/userSlice';
 import { baseUrl } from '@/const';
 
@@ -31,7 +33,16 @@ const UserInitializer = () => {
             credentials: 'include',
           });
           const data = await res.json();
-
+  if ([440, 401].includes(res.status)) {
+       dispatch(logoutUser());
+       toast.error(
+         res.status === 440
+           ? "You have been logged out due to inactivity."
+           : "Please log in to continue. Session Expired."
+       );
+       router.push("/login");
+       clearInterval(intervalId); // ⛔ stop further checks after logout
+     }
           if (res.ok && data.success) {
             const userWithData = {
               ...data.user,
@@ -76,6 +87,14 @@ const UserInitializer = () => {
     };
 
     fetchUser();
+
+    // ✅ Run check every 10s (for testing; set to 30*60*1000 in prod)
+    const intervalId = setInterval(() => {
+      console.log('🔄 Checking session validity after refresh...');
+      fetchUser();
+    }, 31 * 60 * 1000);
+
+    return () => clearInterval(intervalId); // cleanup on unmount
   }, [dispatch, isLoggedIn, pathname]);
 
   return null;

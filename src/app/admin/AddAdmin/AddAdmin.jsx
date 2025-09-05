@@ -5,8 +5,13 @@ import Link from 'next/link';
 import './addadmin.css';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { baseUrl } from '@/const';
+import { logoutUser } from '@/redux/features/userSlice';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 export default function AddAdmin() {
+  
+  const router = useRouter();
   const [formData, setFormData] = useState({
     firstName: '',
     email: '',
@@ -35,6 +40,16 @@ export default function AddAdmin() {
       });
 
       const data = await res.json();
+       if ([440, 401].includes(res.status)) {
+  dispatch(logoutUser());
+  toast.error(
+    res.status === 440
+      ? 'You have been logged out due to inactivity.'
+      : 'Please log in to continue.'
+  );
+  router.push('/login');
+  return; // ⛔ stop here
+}
       if (res.ok) {
         setMessage({ type: 'success', text: 'Admin added successfully!' });
         setFormData({ firstName: '', email: '', password: '' });

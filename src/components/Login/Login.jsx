@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { useGoogleLogin } from '@react-oauth/google';
 import { baseUrl } from '../../const';
-import { loginUser, setCurrentDashboard } from '@/redux/features/userSlice';
+import { loginUser, logoutUser, setCurrentDashboard } from '@/redux/features/userSlice';
 import { toast } from 'react-hot-toast';
 const LoginPage = () => {
   const router = useRouter();
@@ -53,6 +53,37 @@ const LoginPage = () => {
 
   dispatch(loginUser(userWithWallet));
   toast.success("Login successful.")
+ 
+// Save login timestamp
+localStorage.setItem("lastActivity", Date.now());
+
+// Run check every 10 seconds
+const intervalId = setInterval(async () => {
+  console.log("🔄 Checking session validity...");
+
+  try {
+    const res = await fetch(`${baseUrl}/users/userDetails`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    console.log("✅ API response status:", res.status);
+
+    if ([440, 401].includes(res.status)) {
+      dispatch(logoutUser());
+      toast.error(
+        res.status === 440
+          ? "You have been logged out due to inactivity."
+          : "Please log in to continue. Session Expired."
+      );
+      router.push("/login");
+      clearInterval(intervalId); // ⛔ stop further checks after logout
+    }
+  } catch (err) {
+    console.error("❌ Auto-logout check failed:", err);
+  }
+},31* 60 * 1000); 
+
         } else {
           toast.error('Failed to fetch user details.');
           setLoading(false);
@@ -113,7 +144,38 @@ const LoginPage = () => {
 
           if (userDetailsRes.ok && userDetailsData.success) {
             dispatch(loginUser(userDetailsData.user));
-             toast.success("Login successful.")
+             toast.success("Login successful.");
+             
+// Save login timestamp
+localStorage.setItem("lastActivity", Date.now());
+
+// Run check every 10 seconds
+const intervalId = setInterval(async () => {
+  console.log("🔄 Checking session validity...");
+
+  try {
+    const res = await fetch(`${baseUrl}/users/userDetails`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    console.log("✅ API response status:", res.status);
+
+    if ([440, 401].includes(res.status)) {
+      dispatch(logoutUser());
+      toast.error(
+        res.status === 440
+          ? "You have been logged out due to inactivity."
+          : "Please log in to continue. Session Expired."
+      );
+      router.push("/login");
+      clearInterval(intervalId); // ⛔ stop further checks after logout
+    }
+  } catch (err) {
+    console.error("❌ Auto-logout check failed:", err);
+  }
+},31* 60 * 1000); 
+
           } else {
             toast.error('Failed to fetch user details.');
             setLoading(false);

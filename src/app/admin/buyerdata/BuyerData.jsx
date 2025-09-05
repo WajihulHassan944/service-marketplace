@@ -1,9 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "./buyerdata.css";
-import { Toaster, toast } from 'react-hot-toast';
+import {  toast } from 'react-hot-toast';
 import { baseUrl } from '@/const';
-import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "@/redux/features/userSlice";
 
 const BuyerData = () => {
   const [members, setMembers] = useState([]);
@@ -11,6 +13,8 @@ const BuyerData = () => {
   const [error, setError] = useState(null);
   const [updatingUserId, setUpdatingUserId] = useState(null);
 
+  const router = useRouter();
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchBuyers = async () => {
       try {
@@ -19,8 +23,19 @@ const BuyerData = () => {
           credentials: "include", // sends cookies
         });
 
-        if (!res.ok) throw new Error("Failed to fetch buyers");
         const data = await res.json();
+  if ([440, 401].includes(res.status)) {
+  dispatch(logoutUser());
+  toast.error(
+    res.status === 440
+      ? 'You have been logged out due to inactivity.'
+      : 'Please log in to continue.'
+  );
+  router.push('/login');
+  return; // ⛔ stop here
+}
+ if (!res.ok) throw new Error("Failed to fetch buyers");
+       
         setMembers(data.users.filter(user => !user.role?.includes("superadmin")));
 
       } catch (err) {
@@ -45,7 +60,16 @@ const BuyerData = () => {
           "Content-Type": "application/json",
         },
       });
-
+  if ([440, 401].includes(res.status)) {
+  dispatch(logoutUser());
+  toast.error(
+    res.status === 440
+      ? 'You have been logged out due to inactivity.'
+      : 'Please log in to continue.'
+  );
+  router.push('/login');
+  return; // ⛔ stop here
+}
       if (!res.ok) throw new Error("Failed to update block status");
 
       setMembers((prev) =>
@@ -69,7 +93,16 @@ const handleDelete = async (userId) => {
       });
 
       const data = await response.json();
-
+  if ([440, 401].includes(response.status)) {
+  dispatch(logoutUser());
+  toast.error(
+    res.status === 440
+      ? 'You have been logged out due to inactivity.'
+      : 'Please log in to continue.'
+  );
+  router.push('/login');
+  return; // ⛔ stop here
+}
       if (response.ok) {
         // Remove user from UI
         setMembers((prev) => prev.filter((user) => user._id !== userId));
