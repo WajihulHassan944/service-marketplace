@@ -29,12 +29,12 @@ const EmailVerification = () => {
           </>
         )}
 
-        {verified === 'failed' && (
+        {(verified === 'failed' || verified === 'expired') && (
           <>
             <XCircle className="verify-icon error" size={60} />
             <h2 className="verify-title">Verification Failed</h2>
             <p className="verify-text">
-              The verification link is invalid or expired. Please request a new one.
+              The verification link is invalid or expired. Please register again.
             </p>
           </>
         )}
