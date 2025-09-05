@@ -92,7 +92,7 @@ const UserInitializer = () => {
     const intervalId = setInterval(() => {
       console.log('🔄 Checking session validity after refresh...');
       fetchUser();
-    }, 5 * 1000);
+    }, 31 * 60 * 1000);
 
     return () => clearInterval(intervalId); // cleanup on unmount
   }, [dispatch, isLoggedIn, pathname]);
