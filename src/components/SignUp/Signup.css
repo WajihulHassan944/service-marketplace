@@ -11,7 +11,7 @@
 }
 .signup-container {
    width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     padding: 2rem;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -288,4 +288,70 @@ color: #333;
 }
 .password-rules li.invalid {
   color: red;
+}
+.phoneNo-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  align-items: flex-start;
+}
+
+.phoneNo-label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 7px;
+  color: #333;
+}
+
+.phoneNo-flexed-div {
+  display: flex;
+  gap: 10px;
+  align-items: center; /* ✅ ensures dropdown & input align perfectly */
+  width: 100%;
+}
+
+.phoneNo-code-group,
+.phoneNo-input-group {
+  flex: 1;
+  text-align: left !important;
+}
+
+/* Input styling */
+.phoneNo-input-group input {
+  
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.phoneNo-input-group input:focus {
+  border-color: blue;
+  box-shadow: 0 0 0 2px rgba(255, 140, 47, 0.2);
+  outline: none;
+}
+
+/* Country select styling */
+.phoneNo-code-group .country-select {
+  width: 100%;
+}
+
+.phoneNo-code-group .select__control {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  min-height: 42px;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.phoneNo-code-group .select__control--is-focused {
+  border-color: blue;
+  box-shadow: 0 0 0 2px rgba(255, 140, 47, 0.2);
+}
+
+.phoneNo-code-group .select__menu {
+  font-size: 14px;
+  z-index: 10;
 }
