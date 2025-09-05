@@ -35,6 +35,7 @@ const UserInitializer = () => {
           const data = await res.json();
   if ([440, 401].includes(res.status)) {
        dispatch(logoutUser());
+       localStorage.removeItem("lastActivity");
        toast.error(
          res.status === 440
            ? "You have been logged out due to inactivity."
@@ -85,7 +86,7 @@ const UserInitializer = () => {
         }
       }
     };
-
+if (localStorage.getItem("lastActivity")) {
     fetchUser();
 
     // ✅ Run check every 10s (for testing; set to 30*60*1000 in prod)
@@ -95,6 +96,7 @@ const UserInitializer = () => {
     }, 31 * 60 * 1000);
 
     return () => clearInterval(intervalId); // cleanup on unmount
+    }
   }, [dispatch, isLoggedIn, pathname]);
 
   return null;

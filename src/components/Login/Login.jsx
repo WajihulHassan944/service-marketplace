@@ -163,6 +163,7 @@ const intervalId = setInterval(async () => {
 
     if ([440, 401].includes(res.status)) {
       dispatch(logoutUser());
+      localStorage.removeItem("lastActivity");
       toast.error(
         res.status === 440
           ? "You have been logged out due to inactivity."
