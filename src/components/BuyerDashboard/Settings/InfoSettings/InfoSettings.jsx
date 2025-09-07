@@ -241,8 +241,42 @@ toast.success("Profile updated successfully.")
 />
 
         </div>
+
 </div>
      
+<div className="flexed-div">
+  <div className="form-group">
+    <label>Phone Country Code</label>
+    <Select
+      options={phoneCodeOptions}
+      value={phoneCodeOptions.find(
+        (opt) => opt.value === formData.phoneCountryCode
+      )}
+      onChange={(selected) =>
+        setFormData((prev) => ({
+          ...prev,
+          phoneCountryCode: selected?.value || "",
+        }))
+      }
+      placeholder="Select code"
+      className="country-select"
+      classNamePrefix="select"
+    />
+  </div>
+
+  <div className="form-group">
+    <label>Phone Number</label>
+    <input
+      type="text"
+      name="phoneNumber"
+      value={formData.phoneNumber}
+      onChange={handleInputChange}
+      placeholder="3001234567"
+    />
+  </div>
+</div>
+
+
        
        {user.currentDashboard === "seller" && (
         <>
@@ -276,39 +310,6 @@ toast.success("Profile updated successfully.")
     placeholder="Write something about yourself..."
     className='textarea-info'
   ></textarea>
-</div>
-
-
-<div className="flexed-div">
-  <div className="form-group">
-    <label>Phone Country Code</label>
-    <Select
-      options={phoneCodeOptions}
-      value={phoneCodeOptions.find(
-        (opt) => opt.value === formData.phoneCountryCode
-      )}
-      onChange={(selected) =>
-        setFormData((prev) => ({
-          ...prev,
-          phoneCountryCode: selected?.value || "",
-        }))
-      }
-      placeholder="Select code"
-      className="country-select"
-      classNamePrefix="select"
-    />
-  </div>
-
-  <div className="form-group">
-    <label>Phone Number</label>
-    <input
-      type="text"
-      name="phoneNumber"
-      value={formData.phoneNumber}
-      onChange={handleInputChange}
-      placeholder="3001234567"
-    />
-  </div>
 </div>
 
 
