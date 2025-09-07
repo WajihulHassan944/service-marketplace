@@ -13,7 +13,10 @@ import enLocale from "i18n-iso-countries/langs/en.json";
 import { refreshAndDispatchUser } from '@/utils/refreshUser';
 import { toast } from 'react-hot-toast';
 countries.registerLocale(enLocale);
-
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { getCountries, getCountryCallingCode } from "libphonenumber-js";
+import { logoutUser } from '@/redux/features/userSlice';
+import { useRouter } from 'next/navigation';
 const countryOptions = Object.entries(countries.getNames("en")).map(
   ([code, name]) => ({
     value: code,
@@ -21,10 +24,14 @@ const countryOptions = Object.entries(countries.getNames("en")).map(
   })
 );
 
+const phoneCodeOptions = getCountries().map((countryCode) => ({
+  value: `+${getCountryCallingCode(countryCode)}`,
+  label: `+${getCountryCallingCode(countryCode)} (${countryCode})`,
+}));
 const InfoSettings = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  
+  const router = useRouter();
   const [formData, setFormData] = useState({
     userId: '',
     firstName: '',
@@ -37,6 +44,8 @@ const InfoSettings = () => {
     skills: [],
     languages: [],
     profileImg: null,
+    phoneCountryCode: '',   // ✅ NEW
+  phoneNumber: '',        // ✅ NEW
   });
   const [previewImg, setPreviewImg] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -73,6 +82,8 @@ const handleRemoveSkill = (skillToRemove) => {
         description: user.sellerDetails?.description || '',
         skills: user.sellerDetails?.skills || [],
         languages: user.sellerDetails?.languages || [],
+        phoneCountryCode: user.phone?.countryCode || '',   // ✅ NEW
+  phoneNumber: user.phone?.number || '',             // ✅ NEW
       });
       setPreviewImg(user.profileUrl || null);
     }
@@ -110,6 +121,22 @@ const handleRemoveLanguage = (languageToRemove) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+if (formData.phoneCountryCode || formData.phoneNumber) {
+  if (!formData.phoneCountryCode) {
+    toast.error("Please select a country code.");
+    setLoading(false);
+    return;
+  }
+
+  const fullNumber = `${formData.phoneCountryCode}${formData.phoneNumber}`;
+  const phoneNumber = parsePhoneNumberFromString(fullNumber);
+
+  if (!phoneNumber || !phoneNumber.isValid()) {
+    toast.error("Please enter a valid phone number.");
+    setLoading(false);
+    return;
+  }
+}
   
     try {
       const form = new FormData();
@@ -122,6 +149,10 @@ const handleRemoveLanguage = (languageToRemove) => {
       if (formData.speciality) form.append('speciality', formData.speciality);
       if (formData.profileImg) form.append('profileImg', formData.profileImg);
 if (formData.description) form.append('description', formData.description);
+
+if (formData.phoneCountryCode) form.append("phoneCountryCode", formData.phoneCountryCode);
+if (formData.phoneNumber) form.append("phoneNumber", formData.phoneNumber);
+
 if (formData.skills.length) form.append('skills', JSON.stringify(formData.skills));
 if (formData.languages.length) {
   form.append('languages', JSON.stringify(formData.languages)); // ✅ added
@@ -134,6 +165,18 @@ if (formData.languages.length) {
       });
 
       const data = await res.json();
+    if ([440, 401].includes(res.status)) {
+  dispatch(logoutUser());
+  toast.error(
+    res.status === 440
+      ? 'You have been logged out due to inactivity.'
+      : 'Please log in to continue.'
+  );
+  router.push('/login');
+  return; // ⛔ stop here
+}
+
+
       if (!res.ok) throw new Error(data.message || 'Update failed.');
       setLoading(false);
 toast.success("Profile updated successfully.")
@@ -198,8 +241,42 @@ toast.success("Profile updated successfully.")
 />
 
         </div>
+
 </div>
      
+<div className="flexed-div">
+  <div className="form-group">
+    <label>Phone Country Code</label>
+    <Select
+      options={phoneCodeOptions}
+      value={phoneCodeOptions.find(
+        (opt) => opt.value === formData.phoneCountryCode
+      )}
+      onChange={(selected) =>
+        setFormData((prev) => ({
+          ...prev,
+          phoneCountryCode: selected?.value || "",
+        }))
+      }
+      placeholder="Select code"
+      className="country-select"
+      classNamePrefix="select"
+    />
+  </div>
+
+  <div className="form-group">
+    <label>Phone Number</label>
+    <input
+      type="text"
+      name="phoneNumber"
+      value={formData.phoneNumber}
+      onChange={handleInputChange}
+      placeholder="3001234567"
+    />
+  </div>
+</div>
+
+
        
        {user.currentDashboard === "seller" && (
         <>
@@ -234,6 +311,14 @@ toast.success("Profile updated successfully.")
     className='textarea-info'
   ></textarea>
 </div>
+
+
+
+
+
+
+
+
 <div className="form-group">
   <label>Languages</label>
   <div className="skills-input-row">

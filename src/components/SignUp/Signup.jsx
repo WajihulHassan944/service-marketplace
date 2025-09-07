@@ -11,6 +11,8 @@ import { FaCheck } from 'react-icons/fa';
 import Select from "react-select";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+import { getCountries, getCountryCallingCode } from "libphonenumber-js";
 
 import { toast } from 'react-hot-toast';
 countries.registerLocale(enLocale);
@@ -21,6 +23,11 @@ const countryOptions = Object.entries(countries.getNames("en")).map(
     label: name,
   })
 );
+
+const phoneCodeOptions = getCountries().map((countryCode) => ({
+  value: `+${getCountryCallingCode(countryCode)}`,
+  label: `+${getCountryCallingCode(countryCode)} (${countryCode})`,
+}));
 
 const SignupForm = () => {
   const router = useRouter();
@@ -44,6 +51,8 @@ const [isPasswordValid, setIsPasswordValid] = useState(false);
     speciality: '',
   description: '',
   personalportfoliolink: '',
+   phoneCountryCode: '',   // ✅ NEW
+  phoneNumber: '',        // ✅ NEW
   });
   
   const [image, setImage] = useState(null);
@@ -118,6 +127,22 @@ useEffect(() => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    if (formData.phoneCountryCode || formData.phoneNumber) {
+      if (!formData.phoneCountryCode) {
+        toast.error("Please select a country code.");
+        setLoading(false);
+        return;
+      }
+    
+      const fullNumber = `${formData.phoneCountryCode}${formData.phoneNumber}`;
+      const phoneNumber = parsePhoneNumberFromString(fullNumber);
+    
+      if (!phoneNumber || !phoneNumber.isValid()) {
+        toast.error("Please enter a valid phone number.");
+        setLoading(false);
+        return;
+      }
+    }
     
 if (!isPasswordValid) {
   setError("Password does not meet security requirements.");
@@ -138,6 +163,11 @@ if (!isPasswordValid) {
     data.append('password', formData.password);
     data.append('country', formData.country);
     data.append('role', role);
+
+    
+if (formData.phoneCountryCode) data.append("phoneCountryCode", formData.phoneCountryCode);
+if (formData.phoneNumber) data.append("phoneNumber", formData.phoneNumber);
+
 
     if (role === 'seller') {
       data.append('sellerDetails[linkedUrl]', formData.linkedUrl);
@@ -303,6 +333,39 @@ if (referrerId) data.append("referrerId", referrerId);
   className="country-select"
   classNamePrefix="select"
 />
+
+<div className="phoneNo-wrapper">
+  <label className="phoneNo-label">Phone Number</label>
+  <div className="phoneNo-flexed-div">
+    <div className="phoneNo-code-group">
+      <Select
+        options={phoneCodeOptions}
+        value={phoneCodeOptions.find(
+          (opt) => opt.value === formData.phoneCountryCode
+        )}
+        onChange={(selected) =>
+          setFormData((prev) => ({
+            ...prev,
+            phoneCountryCode: selected?.value || "",
+          }))
+        }
+        placeholder="Code"
+        className="country-select"
+        classNamePrefix="select"
+      />
+    </div>
+
+    <div className="phoneNo-input-group">
+      <input
+        type="text"
+        name="phoneNumber"
+        value={formData.phoneNumber}
+        onChange={handleChange}
+        placeholder="3001234567"
+      />
+    </div>
+  </div>
+</div>
 
           {role === 'seller' && (
             <>

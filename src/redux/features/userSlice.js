@@ -32,6 +32,7 @@ const userSlice = createSlice({
     },
     logoutUser: () => {
       localStorage.removeItem('currentDashboard'); // ✅ Clear on logout
+      localStorage.removeItem("lastActivity");
       return {
         ...initialState,
         isHydrated: true,
