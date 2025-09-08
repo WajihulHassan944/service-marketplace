@@ -29,7 +29,7 @@ const MessagesMainAdmin = () => {
   useEffect(() => {
     if (!admin) return;
     const fetchConversations = async () => {
-      const res = await fetch(`${API_BASE}/messages/user-conversations/${SUPERADMIN_ID}`);
+      const res = await fetch(`${baseUrl}/messages/user-conversations/${SUPERADMIN_ID}`);
       const data = await res.json();
       if (data.success) setConversations(data.data);
     };
@@ -40,7 +40,7 @@ const MessagesMainAdmin = () => {
   useEffect(() => {
     if (!conversationId) return;
     const fetchMessages = async () => {
-      const res = await fetch(`${API_BASE}/messages/conversation/${conversationId}`);
+      const res = await fetch(`${baseUrl}/messages/conversation/${conversationId}`);
       const data = await res.json();
       if (data.success) setMessages(data.data);
     };
@@ -74,7 +74,7 @@ const MessagesMainAdmin = () => {
   const handleSend = async () => {
     if (!message.trim() || !receiver) return;
 
-    const res = await fetch(`${API_BASE}/messages/add`, {
+    const res = await fetch(`${baseUrl}/messages/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -115,13 +115,14 @@ const MessagesMainAdmin = () => {
           <ul>
             {conversations.map(({ participant, conversationId: convId }) => (
               <li
-                key={participant._id}
-                className={receiver?._id === participant._id ? "activeMessage" : ""}
+                key={participant?._id}
+                className={receiver?._id === participant?._id ? "activeMessage" : ""}
                 onClick={() => handleSelectReceiver(participant, convId)}
+                style={{cursor:'pointer'}}
               >
-                <Image src={participant.profileUrl || "/assets/users/placeholder.png"} alt={participant.firstName} width={35} height={35} className="radiusedImg" />
+                <Image src={participant?.profileUrl || "/assets/users/placeholder.png"} alt={participant?.firstName} width={35} height={35} className="radiusedImg" />
                 <div className="chat-info">
-                  <h5>{participant.firstName} {participant.lastName}</h5>
+                  <h5>{participant?.firstName} {participant?.lastName}</h5>
                   <p>Click to chat</p>
                 </div>
               </li>
@@ -180,7 +181,7 @@ const MessagesMainAdmin = () => {
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
               />
               <div className="chat-input-icons">
-                <FiPaperclip className="icon" />
+                {/* <FiPaperclip className="icon" /> */}
                 <FiSend className="icon send-icon" onClick={handleSend} />
               </div>
             </div>

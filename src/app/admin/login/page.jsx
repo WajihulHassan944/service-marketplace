@@ -4,10 +4,9 @@ import "./login.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { baseUrl } from "@/const";
-import { loginUser, setCurrentDashboard } from "@/redux/features/userSlice";
+import { loginUser, logoutUser, setCurrentDashboard } from "@/redux/features/userSlice";
 import { useDispatch } from "react-redux";
 import withoutAdminAuth from "@/hooks/withoutAdminAuth";
-
 import toast from 'react-hot-toast';
 const Login = () => {
   const router = useRouter();
@@ -60,6 +59,40 @@ setLoading(true);
         const topRole = sortedRoles[0];
         dispatch(setCurrentDashboard(topRole));
         router.push("/admin");
+
+                 
+        // Save login timestamp
+        localStorage.setItem("lastActivity", Date.now());
+        
+        // Run check every 10 seconds
+        const intervalId = setInterval(async () => {
+          console.log("🔄 Checking session validity...");
+        
+          try {
+            const res = await fetch(`${baseUrl}/users/userDetails`, {
+              method: "GET",
+              credentials: "include",
+            });
+        
+            console.log("✅ API response status:", res.status);
+        
+            if ([440, 401].includes(res.status)) {
+              dispatch(logoutUser());
+              localStorage.removeItem("lastActivity");
+              toast.error(
+                res.status === 440
+                  ? "You have been logged out due to inactivity."
+                  : "Please log in to continue. Session Expired."
+              );
+              router.push("/admin/login");
+              clearInterval(intervalId); // ⛔ stop further checks after logout
+            }
+          } catch (err) {
+            console.error("❌ Auto-logout check failed:", err);
+          }
+        },31* 60 * 1000); 
+        
+
       } else {
         toast.error("Failed to fetch user details.");
       }
