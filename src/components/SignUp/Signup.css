@@ -309,13 +309,18 @@ color: #333;
   align-items: center; /* ✅ ensures dropdown & input align perfectly */
   width: 100%;
 }
-
 .phoneNo-code-group,
 .phoneNo-input-group {
-  flex: 1;
+  
   text-align: left !important;
 }
+.phoneNo-code-group {
+  flex: 0 0 30%; /* fixed 30% width */
+}
 
+.phoneNo-input-group {
+  flex: 1; /* takes remaining 70% */
+}
 /* Input styling */
 .phoneNo-input-group input {
   
@@ -332,10 +337,9 @@ color: #333;
   box-shadow: 0 0 0 2px rgba(255, 140, 47, 0.2);
   outline: none;
 }
-
-/* Country select styling */
-.phoneNo-code-group .country-select {
+.country-select {
   width: 100%;
+  text-align: left;
 }
 
 .phoneNo-code-group .select__control {

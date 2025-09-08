@@ -24,10 +24,14 @@ const countryOptions = Object.entries(countries.getNames("en")).map(
   })
 );
 
-const phoneCodeOptions = getCountries().map((countryCode) => ({
-  value: `+${getCountryCallingCode(countryCode)}`,
-  label: `+${getCountryCallingCode(countryCode)} (${countryCode})`,
-}));
+const phoneCodeOptions = getCountries().map((countryCode) => {
+  const callingCode = getCountryCallingCode(countryCode);
+  return {
+    value: `+${callingCode}`,
+    label: `${countryCode} (+${callingCode})`, // ✅ AE (+971)
+  };
+});
+
 
 const SignupForm = () => {
   const router = useRouter();
@@ -329,6 +333,7 @@ if (referrerId) data.append("referrerId", referrerId);
   onChange={(selected) =>
     setFormData((prev) => ({ ...prev, country: selected?.label || "" }))
   }
+  
   placeholder="Select your country"
   className="country-select"
   classNamePrefix="select"
@@ -361,7 +366,7 @@ if (referrerId) data.append("referrerId", referrerId);
         name="phoneNumber"
         value={formData.phoneNumber}
         onChange={handleChange}
-        placeholder="3001234567"
+         placeholder="123 456 789"
       />
     </div>
   </div>

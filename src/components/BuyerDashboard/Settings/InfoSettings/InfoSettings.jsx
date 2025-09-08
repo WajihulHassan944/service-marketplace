@@ -24,10 +24,14 @@ const countryOptions = Object.entries(countries.getNames("en")).map(
   })
 );
 
-const phoneCodeOptions = getCountries().map((countryCode) => ({
-  value: `+${getCountryCallingCode(countryCode)}`,
-  label: `+${getCountryCallingCode(countryCode)} (${countryCode})`,
-}));
+const phoneCodeOptions = getCountries().map((countryCode) => {
+  const callingCode = getCountryCallingCode(countryCode);
+  return {
+    value: `+${callingCode}`,
+    label: `${countryCode} (+${callingCode})`, // ✅ AE (+971)
+  };
+});
+
 const InfoSettings = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -243,36 +247,36 @@ toast.success("Profile updated successfully.")
         </div>
 
 </div>
-     
-<div className="flexed-div">
-  <div className="form-group">
-    <label>Phone Country Code</label>
-    <Select
-      options={phoneCodeOptions}
-      value={phoneCodeOptions.find(
-        (opt) => opt.value === formData.phoneCountryCode
-      )}
-      onChange={(selected) =>
-        setFormData((prev) => ({
-          ...prev,
-          phoneCountryCode: selected?.value || "",
-        }))
-      }
-      placeholder="Select code"
-      className="country-select"
-      classNamePrefix="select"
-    />
-  </div>
+<div className="form-group">
+  <label>Phone Number</label>
+  <div className="flexed-div">
+    <div className="country-code-group">
+      <Select
+        options={phoneCodeOptions}
+        value={phoneCodeOptions.find(
+          (opt) => opt.value === formData.phoneCountryCode
+        )}
+        onChange={(selected) =>
+          setFormData((prev) => ({
+            ...prev,
+            phoneCountryCode: selected?.value || "",
+          }))
+        }
+        placeholder="Code"
+        className="country-select"
+        classNamePrefix="select"
+      />
+    </div>
 
-  <div className="form-group">
-    <label>Phone Number</label>
-    <input
-      type="text"
-      name="phoneNumber"
-      value={formData.phoneNumber}
-      onChange={handleInputChange}
-      placeholder="3001234567"
-    />
+    <div className="phone-number-group">
+      <input
+        type="text"
+        name="phoneNumber"
+        value={formData.phoneNumber}
+        onChange={handleInputChange}
+        placeholder="123 456 789"
+      />
+    </div>
   </div>
 </div>
 
