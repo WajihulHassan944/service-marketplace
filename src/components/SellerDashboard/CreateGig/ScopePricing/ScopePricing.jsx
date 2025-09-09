@@ -125,7 +125,7 @@ const handleChange = (e) => {
           </thead>
           <tbody>
             <tr>
-              <td>Package Name</td>
+              <td className="required">Package Name</td>
               {visiblePackages.map((pkg) => (
                 <td key={`name-${pkg}`}>
                   <input
@@ -142,7 +142,7 @@ const handleChange = (e) => {
             </tr>
 
             <tr>
-              <td>Description</td>
+              <td className="required">Description</td>
               {visiblePackages.map((pkg) => (
                 <td key={`desc-${pkg}`}>
                   <textarea
@@ -161,7 +161,7 @@ const handleChange = (e) => {
 
             {['price', 'deliveryTime', 'revisions'].map((field) => (
               <tr key={field}>
-                <td>
+                <td className="required">
                   {{
                     price: 'Price ($)',
                     deliveryTime: 'Delivery Time (days)',

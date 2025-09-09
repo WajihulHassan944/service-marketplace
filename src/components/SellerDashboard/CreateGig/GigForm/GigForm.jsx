@@ -56,8 +56,9 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
   }}
 >
       <div className="form-section">
-        <label htmlFor="gigTitle" className="form-label">
+        <label htmlFor="gigTitle" className="form-label required">
           Gig title
+          
         </label>
         <input
           type="text"
@@ -73,7 +74,7 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
 
       <div className="form-section two-columns">
         <div>
-          <label htmlFor="category" className="form-label">
+          <label htmlFor="category" className="form-label required">
             Category
           </label>
           <select
@@ -94,7 +95,7 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
         </div>
 
         <div>
-          <label htmlFor="subcategory" className="form-label">
+          <label htmlFor="subcategory" className="form-label required">
             Subcategory
           </label>
           <select
@@ -117,7 +118,7 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
 
       {gigData.subcategory && (
         <div className="form-section">
-          <label htmlFor="subcategorychild" className="form-label">
+          <label htmlFor="subcategorychild" className="form-label  required">
             Subcategory Child
           </label>
           <select
@@ -160,7 +161,6 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
             type="text"
             id="positiveKeywords"
             className="form-input"
-             required
             placeholder="e.g., professional, clean"
             value={gigData.positiveKeywords}
             onChange={handleChange}
