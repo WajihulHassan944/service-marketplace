@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { FaPlus, FaTrash, FaEdit } from "react-icons/fa";
+import {  FaTrash, FaEdit } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import "./GigFaqs.css";
 
@@ -106,26 +106,31 @@ const GigFaqs = ({ onNext, onBack, gigData, setGigData }) => {
           onChange={handleInputChange}
           rows={3}
         />
-        <div className="add-faq-btn-container">
-          <button className="add-faq-btn" onClick={handleAddOrUpdateFaq}>
-            {editIndex !== null ? "Update FAQ" : (
-              <>
-                <FaPlus style={{ marginRight: "5px" }} />
-                Add FAQ
-              </>
-            )}
-          </button>
-        </div>
+      
       </div>
 
-      <div className="submit-container">
-        <button className="back-btn" onClick={onBack}>
-          Back
-        </button>
-        <button className="submit-btn" onClick={onNext}>
-          Save & Continue
-        </button>
-      </div>
+     <div className="form-actions">
+  <div className="left-actions">
+    <button className="back-btn add-faq-btn" onClick={handleAddOrUpdateFaq}>
+      {editIndex !== null ? (
+        "Update FAQ"
+      ) : (
+        <>
+          Add FAQ
+        </>
+      )}
+    </button>
+
+    <button className="back-btn" onClick={onBack}>
+      Back
+    </button>
+  </div>
+
+  <button className="submit-btn" onClick={onNext}>
+    Next
+  </button>
+</div>
+
     </div>
   );
 };

@@ -44,22 +44,6 @@
 .publish-btn:hover {
   background-color: #3a4a7a;
 }
-
-.back-btn {
-  background-color: #f1f1f1;
-  color: #555;
-  font-size: 1rem;
-  padding: 8px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.back-btn:hover {
-  background-color: #ddd;
-}
 .btn-div{
     display: flex;
     flex-direction: column;
@@ -81,9 +65,5 @@
     padding: 8px 16px;
   }
 
-  .back-btn {
-    font-size: 0.9rem;
-    padding: 7px 14px;
-  }
 }
 

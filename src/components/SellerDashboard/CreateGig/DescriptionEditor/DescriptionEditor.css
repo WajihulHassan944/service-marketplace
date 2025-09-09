@@ -84,30 +84,6 @@ width: 70px;
     margin-top: 0.4rem;
 }
 
-.submit-btn {
-    background-color: black;
-    color: white;
-    padding: 12px 25px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    margin-left: 22px;
-    transition: background-color 0.3s ease;
-}
-
-.submit-btn:hover {
-    background-color: #333; /* Darker shade on hover */
-}
-
-.submit-container {
-    justify-content: space-between;
-    margin-top: 2rem;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap; /* Ensure items wrap on smaller screens */
-}
-
 /* ✅ Responsive */
 @media (max-width: 600px) {
     .desc-container {
@@ -131,11 +107,5 @@ width: 70px;
     .submit-container {
         flex-direction: column; /* Stack items vertically on small screens */
         align-items: flex-start; /* Align buttons to the left */
-    }
-
-    .submit-btn {
-        width: 100%; /* Make the submit button full-width on mobile */
-        margin-left: 0; /* Remove margin on mobile */
-        margin-top: 1rem; /* Space between the submit button and other elements */
     }
 }

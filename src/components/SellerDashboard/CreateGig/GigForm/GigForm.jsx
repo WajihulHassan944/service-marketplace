@@ -48,7 +48,13 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
   return (
     <div className="gig-form-container">
       <h2 className="section-title">Gig Overview</h2>
-
+<form
+  onSubmit={(e) => {
+    e.preventDefault();
+    // HTML5 validation will block if required fields are empty
+    onNext();
+  }}
+>
       <div className="form-section">
         <label htmlFor="gigTitle" className="form-label">
           Gig title
@@ -61,6 +67,7 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
           placeholder="I will do something I'm really good at"
           value={gigData.gigTitle}
           onChange={handleChange}
+          required
         />
       </div>
 
@@ -74,6 +81,7 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
             className="form-input"
             value={gigData.category}
             onChange={handleChange}
+             required
             disabled={status === "loading"}
           >
             <option value="">Select a Category</option>
@@ -93,6 +101,7 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
             id="subcategory"
             className="form-input"
             value={gigData.subcategory}
+             required
             onChange={handleChange}
             disabled={!gigData.category}
           >
@@ -116,6 +125,7 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
             className="form-input"
             value={gigData.subcategorychild}
             onChange={handleChange}
+             required
           >
             <option value="">Select a Subcategory Child</option>
             {subcategoryChildren.map((child, idx) => (
@@ -150,6 +160,7 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
             type="text"
             id="positiveKeywords"
             className="form-input"
+             required
             placeholder="e.g., professional, clean"
             value={gigData.positiveKeywords}
             onChange={handleChange}
@@ -162,10 +173,11 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
       </p>
 
       <div className="submit-container-1">
-        <button className="submit-btn-1" onClick={onNext}>
-          Save & Continue
+        <button className="submit-btn" type="submit">
+          Next
         </button>
       </div>
+      </form>
     </div>
   );
 };

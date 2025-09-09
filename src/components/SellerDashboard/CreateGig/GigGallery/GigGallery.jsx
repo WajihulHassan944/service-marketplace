@@ -289,7 +289,7 @@ console.log(validImages);
   onClick={onNext}
   disabled={validImages.length === 0}
 >
-  Save & Continue
+  Next
 </button>
 
 

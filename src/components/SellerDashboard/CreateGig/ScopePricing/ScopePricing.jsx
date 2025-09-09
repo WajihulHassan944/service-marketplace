@@ -3,14 +3,6 @@
 import { useState } from 'react';
 import './scopepricing.css';
 
-const knownFields = [
-  'packageName',
-  'description',
-  'price',
-  'deliveryTime',
-  'revisions',
-  'afterProjectSupport',
-];
 
 const ScopePricing = ({ onNext, onBack, gigData, setGigData }) => {
   const [charCount, setCharCount] = useState({
@@ -66,19 +58,6 @@ const handleChange = (e) => {
     setCharCount((prev) => ({ ...prev, [pkg]: newDescription.length }));
   };
 
-  const handleAddField = () => {
-    const newKey = prompt('Enter new field name (e.g., customNote):');
-    if (!newKey) return;
-
-    setGigData((prev) => {
-      const updated = { ...prev };
-      ['basic', 'standard', 'premium'].forEach((pkg) => {
-        if (!updated.packages[pkg].dynamic) updated.packages[pkg].dynamic = {};
-        updated.packages[pkg].dynamic[newKey] = '';
-      });
-      return updated;
-    });
-  };
 
   const handleTogglePackages = (enabled) => {
     setGigData((prev) => {
@@ -109,19 +88,29 @@ const handleChange = (e) => {
 
   return (
     <div className="scope-container">
+      <form
+  onSubmit={(e) => {
+    e.preventDefault();
+    // HTML5 validation will block if required fields are empty
+    onNext();
+  }}
+>
       <div
         className="scope-header"
         style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
       >
         <h2>Scope & Pricing</h2>
-        <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span>Enable Packages</span>
-          <input
-            type="checkbox"
-            checked={gigData.offerPackages}
-            onChange={(e) => handleTogglePackages(e.target.checked)}
-          />
-        </label>
+      
+       <label className="toggle-container">
+  <span>Enable Packages</span>
+  <input
+    type="checkbox"
+    checked={gigData.offerPackages}
+    onChange={(e) => handleTogglePackages(e.target.checked)}
+  />
+  <span className="slider"></span>
+</label>
+
       </div>
 
       <div className="packages-table">
@@ -142,6 +131,7 @@ const handleChange = (e) => {
                   <input
                     type="text"
                     maxLength={50}
+                    required
                     name={`packages.${pkg}.known.packageName`}
                     value={gigData.packages[pkg].known?.packageName || ''}
                     onChange={handleChange}
@@ -157,6 +147,7 @@ const handleChange = (e) => {
                 <td key={`desc-${pkg}`}>
                   <textarea
                     className="descBox"
+                    required
                     name={`packages.${pkg}.known.description`}
                     value={gigData.packages[pkg].known?.description || ''}
                     onChange={(e) => handleDescriptionChange(pkg, e)}
@@ -181,6 +172,7 @@ const handleChange = (e) => {
                   <td key={`${field}-${pkg}`}>
                     <input
                       type="number"
+                      required
                       name={`packages.${pkg}.known.${field}`}
                       value={gigData.packages[pkg].known?.[field] ?? ''}
                       onChange={handleChange}
@@ -227,45 +219,46 @@ const handleChange = (e) => {
         </table>
       </div>
 
-      {/* Add Dynamic Field Button */}
-    <div style={{ marginTop: '20px', textAlign: 'right' }}>
-  <button
-    type="button"
-    onClick={() => {
-      const newKey = prompt('Enter new field name (e.g., customNote):');
-      if (!newKey) return;
+    {/* Navigation Row */}
+<div className="form-actions">
+  <div className="left-actions">
+    <button
+      type="button"
+      onClick={() => {
+        const newKey = prompt('Enter new field name (e.g., customNote):');
+        if (!newKey) return;
 
-      setGigData((prev) => {
-        const updated = { ...prev };
-        const targets = prev.offerPackages
-          ? ['basic', 'standard', 'premium']
-          : ['standard'];
+        setGigData((prev) => {
+          const updated = { ...prev };
+          const targets = prev.offerPackages
+            ? ['basic', 'standard', 'premium']
+            : ['standard'];
 
-        targets.forEach((pkg) => {
-          if (!updated.packages[pkg].dynamic) updated.packages[pkg].dynamic = {};
-          updated.packages[pkg].dynamic[newKey] = '';
+          targets.forEach((pkg) => {
+            if (!updated.packages[pkg].dynamic) updated.packages[pkg].dynamic = {};
+            updated.packages[pkg].dynamic[newKey] = '';
+          });
+
+          return updated;
         });
+      }}
+      className="back-btn" 
+    >
+      + Add Field
+    </button>
 
-        return updated;
-      });
-    }}
-    className="submit-btn"
-    style={{ marginBottom: '15px' }}
-  >
-    + Add Field
+    <button className="back-btn" onClick={onBack}>
+      Back
+    </button>
+  </div>
+
+  <button className="submit-btn" type="submit">
+    Next
   </button>
 </div>
 
 
-      {/* Navigation */}
-      <div className="submit-container">
-        <button className="back-btn" onClick={onBack}>
-          Back
-        </button>
-        <button className="submit-btn" onClick={onNext}>
-          Save & Continue
-        </button>
-      </div>
+      </form>
     </div>
   );
 };

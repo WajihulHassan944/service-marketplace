@@ -106,7 +106,7 @@ const DescriptionEditor = ({ onNext, onBack, gigData, setGigData }) => {
           Back
         </button>
         <button className="submit-btn" onClick={onNext}>
-          Save & Continue
+          Next
         </button>
       </div>
     </div>

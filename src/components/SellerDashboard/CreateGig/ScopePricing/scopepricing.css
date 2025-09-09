@@ -41,17 +41,6 @@ outline: none;
   margin: 10px 0;
 }
 
-.submit-btn {
-  background-color: black;
-  color: white;
-  padding: 12px 25px;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  padding: .75rem 1.5rem;
-  font-weight: bold;
-}
-
 @media (max-width: 768px) {
   .packages-table table, 
   .packages-table thead, 
@@ -76,4 +65,53 @@ outline: none;
 .descBox{
   font-size: 13.7px !important;
   padding-bottom: 100px !important;
+}
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Hide default checkbox */
+.toggle-container input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* Slider background */
+.slider {
+  position: relative;
+  width: 44px;
+  height: 22px;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: background-color 0.3s ease;
+}
+
+/* Circle knob */
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  top: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+/* When checked */
+.toggle-container input:checked + .slider {
+  background-color: #003cff; /* active bg */
+}
+
+.toggle-container input:checked + .slider::before {
+  transform: translateX(22px);
 }

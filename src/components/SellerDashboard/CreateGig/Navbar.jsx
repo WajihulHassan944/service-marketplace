@@ -184,22 +184,28 @@ useEffect(() => {
     <div className="creation-gig-wrapper">
       <nav className="create-gig-navbar">
         <ul className="create-gig-navbar-steps">
-          {steps.map((step, index) => {
-            let className = "create-gig-step";
-            if (index < activeStep) className += " done";
-            else if (index === activeStep) className += " active";
+         {steps.map((step, index) => {
+  let className = "create-gig-step";
+  if (index < activeStep) className += " done";
+  else if (index === activeStep) className += " active";
 
-            return (
-              <li
-                key={index}
-                className={className}
-                onClick={() => setActiveStep(index)}
-              >
-                <span className="create-gig-step-number">{index + 1}</span>
-                <span className="create-gig-step-name">{step}</span>
-              </li>
-            );
-          })}
+  const isClickable = index <= activeStep; // only current & past steps clickable
+
+  return (
+    <li
+      key={index}
+      className={className}
+      onClick={() => {
+        if (isClickable) setActiveStep(index);
+      }}
+      style={{ cursor: isClickable ? "pointer" : "not-allowed" }}
+    >
+      <span className="create-gig-step-number">{index + 1}</span>
+      <span className="create-gig-step-name">{step}</span>
+    </li>
+  );
+})}
+
         </ul>
       </nav>
 

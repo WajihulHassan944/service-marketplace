@@ -95,56 +95,6 @@
   width: 100%;
 }
 
-.add-faq-btn-container {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.add-faq-btn {
-  background-color: #000;
-  color: #fff;
-  padding: 10px 18px;
-  font-weight: 500;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.add-faq-btn:hover {
-  background-color: #333;
-}
-
-.submit-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 30px;
-}
-
-.back-btn,
-.submit-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.back-btn {
-  background-color: #ccc;
-  color: #000;
-}
-
-.submit-btn {
-  background-color: #000;
-  color: #fff;
-}
-
-.submit-btn:hover {
-  background-color: #333;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;

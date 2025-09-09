@@ -79,3 +79,54 @@
   justify-content: center;
   padding: 20px;
 }
+
+
+
+.submit-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.left-actions {
+  display: flex;
+  gap: 10px; /* space between Add Field and Back */
+}
+.back-btn,
+.submit-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  min-width: 100px;
+  text-align: center;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.back-btn {
+  background-color: #ccc;
+  color: #000;
+}
+
+.back-btn:hover {
+  background-color: #b3b3b3; /* slightly darker grey */
+  transform: translateY(-1px);
+}
+
+.submit-btn {
+  background-color: #000;
+  color: #fff;
+}
+
+.submit-btn:hover {
+  background-color: #333;
+  transform: translateY(-1px);
+}
