@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 export default function ProjectTimeline({ order, setShowReviewPopup,  fetchOrder }) {
   if (!order) return null;
   const [loading, setLoading] = useState(false);
+    const [loadingRevision, setLoadingRevision] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 const [showRevisionInput, setShowRevisionInput] = useState(false);
 const [revisionMessage, setRevisionMessage] = useState("");
@@ -93,7 +94,7 @@ const dueDate = new Date(order.deliveryDueDate);
   
   const handleRequestRevision = async () => {
     try {
-      setLoading(true);
+      setLoadingRevision(true);
 
       const res = await fetch(`${baseUrl}/orders/revision/${order._id}`, {
         method: "POST",
@@ -120,7 +121,7 @@ const dueDate = new Date(order.deliveryDueDate);
       console.error("❌ Error requesting revision:", error);
       toast.error("Something went wrong while requesting a revision.");
     } finally {
-      setLoading(false);
+      setLoadingRevision(false);
     }
   };
 
@@ -165,7 +166,15 @@ const dueDate = new Date(order.deliveryDueDate);
     
          <center> <p className="approve-text-delivery">
             Please review the delivery made by the seller by viewing the deliveries section.
-          </p></center>
+          </p>
+            {order?.revisionRequests?.length >= order?.packageDetails?.revisions && (
+    <p
+      className="approve-text-delivery"
+      style={{ color: "red", fontSize: "14px", marginTop: "8px" }}
+    >
+      You have reached the maximum number of revisions for this package.
+    </p>
+  )}</center>
 
          <div className='flexed-div-orderDetails'>
           <button
@@ -177,13 +186,29 @@ const dueDate = new Date(order.deliveryDueDate);
             {loading ? "Processing..." : "Approve Final Delivery"}
           </button>
           
-        <button
+   <button
   className="submit-btn-deliveryBuyerRevision"
   onClick={() => setShowRevisionInput(true)}
-  disabled={loading || showRevisionInput}
+  disabled={
+    showRevisionInput ||
+    order?.revisionRequests?.length >= order?.packageDetails?.revisions
+  }
+  style={{
+    cursor:
+      showRevisionInput ||
+      order?.revisionRequests?.length >= order?.packageDetails?.revisions
+        ? "not-allowed"
+        : "pointer",
+    opacity:
+      showRevisionInput ||
+      order?.revisionRequests?.length >= order?.packageDetails?.revisions
+        ? 0.6
+        : 1,
+  }}
 >
-  {loading ? "Processing..." : "Request a revision"}
+  Request a revision
 </button>
+
  
           </div>
 
@@ -204,9 +229,9 @@ const dueDate = new Date(order.deliveryDueDate);
       <button
         className="btn-deliveryBuyerRevisionSubmit"
         onClick={handleRequestRevision}
-        disabled={loading || !revisionMessage.trim()}
+        disabled={loadingRevision || !revisionMessage.trim()}
       >
-        {loading ? "Processing..." : "Send Revision Request"}
+        {loadingRevision ? "Processing..." : "Send Revision Request"}
       </button>
       <button
         className="cancel-btn-revision"
@@ -214,7 +239,7 @@ const dueDate = new Date(order.deliveryDueDate);
           setShowRevisionInput(false);
           setRevisionMessage("");
         }}
-        disabled={loading}
+        disabled={loadingRevision}
       >
         Cancel
       </button>
