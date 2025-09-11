@@ -105,21 +105,34 @@ const buyer = useSelector((state) => state.user);
         <div className={styles.firstCol}></div>
         {columns.map((pkgType) => (
           <div key={`purchase-${pkgType}`} className={styles.cell}>
-            <button
-  className={styles.purchaseBtn}
-onClick={() => {
-  setSelectedPackage({
-    gigId: gig._id,
-    sellerId: gig.userId._id,
-    packageType: pkgType,
-    pkg: gig.packages[pkgType],
-  });
-  setShowPopup(true);
-}}
+<div className={styles.tooltipWrapper}>
+  <button
+    className={`${styles.purchaseBtn} ${
+      gig.userId._id === buyer?._id ? styles.disabledBtn : ""
+    }`}
+    onClick={() => {
+      if (gig.userId._id !== buyer._id) {
+        setSelectedPackage({
+          gigId: gig._id,
+          sellerId: gig.userId._id,
+          packageType: pkgType,
+          pkg: gig.packages[pkgType],
+        });
+        setShowPopup(true);
+      }
+    }}
+    disabled={gig.userId._id === buyer._id}
+  >
+    Select
+  </button>
 
->
-  Select
-</button>
+  {gig.userId._id === buyer?._id && (
+    <span className={styles.tooltipText}>
+      You cannot purchase your own service.
+    </span>
+  )}
+</div>
+
 
           </div>
         ))}

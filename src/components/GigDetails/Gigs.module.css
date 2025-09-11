@@ -351,3 +351,37 @@
   font-size: 0.95rem;
 }
 
+.tooltipWrapper {
+  position: relative;
+  display: inline-block;
+  width: 90%;
+}
+
+.disabledBtn {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tooltipText {
+  visibility: hidden;
+  opacity: 0;
+  background-color: #000;   /* black background */
+  color: #fff;              /* white text */
+  text-align: center;
+  padding: 10px;
+  padding-top: 6px;
+  border-radius: 6px;
+  position: absolute;
+  bottom: 125%; /* show above the button */
+  left: 42%;
+  transform: translateX(-50%);
+  transition: opacity 0.2s ease-in-out;
+  white-space: nowrap;
+  z-index: 10;
+  font-size: 12px;
+}
+
+.tooltipWrapper:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
+}

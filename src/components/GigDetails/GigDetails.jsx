@@ -35,8 +35,8 @@ const GigDetails = () => {
   const [gig, setGig] = useState(null);
   const [sellerAnalytics, setsellerAnalytics] = useState(null);
     const [buyerReviews, setbuyerReviews] = useState(null);
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const user = useSelector((state) => state.user);
+    const [loading, setLoading] = useState(true);
   const [loadingOrder, setLoadingOrder] = useState(false);
   const [clients, setClients] = useState([]);
 const router = useRouter();
@@ -108,7 +108,6 @@ useEffect(() => {
          console.log("mine rev",data.buyerReviews);
             setGig(data.gig);
             setsellerAnalytics(data.sellerAnalytics);
-            setUser(data.user);
             setClients(data.clients);
             setbuyerReviews(data.buyerReviews);
             
@@ -398,7 +397,15 @@ const handleShareClick = (e) => {
       </div>
 
     </div>
-    <Link href={`/messages?receiverId=${gig.userId._id}`} className={styles.contactme}>Contact me</Link>
+    <Link
+  href={`/messages?receiverId=${gig.userId._id}`}
+  className={`${styles.contactme} ${
+    gig.userId._id === user._id ? styles.disabledLink : ""
+  }`}
+>
+  Contact me
+</Link>
+
 
     </div>
     
@@ -492,13 +499,43 @@ const handleShareClick = (e) => {
     ))}
 </div>
 
-          <button className={styles.continueBtn} onClick={() => setShowPopup(true)}>
-            Purchase →
-          </button>
+<div className={styles.tooltipWrapper}>
+  <button
+    className={`${styles.continueBtn} ${
+      gig.userId._id === user?._id ? styles.disabledBtn : ""
+    }`}
+    onClick={() => {
+      if (gig.userId._id !== user._id) {
+        setShowPopup(true);
+      }
+    }}
+    disabled={gig.userId._id === user._id}
+  >
+    Purchase →
+  </button>
+  {gig.userId._id === user?._id && (
+    <span className={styles.tooltipText}>
+      You cannot purchase your own service.
+    </span>
+  )}
+</div>
 
-          <Link href={`/messages?receiverId=${gig.userId._id}`}>
-            <button className={styles.contactBtn}>Contact Seller</button>
-          </Link>
+
+
+        <Link
+  href={`/messages?receiverId=${gig.userId._id}`}
+  className={`${gig.userId._id === user._id ? styles.disabledLink : ""}`}
+>
+  <button
+    className={`${styles.contactBtn} ${
+      gig.userId._id === user._id ? styles.disabledLink : ""
+    }`}
+    disabled={gig.userId._id === user._id}
+  >
+    Contact Seller
+  </button>
+</Link>
+
         </div>
       </div>
     </div>
@@ -630,6 +667,7 @@ if (referrerId) {
   </div>
 )}
 
+{gig.faqs && gig.faqs.length > 0 && (
  <section className={styles.faqSectionGigDetails}>
       <h2 className={styles.faqTitle}>FAQ</h2>
 
@@ -656,7 +694,7 @@ if (referrerId) {
         <p className={styles.noFaqMsg}>No FAQs available for this gig.</p>
       )}
     </section>
-
+)}
    <section className={styles.reviewsSection}>
       <h2>Reviews</h2>
 

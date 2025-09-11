@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import {  FaTrash, FaEdit } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import "./GigFaqs.css";
+import toast from "react-hot-toast";
 
 const GigFaqs = ({ onNext, onBack, gigData, setGigData }) => {
   const [newFaq, setNewFaq] = useState({ question: "", answer: "" });
@@ -16,7 +17,10 @@ const GigFaqs = ({ onNext, onBack, gigData, setGigData }) => {
   };
 
   const handleAddOrUpdateFaq = () => {
-    if (!newFaq.question.trim() || !newFaq.answer.trim()) return;
+     if (!newFaq.question.trim() || !newFaq.answer.trim()) {
+    toast.error("Both Question and Answer fields are required.");
+    return;
+  }
 
     setGigData((prev) => {
       const updatedFaqs = [...(prev.faqs || [])];
@@ -125,10 +129,26 @@ const GigFaqs = ({ onNext, onBack, gigData, setGigData }) => {
       Back
     </button>
   </div>
+<button
+  className="submit-btn"
+  onClick={() => {
+    const hasQuestion = newFaq.question?.trim();
+    const hasAnswer = newFaq.answer?.trim();
 
-  <button className="submit-btn" onClick={onNext}>
-    Next
-  </button>
+    if ((hasQuestion && !hasAnswer) || (!hasQuestion && hasAnswer)) {
+      toast.error("Both Question and Answer are required to add an FAQ.");
+      return; 
+    }
+
+    if (hasQuestion && hasAnswer) {
+      handleAddOrUpdateFaq();
+    }
+
+    onNext(); 
+  }}
+>
+  Next
+</button>
 </div>
 
     </div>
