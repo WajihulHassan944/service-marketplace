@@ -101,11 +101,11 @@
 .date-filter {
   padding: 6px 10px;
 }
-
 .gigs-table-header,
 .gigs-row {
   display: grid;
-  grid-template-columns: 30px 1.5fr 100px 80px 80px 120px 1fr 40px;
+  grid-template-columns: 30px 3fr repeat(4, 1fr) 1fr 40px;
+  /* checkbox | wide gig | 4 stats | extra | dropdown */
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #eee;
@@ -115,6 +115,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  width: 100%;
 }
 
 .gig-title {
@@ -126,12 +127,6 @@
 .col {
   font-size: 14px;
   color: #333;
-}
-
-.plan-action {
-  color: #204ecf;
-  font-weight: bold;
-  cursor: pointer;
 }
 
 .dropdown-btn {
@@ -247,7 +242,6 @@
   }
 
   .col,
-  .plan-action,
   .dropdown-btn {
     font-size: 13px;
   }

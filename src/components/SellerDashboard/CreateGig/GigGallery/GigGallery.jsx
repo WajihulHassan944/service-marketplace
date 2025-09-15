@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./GigGallery.css";
 import { FaInfoCircle } from 'react-icons/fa';
 import { FaTrash } from 'react-icons/fa';
+import toast from "react-hot-toast";
 const GigGallery = ({ onNext, onBack, gigData, setGigData }) => {
  const [imageError, setImageError] = useState([]); // will store invalid image names
 
@@ -286,8 +287,13 @@ console.log(validImages);
         </button>
      <button
   className="submit-btn"
-  onClick={onNext}
-  disabled={validImages.length === 0}
+   onClick={() => {
+    if (validImages.length === 0) {
+      toast.error("Please upload at least one image before continuing.");
+      return;
+    }
+    onNext();
+  }}
 >
   Next
 </button>

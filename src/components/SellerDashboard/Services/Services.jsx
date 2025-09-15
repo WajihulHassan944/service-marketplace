@@ -12,14 +12,12 @@ const statusMap = {
   ACTIVE: 'active',
   'PENDING APPROVAL': 'pending',
   DENIED: 'rejected',
-  'REQUIRES MODIFICATION': 'modification',
   DRAFT: 'draft',
-  PAUSED: 'paused',
+  PAUSED: 'pause',
 };
 
 const Services = () => {
   const user = useSelector((state) => state.user);
-  console.log(user);
   const userId = user?._id;
   const router = useRouter();
 
@@ -27,12 +25,20 @@ const Services = () => {
   const [apiGigs, setApiGigs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState('ACTIVE');
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".dropdown-wrapper")) {
+        setOpenDropdownIndex(null);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   useEffect(() => {
     if (!userId) {
       return;
     }
-
     const fetchGigs = async () => {
       setLoading(true);
       try {
@@ -81,6 +87,7 @@ const Services = () => {
     const data = await res.json();
     if (res.ok && data.success) {
       setApiGigs((prev) => prev.filter((gig) => gig._id !== gigId));
+       setOpenDropdownIndex(null);
     } else {
   toast.error(data.message || 'Failed to delete gig.');
     }
@@ -89,6 +96,64 @@ const Services = () => {
     toast.error('An error occurred while deleting the gig.');
   }
 };
+
+
+const handlePauseGig = async (gigId) => {
+  try {
+    const res = await fetch(`${baseUrl}/gigs/pause/${gigId}`, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await res.json();
+    if (res.ok && data.success) {
+      setApiGigs((prev) =>
+        prev.map((gig) =>
+          gig._id === gigId ? { ...gig, status: 'pause' } : gig
+        )
+      );
+       setOpenDropdownIndex(null);
+      toast.success('Gig has been paused successfully.');
+    } else {
+      toast.error(data.message || 'Failed to pause gig.');
+    }
+  } catch (err) {
+    console.error('Pause error:', err);
+    toast.error('An error occurred while pausing the gig.');
+  }
+};
+
+const handleUnpauseGig = async (gigId) => {
+  try {
+    const res = await fetch(`${baseUrl}/gigs/unpause/${gigId}`, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await res.json();
+    if (res.ok && data.success) {
+      setApiGigs((prev) =>
+        prev.map((gig) =>
+          gig._id === gigId ? { ...gig, status: 'active' } : gig
+        )
+      );
+       setOpenDropdownIndex(null);
+      toast.success('Gig has been unpaused successfully.');
+    } else {
+      toast.error(data.message || 'Failed to unpause gig.');
+    }
+  } catch (err) {
+    console.error('Unpause error:', err);
+    toast.error('An error occurred while unpausing the gig.');
+  }
+};
+
 
   return (
     <div className="services-container">
@@ -110,7 +175,10 @@ const Services = () => {
       <span
         key={tab}
         className={`tab ${selectedTab === tab ? 'active' : ''}`}
-        onClick={() => setSelectedTab(tab)}
+        onClick={() => {
+          setSelectedTab(tab);
+          setOpenDropdownIndex(null); // ✅ close dropdown when switching tabs
+        }}
       >
         {tab}
         {count > 0 && <span className="badge">{count}</span>}
@@ -136,7 +204,7 @@ const Services = () => {
             <span className="col">CLICKS</span>
             <span className="col">ORDERS</span>
             <span className="col">CANCELLATIONS</span>
-            <span className="col">PLANS</span>
+            <span></span>
           </div>
 
           {!loading && filteredGigs.length === 0 ? (
@@ -171,7 +239,6 @@ const Services = () => {
                   <span className="col">{stats.clicks}</span>
                   <span className="col">{stats.orders}</span>
                   <span className="col">{stats.cancellations}</span>
-                  <span className="col plan-action">+ Add Subscription</span>
                   <div className="dropdown-wrapper">
                     <button
                       className="dropdown-btn"
@@ -186,9 +253,15 @@ const Services = () => {
                       <div className="dropdown-menu">
                      <button onClick={() => router.push(`/seller/create-gig?gigId=${gig._id}&edit=true`)}>Update</button>
                      <button onClick={() => handleDeleteGig(gig._id)}>Delete</button>
-
+{gig.status === 'active' && (
+      <button onClick={() => handlePauseGig(gig._id)}>Pause</button>
+    )}
+     {gig.status === "pause" && (
+      <button onClick={() => handleUnpauseGig(gig._id)}>Unpause</button>
+    )}
                       </div>
                     )}
+                    
                   </div>
                 </div>
               );

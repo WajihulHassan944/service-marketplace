@@ -4,21 +4,22 @@ import { baseUrl } from '@/const';
 import React, { useState } from 'react';
 import './PublishGig.css';
 import { useRouter, useSearchParams } from 'next/navigation';
-
+import toast from 'react-hot-toast';
 const PublishGig = ({ onBack, gigData }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const gigId = searchParams.get('gigId');
   const isEdit = searchParams.get('edit') === 'true';
+const [draftMode, setDraftMode] = useState(false);
 
-  const handlePublish = async () => {
-    setLoading(true);
+  const handlePublish = async (isDraft = false) => {
+   setLoading(isDraft ? "draft" : "publish");
     setError('');
     setSuccess(false);
-
+setDraftMode(isDraft);
     try {
       const formData = new FormData();
 
@@ -31,7 +32,7 @@ const PublishGig = ({ onBack, gigData }) => {
       formData.append('offerPackages', gigData.offerPackages);
       formData.append('hourlyRate', gigData.hourlyRate.toString());
       formData.append('subcategorychild', gigData.subcategorychild);
-
+      formData.append("isDraft", isDraft ? "true" : "false");
       // Process positiveKeywords
       formData.append(
         'positiveKeywords',
@@ -121,50 +122,109 @@ if (gigData.pdf?.file) {
       }
 
       setSuccess(true);
+       if (isEdit) {
+        toast.success(
+          isDraft
+            ? "Gig saved as draft successfully!"
+            : "Gig updated successfully!"
+        );
+      } else {
+        toast.success(
+          isDraft
+            ? "Gig created as draft successfully!"
+            : "Gig published successfully!"
+        );
+      }
       router.push('/seller/services');
-    } catch (err) {
+      } catch (err) {
       console.error('❌ Publish error:', err);
-      setError(err.message || 'Something went wrong');
+
+      let msg = err.message || "Something went wrong";
+
+      if (msg.includes("gigTitle")) {
+        msg = "Please enter a title for your gig.";
+      } else if (msg.includes("category")) {
+        msg = "Please select a category for your gig.";
+      } else if (msg.includes("subcategory")) {
+        msg = "Please select a subcategory.";
+      } else if (msg.includes("subcategorychild")) {
+        msg = "Please select a child subcategory.";
+      } else if (msg.includes("gigDescription")) {
+        msg = "Please provide a detailed description for your gig.";
+      } else if (msg.includes("images")) {
+        msg = "You must upload at least one image (max 3).";
+      } else if (msg.includes("userId")) {
+        msg = "Authentication error. Please log in again.";
+      } else {
+        // fallback: clean generic mongoose error message
+        try {
+          const parsed = JSON.parse(msg);
+          msg = parsed.message || "Something went wrong while submitting your gig.";
+        } catch {
+          msg = msg.replace("Gig validation failed:", "Validation error:").trim();
+        }
+      }
+
+      toast.error(msg);
+      setError(msg);
     } finally {
-      setLoading(false);
+      setLoading(null);
     }
   };
 
   return (
     <div className="publish-container">
       <div className="publish-content">
-        <h2>{isEdit ? 'Update your Gig' : 'Almost there...'}</h2>
+       <div> <h2>{isEdit ? 'Update your Gig' : 'Almost there...'}</h2>
         <p>
           {isEdit
             ? 'Make your final changes and update your Gig.'
             : "Let's publish your Gig and get some buyers rolling in."}
         </p>
-
+</div>
         {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-        {success && (
-          <p style={{ color: 'green' }}>
-            {isEdit ? 'Gig updated successfully!' : 'Gig published successfully!'}
-          </p>
-        )}
+       {success && (
+  <p style={{ color: 'green' }}>
+    {isEdit
+      ? draftMode
+        ? 'Gig saved as draft successfully!'
+        : 'Gig updated successfully!'
+      : draftMode
+        ? 'Gig created as draft successfully!'
+        : 'Gig published successfully!'}
+  </p>
+)}
 
-        <div className="btn-div">
+
+               <div className="form-actions">
+          <div className="left-actions">
+            <button className="back-btn" onClick={onBack} disabled={loading}>
+              Back
+            </button>
           <button
-            className="publish-btn"
-            onClick={handlePublish}
-            disabled={loading || success}
-          >
-            {loading
-              ? isEdit
-                ? <span className="loader"></span>
-                : <span className="loader"></span>
-              : isEdit
-              ? 'Update Gig'
-              : 'Publish Gig'}
-          </button>
-          <button className="back-btn" onClick={onBack} disabled={loading}>
-            Back
-          </button>
+  className="back-btn"
+  onClick={() => handlePublish(true)}
+  disabled={loading === "draft" || success}
+>
+  {loading === "draft" ? <span className="loader"></span> : "Save as Draft"}
+</button>
+          </div>
+
+       <button
+  className="submit-btn"
+  onClick={() => handlePublish(false)}
+  disabled={loading === "publish" || success}
+>
+  {loading === "publish" ? (
+    <span className="loader"></span>
+  ) : isEdit ? (
+    "Update Gig"
+  ) : (
+    "Publish Gig"
+  )}
+</button>
         </div>
+
       </div>
     </div>
   );
