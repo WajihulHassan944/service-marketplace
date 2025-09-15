@@ -74,26 +74,35 @@ const Services = () => {
     (gig) => gig.status === statusMap[selectedTab]
   );
 
-  const handleDeleteGig = async (gigId) => {
+  
+const handleDeleteGig = async (gigId) => {
+  const confirmed = window.confirm(
+    "Are you sure you want to delete this service? This action cannot be undone."
+  );
+
+  if (!confirmed) return; // cancel clicked
+
   try {
     const res = await fetch(`${baseUrl}/gigs/delete/${gigId}`, {
-      method: 'DELETE',
-      credentials: 'include',
+      method: "DELETE",
+      credentials: "include",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 
     const data = await res.json();
+
     if (res.ok && data.success) {
       setApiGigs((prev) => prev.filter((gig) => gig._id !== gigId));
-       setOpenDropdownIndex(null);
+      setOpenDropdownIndex(null);
+      toast.success("Service has been deleted successfully."); // ✅ Success feedback
     } else {
-  toast.error(data.message || 'Failed to delete gig.');
+      toast.error(data.message || "Failed to delete gig.");
     }
   } catch (err) {
-    console.error('Delete error:', err);
-    toast.error('An error occurred while deleting the gig.');
+    console.error("Delete error:", err);
+    toast.error("An error occurred while deleting the gig.");
   }
 };
 
