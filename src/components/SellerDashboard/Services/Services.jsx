@@ -252,13 +252,13 @@ const handleUnpauseGig = async (gigId) => {
                     {openDropdownIndex === index && (
                       <div className="dropdown-menu">
                      <button onClick={() => router.push(`/seller/create-gig?gigId=${gig._id}&edit=true`)}>Update</button>
-                     <button onClick={() => handleDeleteGig(gig._id)}>Delete</button>
 {gig.status === 'active' && (
       <button onClick={() => handlePauseGig(gig._id)}>Pause</button>
     )}
      {gig.status === "pause" && (
       <button onClick={() => handleUnpauseGig(gig._id)}>Unpause</button>
     )}
+           <button onClick={() => handleDeleteGig(gig._id)}>Delete</button>
                       </div>
                     )}
                     
