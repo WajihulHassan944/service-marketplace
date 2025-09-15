@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { baseUrl } from '@/const';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
+import '@/components/BuyerDashboard/Messages/ZoomPopup/ZoomPopup.css';
 
 const statusMap = {
   ACTIVE: 'active',
@@ -22,7 +23,10 @@ const Services = () => {
   const router = useRouter();
 
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+const [gigToDelete, setGigToDelete] = useState(null);
   const [apiGigs, setApiGigs] = useState([]);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState('ACTIVE');
   useEffect(() => {
@@ -74,37 +78,37 @@ const Services = () => {
     (gig) => gig.status === statusMap[selectedTab]
   );
 
-  
-const handleDeleteGig = async (gigId) => {
-  const confirmed = window.confirm(
-    "Are you sure you want to delete this service? This action cannot be undone."
-  );
-
-  if (!confirmed) return; // cancel clicked
+  const handleDeleteGig = async () => {
+  if (!gigToDelete) return;
+  setIsDeleting(true);
 
   try {
-    const res = await fetch(`${baseUrl}/gigs/delete/${gigId}`, {
+    const res = await fetch(`${baseUrl}/gigs/delete/${gigToDelete}`, {
       method: "DELETE",
       credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
     });
 
     const data = await res.json();
 
     if (res.ok && data.success) {
-      setApiGigs((prev) => prev.filter((gig) => gig._id !== gigId));
+      setApiGigs((prev) => prev.filter((gig) => gig._id !== gigToDelete));
       setOpenDropdownIndex(null);
-      toast.success("Service has been deleted successfully."); // ✅ Success feedback
+      toast.success("Service has been deleted successfully.");
     } else {
       toast.error(data.message || "Failed to delete gig.");
     }
   } catch (err) {
     console.error("Delete error:", err);
     toast.error("An error occurred while deleting the gig.");
+  } finally {
+    setIsDeleting(false);
+    setShowDeleteModal(false);
+    setGigToDelete(null);
   }
 };
+
+
 
 
 const handlePauseGig = async (gigId) => {
@@ -267,7 +271,15 @@ const handleUnpauseGig = async (gigId) => {
      {gig.status === "pause" && (
       <button onClick={() => handleUnpauseGig(gig._id)}>Unpause</button>
     )}
-           <button onClick={() => handleDeleteGig(gig._id)}>Delete</button>
+          <button
+  onClick={() => {
+    setGigToDelete(gig._id);
+    setShowDeleteModal(true);
+  }}
+>
+  Delete
+</button>
+
                       </div>
                     )}
                     
@@ -278,6 +290,52 @@ const handleUnpauseGig = async (gigId) => {
           )}
         </div>
       </div>
+
+
+
+      {showDeleteModal && (
+  <div className="zoom-popup-overlay">
+    <div className="zoom-popup">
+      <div className="zoom-popup-header">
+        <h2>Confirm Deletion</h2>
+        <span
+          className="close-icon"
+          onClick={() => setShowDeleteModal(false)}
+        >
+          ✕
+        </span>
+      </div>
+      <div className="zoom-popup-content">
+        <p className="popup-subtext">
+          Are you sure you want to delete this service? This action cannot be
+          undone.
+        </p>
+        <div className="zoom-popup-actions">
+          <button
+            className="cancel-btn"
+            onClick={() => setShowDeleteModal(false)}
+          >
+            Cancel
+          </button>
+        <button
+  className="submit-btn"
+  onClick={handleDeleteGig}
+  disabled={isDeleting} // disable while deleting
+>
+  {isDeleting ? (
+    <div className="auth-spinner" style={{ width: "20px", height: "20px", borderWidth: "3px" }}></div>
+  ) : (
+    "Confirm"
+  )}
+</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 };
