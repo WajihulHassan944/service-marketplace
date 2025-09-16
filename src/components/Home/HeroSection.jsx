@@ -27,7 +27,11 @@ const HeroSection = () => {
         const gigsData = await gigsRes.json();
         const sellersData = await sellersRes.json();
 
-        setAllGigs(gigsData.gigs || []);
+        const filteredGigs = (gigsData.gigs || []).filter(
+        (gig) => !["draft", "pause"].includes(gig.status)
+      );
+
+      setAllGigs(filteredGigs);
         setAllSellers(sellersData.users || []);
       } catch (err) {
         console.error('Error loading suggestions:', err);

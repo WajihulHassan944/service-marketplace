@@ -45,7 +45,7 @@ const router = useRouter();
 const [paymentMethod, setPaymentMethod] = useState("balance");
 const [currentImageIndex, setCurrentImageIndex] = useState(0);
 const [fade, setFade] = useState(false);
-
+const [errorMessage, setErrorMessage] = useState("");
 
 const getYouTubeEmbedUrl = (url) => {
   try {
@@ -99,28 +99,36 @@ useEffect(() => {
   }
 }, []);
 
-  useEffect(() => {
+ useEffect(() => {
     if (gigIdParam) {
-      fetch(`${baseUrl}/gigs/getGigById/${gigIdParam}`)
+      const url = `${baseUrl}/gigs/getGigById/${gigIdParam}?onlyActiveGigs=true&email=${encodeURIComponent(user.email)}`;
+
+      fetch(url)
         .then((res) => res.json())
         .then((data) => {
-          if (data.success) { 
-         console.log("mine rev",data.buyerReviews);
+          if (data.success) {
+            console.log("mine rev", data.buyerReviews);
             setGig(data.gig);
             setsellerAnalytics(data.sellerAnalytics);
             setClients(data.clients);
             setbuyerReviews(data.buyerReviews);
-            
+            setErrorMessage(""); // clear old errors
+          } else {
+            console.warn("⚠️ Gig fetch response:", data.message);
+            setErrorMessage(data.message || "Unable to fetch gig.");
+            setGig(null); // clear gig if invalid
           }
           setLoading(false);
         })
         .catch((err) => {
           console.error("Error fetching gig:", err);
+          setErrorMessage("Something went wrong while fetching the gig.");
           setLoading(false);
         });
     }
-  }, [gigIdParam]);
-    const filteredReviews = useMemo(() => {
+  }, [gigIdParam,user?.email]);
+
+const filteredReviews = useMemo(() => {
     return buyerReviews?.filter((review) =>
       review.review.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -147,7 +155,7 @@ if (loading) return (
     <p className="loading-text">Loading gig details...</p>
   </div>
 );
-  if (!gig) return <p>No gig found</p>;
+
    const isWishlisted = userLoggedIn?.wishlist?.includes(gig?._id);
  
   const pkg = gig?.packages?.[packageType];
@@ -207,6 +215,20 @@ const handleShareClick = (e) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+ if (errorMessage) {
+    return (
+      <div className="error-box">
+        <p>{errorMessage}</p>
+        <button
+          className="retry-btn"
+          onClick={() => window.location.reload()}
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+    if (!gig) return <p>No gig found</p>;
 
   return (
     <div className={styles.containerGigDetails}>
