@@ -92,7 +92,7 @@
   font-size: 15px;
 }
 
-.loader {
+.zoom-popup-overlay .loader {
   border: 6px solid #e0eaff;
   border-top: 6px solid #003cff;
   border-radius: 50%;

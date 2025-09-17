@@ -216,7 +216,7 @@ if (gigData.pdf?.file) {
   disabled={loading === "publish" || success}
 >
   {loading === "publish" ? (
-    <span className="loader"></span>
+    <span className="loaderPublishGig"></span>
   ) : isEdit ? (
     "Update Gig"
   ) : (

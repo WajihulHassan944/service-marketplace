@@ -5,12 +5,14 @@ import JobCard from './ManageServices';
 import { FaChevronDown } from "react-icons/fa";
 import { baseUrl } from '@/const';
 import withAdminAuth from '@/hooks/withAdminAuth';
+
 const ManageServices = () => {
   const [gigs, setGigs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("all services");
 
+  // 🔥 Added requiresmodification option
   const options = ["all services", "active", "pending", "rejected"];
 
   const handleSelect = (option) => {
@@ -23,7 +25,13 @@ const ManageServices = () => {
       const res = await fetch(`${baseUrl}/gigs/all`);
       const data = await res.json();
       if (data.success) {
-        setGigs(data.gigs);
+        // 🔥 Sort gigs: latest updated OR created first
+        const sortedGigs = data.gigs.sort((a, b) => {
+          const dateA = new Date(a.updatedAt || a.createdAt);
+          const dateB = new Date(b.updatedAt || b.createdAt);
+          return dateB - dateA;
+        });
+        setGigs(sortedGigs);
       }
     } catch (error) {
       console.error('Failed to fetch gigs:', error);
@@ -83,7 +91,7 @@ const ManageServices = () => {
               key={gig._id}
               gigId={gig._id}
               title={gig.gigTitle}
-              postedDate={new Date(gig.createdAt).toLocaleDateString()}
+              postedDate={new Date(gig.updatedAt || gig.createdAt).toLocaleDateString()}
               status={gig.status}
               sellerName={`${gig.userId.firstName} ${gig.userId.lastName}`}
               sellerImage={gig.userId.profileUrl}

@@ -109,6 +109,7 @@
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #eee;
+  
 }
 
 .col-gig {
@@ -249,4 +250,16 @@
   .dropdown-btn {
     align-self: flex-end;
   }
+}
+.modification-message {
+  margin-left: 10px; /* align under gig row */
+  margin-top: 5px;
+  font-size: 14px;
+  color: #b45309; /* amber-700 */
+  background: #fff7ed; /* amber-50 */
+  border: 1px solid #fcd34d;
+  padding: 10px 15px;
+  border-radius: 6px;
+  display: inline-block;
+  width: 100%;
 }

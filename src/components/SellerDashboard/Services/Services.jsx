@@ -12,6 +12,7 @@ import '@/components/BuyerDashboard/Messages/ZoomPopup/ZoomPopup.css';
 const statusMap = {
   ACTIVE: 'active',
   'PENDING APPROVAL': 'pending',
+  'REQUIRES MODIFICATON': 'requiresmodification',
   DENIED: 'rejected',
   DRAFT: 'draft',
   PAUSED: 'pause',
@@ -232,8 +233,12 @@ const handleUnpauseGig = async (gigId) => {
                 orders: 0,
                 cancellations: '0%',
               };
-
+const lastModificationMessage =
+    gig.modificationReasons?.length > 0
+      ? gig.modificationReasons[gig.modificationReasons.length - 1]
+      : null;
               return (
+                <>
                 <div className="gigs-row" key={gig._id || index}>
                   <input type="checkbox" />
                   <div className="col-gig" onClick={() => router.push(`/services-details?gigId=${gig._id}&seller=true`)} style={{cursor:'pointer'}}>
@@ -284,8 +289,16 @@ const handleUnpauseGig = async (gigId) => {
                     )}
                     
                   </div>
+          
                 </div>
+           {lastModificationMessage && (
+        <div className="modification-message">
+          <strong>Requires Modification:</strong> {lastModificationMessage}
+        </div>
+      )}
+      </>      
               );
+          
             })
           )}
         </div>
