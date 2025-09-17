@@ -96,6 +96,7 @@ const ManageServices = () => {
               sellerName={`${gig.userId.firstName} ${gig.userId.lastName}`}
               sellerImage={gig.userId.profileUrl}
               refreshGigs={fetchGigs}
+              modificationRequests={gig.modificationRequests}
             />
           ))
         )}

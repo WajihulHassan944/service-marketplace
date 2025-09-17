@@ -2,16 +2,17 @@
 import React, { useState } from 'react';
 import { FaCalendarAlt, FaTrash, FaCheckCircle, FaTimesCircle, FaEdit } from 'react-icons/fa';
 import './manageJobs.css';
-import { useRouter } from 'next/navigation';
 import { baseUrl } from '@/const';
-
-const JobCard = ({ gigId, title, postedDate, status, sellerName, sellerImage, refreshGigs }) => {
+import toast from 'react-hot-toast';
+const JobCard = ({ gigId, title, postedDate, status, sellerName, sellerImage, refreshGigs,modificationRequests }) => {
   const [message, setMessage] = useState('');
   const [showReasonInput, setShowReasonInput] = useState(false);
-  const [reason, setReason] = useState('');
-  const router = useRouter();
+const [reason, setReason] = useState({});
+ const [showRequestedDetails, setShowRequestedDetails] = useState(false);
+const [isSubmitting, setIsSubmitting] = useState(false);
+
 const handleAction = async (type) => {
-  console.log(type);
+  setIsSubmitting(true);
 
   let url = '';
   if (type === 'approve' || type === 'reject' || type === 'requiresmodification') {
@@ -27,29 +28,33 @@ const handleAction = async (type) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: type === 'requiresmodification' ? JSON.stringify({ reason }) : null,
+      body:
+        type === "requiresmodification"
+          ? JSON.stringify({
+              modifications: Object.entries(reason).map(([field, reason]) => ({
+                field,
+                reason,
+              })),
+            })
+          : null,
     });
 
+    let toastMsg = "";
     if (type === 'delete') {
       const data = await res.json();
-      if (data.success) {
-        setMessage(`Gig deleted successfully.`);
-        refreshGigs();
-      } else {
-        setMessage(`Failed to delete gig: ${data.message}`);
-      }
+      toastMsg = data.success
+        ? "Gig deleted successfully."
+        : `Failed to delete gig: ${data.message}`;
+      if (data.success) refreshGigs();
     } else {
       const text = await res.text();
       const cleanText = text.replace(/<[^>]+>/g, '').trim();
-      if (res.ok) {
-        setMessage(cleanText);
-        refreshGigs();
-      } else {
-        setMessage(cleanText);
-      }
+      toastMsg = cleanText;
+      if (res.ok) refreshGigs();
     }
 
-    setTimeout(() => setMessage(''), 3000);
+    setMessage(toastMsg);
+    toast.success(toastMsg);
 
     // Reset state if modification flow
     if (type === 'requiresmodification') {
@@ -59,6 +64,9 @@ const handleAction = async (type) => {
   } catch (error) {
     console.error(`Error during ${type}:`, error);
     setMessage(`Error performing ${type} action.`);
+    toast.error(`Error performing ${type} action.`);
+  } finally {
+    setIsSubmitting(false);
     setTimeout(() => setMessage(''), 3000);
   }
 };
@@ -99,6 +107,15 @@ const handleAction = async (type) => {
         >
           <FaEdit className="icon" color="#fff" /> Requires Modification
         </button>
+        {status === "requiresmodification" && (
+  <button
+    className="btn-view-requests"
+    onClick={() => setShowRequestedDetails(true)}
+  >
+    View Requested Details
+  </button>
+)}
+
         <button
           className="btn-view-details"
           onClick={() => window.open(`/services-details?gigId=${gigId}&admin=true`, '_blank')}
@@ -110,25 +127,126 @@ const handleAction = async (type) => {
           <FaTrash className="icon" />
         </button>
       </div>
+{showReasonInput && (
+  <div className="reason-overlay">
+    <div className="reason-box">
+      {/* Close (X) Button */}
+      <button
+        className="reason-close"
+        onClick={() => setShowReasonInput(false)}
+      >
+        ×
+      </button>
 
-      {/* Reason Input (only shows if Requires Modification is clicked) */}
-      {showReasonInput && (
-        <div className="reason-box">
-          <textarea
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
-            placeholder="Enter reason for modification..."
-            className="reason-textarea"
-          />
-          <button
-            className="btn-submit-reason"
-            onClick={() => handleAction('requiresmodification')}
-            disabled={!reason.trim()}
-          >
-            Submit Reason
-          </button>
-        </div>
-      )}
+      <h4>Select fields that require modification:</h4>
+
+      {/* Scrollable Content */}
+      <div className="reason-content">
+        {[
+          { key: "gigTitle", label: "Title" },
+          { key: "gigDescription", label: "Description" },
+          { key: "packages", label: "Pricing" },
+          { key: "faqs", label: "FAQ" },
+          { key: "images", label: "Gallery" },
+          { key: "videoIframes", label: "Video" },
+          { key: "pdf", label: "Gig document" },
+          { key: "category", label: "Category" },
+          { key: "subcategory", label: "Subcategory" },
+          { key: "subcategorychild", label: "Subcategory Child" },
+          { key: "positiveKeywords", label: "Positive Keywords" },
+          { key: "hourlyRate", label: "Hourly Rate" },
+        ].map(({ key, label }) => (
+          <div key={key} className="field-item">
+            <label>
+              <input
+                type="checkbox"
+                checked={reason[key] !== undefined}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setReason((prev) => ({ ...prev, [key]: "" }));
+                  } else {
+                    setReason((prev) => {
+                      const copy = { ...prev };
+                      delete copy[key];
+                      return copy;
+                    });
+                  }
+                }}
+              />
+              {label}
+            </label>
+            {reason[key] !== undefined && (
+              <textarea
+                value={reason[key]}
+                onChange={(e) =>
+                  setReason((prev) => ({ ...prev, [key]: e.target.value }))
+                }
+                placeholder={`Enter reason for ${label.toLowerCase()}...`}
+                className="reason-textarea"
+              />
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Sticky Action Buttons */}
+      <div className="reason-actions">
+        <button
+          className="btn-cancel-reason"
+          onClick={() => setShowReasonInput(false)}
+        >
+          Cancel
+        </button>
+       <button
+  className="btn-submit-reason"
+  onClick={() => handleAction("requiresmodification")}
+  disabled={isSubmitting || Object.values(reason).every((r) => !r.trim())}
+>
+  {isSubmitting ? "Submitting..." : "Submit Modification Request"}
+</button>
+
+      </div>
+    </div>
+  </div>
+)}
+{showRequestedDetails && (
+  <div className="reason-overlay">
+    <div className="reason-box">
+      <button
+        className="reason-close"
+        onClick={() => setShowRequestedDetails(false)}
+      >
+        ×
+      </button>
+      <h4>Requested Modification Details</h4>
+      <div className="reason-content">
+        {(!modificationRequests || modificationRequests.length === 0) ? (
+          <p>No modification requests found.</p>
+        ) : (
+          modificationRequests.map((req) => (
+            <div key={req._id} className="field-item">
+              <strong>{req.field}</strong>
+              <p>{req.reason}</p>
+              <small>
+                Requested on{" "}
+                {new Date(req.requestedAt).toLocaleString()}
+              </small>
+            </div>
+          ))
+        )}
+      </div>
+      <div className="reason-actions">
+        <button
+          className="btn-cancel-reason"
+          onClick={() => setShowRequestedDetails(false)}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
