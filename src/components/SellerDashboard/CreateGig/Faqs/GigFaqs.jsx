@@ -53,9 +53,27 @@ const GigFaqs = ({ onNext, onBack, gigData, setGigData }) => {
   const toggleExpand = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
-
+const fieldLabels = {
+  faqs: "FAQ",
+};
+const modificationFields = gigData?.modificationRequests?.filter((req) =>
+  ["faqs"].includes(req.field)
+);
   return (
     <div className="faq-container">
+     
+{modificationFields?.length > 0 && (
+  <div className="modification-alert">
+    <h3>⚠️ Modification Required</h3>
+    <ul>
+      {modificationFields.map((req) => (
+        <li key={req._id}>
+          <strong>{fieldLabels[req.field] || req.field} :</strong> {req.reason}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
       <h3>Frequently Asked Questions (FAQs)</h3>
       <hr />
 

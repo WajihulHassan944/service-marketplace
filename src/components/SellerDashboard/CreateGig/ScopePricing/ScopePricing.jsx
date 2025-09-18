@@ -86,8 +86,28 @@ const handleChange = (e) => {
     ? ['basic', 'standard', 'premium']
     : ['standard'];
 
+const fieldLabels = {
+  packages: "Package(s) Pricing"
+};
+const modificationFields = gigData?.modificationRequests?.filter((req) =>
+  ["packages"].includes(req.field)
+);
   return (
     <div className="scope-container">
+    
+{modificationFields?.length > 0 && (
+  <div className="modification-alert">
+    <h3>⚠️ Modification Required</h3>
+    <ul>
+      {modificationFields.map((req) => (
+        <li key={req._id}>
+          <strong>{fieldLabels[req.field] || req.field} :</strong> {req.reason}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
       <form
   onSubmit={(e) => {
     e.preventDefault();

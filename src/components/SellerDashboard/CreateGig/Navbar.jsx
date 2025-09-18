@@ -86,6 +86,7 @@ useEffect(() => {
 },
  removePdf: false,
             _id: g._id,
+           modificationRequests: g.status === "requiresmodification" ? g.modificationRequests || [] : [],
             status: g.status,
           });
         }
@@ -111,6 +112,7 @@ useEffect(() => {
         hourlyRate: "",
         images: [],
         videoIframes: [],
+        modificationRequests: [],
         faqs:[],
         pdf: "",
       });

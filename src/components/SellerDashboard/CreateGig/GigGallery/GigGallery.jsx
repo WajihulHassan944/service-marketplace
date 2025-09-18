@@ -94,8 +94,32 @@ const handleImageChange = (e) => {
     }
   };
 
+  const fieldLabels = {
+  videoIframes: "Video Link",
+  pdf: "Gig document",
+  images: "Gig Gallery",
+};
+const modificationFields = gigData?.modificationRequests?.filter((req) =>
+  ["videoIframes", "pdf", "images"].includes(req.field)
+);
+
+
   return (
     <div className="gig-gallery-container">
+
+    
+{modificationFields?.length > 0 && (
+  <div className="modification-alert">
+    <h3>⚠️ Modification Required</h3>
+    <ul>
+      {modificationFields.map((req) => (
+        <li key={req._id}>
+          <strong>{fieldLabels[req.field] || req.field} :</strong> {req.reason}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
       <h2>Showcase Your Services In A Gig Gallery</h2>
       <p className="subtitle">
         Encourage buyers to choose your Gig by featuring a variety of your work.

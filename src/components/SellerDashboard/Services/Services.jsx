@@ -233,10 +233,11 @@ const handleUnpauseGig = async (gigId) => {
                 orders: 0,
                 cancellations: '0%',
               };
-const lastModificationMessage =
-    gig.modificationReasons?.length > 0
-      ? gig.modificationReasons[gig.modificationReasons.length - 1]
-      : null;
+const lastModificationRequest =
+  gig.status === "requiresmodification" && gig.modificationRequests?.length > 0
+    ? gig.modificationRequests[gig.modificationRequests.length - 1]
+    : null;
+
               return (
                 <>
                 <div className="gigs-row" key={gig._id || index}>
@@ -291,11 +292,20 @@ const lastModificationMessage =
                   </div>
           
                 </div>
-           {lastModificationMessage && (
-        <div className="modification-message">
-          <strong>Requires Modification:</strong> {lastModificationMessage}
-        </div>
-      )}
+       {gig.status === "requiresmodification" &&
+  gig.modificationRequests?.length > 0 && (
+    <div className="modification-message">
+      <strong>Requires Modification:</strong>
+      <ul>
+        {gig.modificationRequests.map((req) => (
+          <li key={req._id}>
+            <strong>{req.field} :</strong> {req.reason}
+          </li>
+        ))}
+      </ul>
+    </div>
+)}
+
       </>      
               );
           

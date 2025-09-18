@@ -44,9 +44,32 @@ const GigForm = ({ onNext, gigData, setGigData }) => {
   // Get subcategorychild array
   const selectedSubcategory = subcategories.find((subcat) => subcat.name === gigData.subcategory);
   const subcategoryChildren = selectedSubcategory?.subcategories || [];
-
+const fieldLabels = {
+  gigTitle: "Title",
+  category: "Category",
+  subcategory: "Subcategory",
+  subcategorychild: "Subcategory Child",
+  positiveKeywords: "Positive Keywords",
+};
+const modificationFields = gigData?.modificationRequests?.filter((req) =>
+  ["gigTitle", "category", "subcategory", "subcategorychild", "positiveKeywords"].includes(req.field)
+);
   return (
     <div className="gig-form-container">
+ 
+{modificationFields?.length > 0 && (
+  <div className="modification-alert">
+    <h3>⚠️ Modification Required</h3>
+    <ul>
+      {modificationFields.map((req) => (
+        <li key={req._id}>
+          <strong>{fieldLabels[req.field] || req.field} :</strong> {req.reason}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
       <h2 className="section-title">Gig Overview</h2>
 <form
   onSubmit={(e) => {

@@ -44,10 +44,32 @@ const DescriptionEditor = ({ onNext, onBack, gigData, setGigData }) => {
       hourlyRate: isNaN(numericValue) ? 0 : numericValue,
     }));
   };
+  const fieldLabels = {
+  gigDescription: "Description",
+  hourlyRate: "Hourly Rate",
+};
+const modificationFields = gigData?.modificationRequests?.filter((req) =>
+  ["gigDescription", "hourlyRate"].includes(req.field)
+);
 
   return (
     <div className="main-div">
+    
+
       <div className="desc-container">
+    
+{modificationFields?.length > 0 && (
+  <div className="modification-alert">
+    <h3>⚠️ Modification Required</h3>
+    <ul>
+      {modificationFields.map((req) => (
+        <li key={req._id}>
+          <strong>{fieldLabels[req.field] || req.field} :</strong> {req.reason}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
         <h3>Description</h3>
         <hr />
         <label htmlFor="gig-desc" className="desc-label">
