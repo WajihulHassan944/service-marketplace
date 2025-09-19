@@ -3,7 +3,7 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
   padding: 20px;
-  font-family: "Plus Jakarta Sans", sans-serif !important;
+  
 }
 
 .dashboard-ui .card {

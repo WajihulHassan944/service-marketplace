@@ -76,12 +76,14 @@
 .badge {
   background-color: #204ecf;
   color: white;
-  padding: 1px 7px;
   border-radius: 50%;
   font-size: 12px;
   margin-left: 6px;
-  width: 15px;
-  height: 15px;
+  margin-top: -5px;
+  width: 16px;
+display: inline-block;
+  height: 16px;
+  text-align: center;
 }
 
 .gigs-panel {

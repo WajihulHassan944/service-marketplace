@@ -1,6 +1,6 @@
 .sellerClients {
   margin-bottom: 20px;
-  font-family: Arial, sans-serif;
+  
   display: flex;
   gap: 20px;
   max-width: 800px;
@@ -84,7 +84,7 @@
   font-size: 13px;
   margin-top: 4px;
   
-  font-family: Arial, sans-serif;
+  
 }
 
 /* Hover card (portal, absolute to viewport) */
@@ -116,7 +116,7 @@
   margin-bottom: 10px;
   font-size: 16px;
   
-  font-family: Arial, sans-serif;
+  
 }
 .hoverCard-meta {
   font-size: 14px;
@@ -124,7 +124,7 @@
   display: flex;
   align-items: center;
   
-  font-family: Arial, sans-serif;
+  
   margin-bottom: 10px;
 }
 .hoverCard-icon {
@@ -134,14 +134,14 @@
   font-size: 15px;
   margin-bottom: 4px;
   
-  font-family: Arial, sans-serif;
+  
 }
 .hoverCard-date {
   font-size: 14px;
   color: #777;
   margin-top: 5px;
   
-  font-family: Arial, sans-serif;
+  
 }
 
 /* Arrows */

@@ -11,9 +11,11 @@
 body {
   overflow-x: hidden;
   margin: 0;
-  font-family:  'Plus Jakarta Sans', sans-serif;
+    font-family: 'GeistSans', 'GeistSans Fallback', sans-serif;
 }
-
+button, select, input, textarea{
+   font-family: 'GeistSans', 'GeistSans Fallback', sans-serif;
+}
 .admin-main {
   margin-left: 260px;
   margin-top: 60px;

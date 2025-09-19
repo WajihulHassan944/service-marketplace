@@ -5,7 +5,7 @@
     max-width: 1250px;
     margin: 0 auto;
     padding: 24px;
-     font-family: 'Plus Jakarta Sans', sans-serif !important;
+     
   
   }
   
@@ -89,8 +89,7 @@
     color: #2a3547;
     font-size: 20px;
     font-weight: 600;
-    font-family: 'Poppins', sans-serif !important;
-
+   
   }
   .aboutSection {
     margin-bottom: 40px;

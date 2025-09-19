@@ -3,7 +3,6 @@
 .main-container {
   margin: 0 auto;
   padding: 20px 10%;
-  /* font-family: 'Poppins', 'Segoe UI', sans-serif; */
   background: #ffffff;
   color: #222;
   font-size: 15px;
@@ -30,7 +29,6 @@
   padding: 16px;
   max-width: 410px;
   width: 100%;
-  /* font-family: 'Segoe UI', sans-serif; */
 }
 
 .card-header {

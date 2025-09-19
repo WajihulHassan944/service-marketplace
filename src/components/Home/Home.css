@@ -80,8 +80,7 @@
   .upwork-container {
     display: flex;
     flex-wrap: wrap;
-/*   
-   font-family: 'Suisse Int\'l', 'Plus Jakarta Sans', sans-serif; */
+
     padding: 60px 10%;
     background: #fff;
     color: #000;
@@ -265,7 +264,6 @@
     margin-bottom: 70px;
    
   
-   /* font-family: 'Suisse Int\'l', 'Plus Jakarta Sans', sans-serif; */
   }
   
   .talent-image {

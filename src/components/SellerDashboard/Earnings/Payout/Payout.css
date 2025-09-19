@@ -5,7 +5,7 @@
   width: 100%;
  margin-bottom: 60px;
   gap: 30px;
-  /* font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif; */
+  
 }
 .payout-container {
   margin: 40px 0;
@@ -14,7 +14,7 @@
   padding: 0;
   border: 1px solid #ddd;
   background-color: #fff;
-  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  
   
   border-radius: 6px;
 }

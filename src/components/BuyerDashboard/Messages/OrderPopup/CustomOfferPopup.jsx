@@ -33,7 +33,7 @@ const CustomOfferPopup = ({ sellerId, buyerId, onClose }) => {
 
     setIsSubmitting(true);
 const offerCard = `
-  <div style="background-color: #f7f7f7; border: 1px solid #ccc; padding: 15px; border-radius: 8px; max-width: 400px; font-family: sans-serif;">
+  <div style="background-color: #f7f7f7; border: 1px solid #ccc; padding: 15px; border-radius: 8px; max-width: 400px; ">
     <h3 style="margin-bottom: 10px; color: #28a745;">Custom Offer - ${selectedGig.gigTitle}</h3>
     <p><strong>Amount:</strong> $${amount}</p>
     <p style="margin:7px 0;"><strong>Description:</strong> ${description}</p>

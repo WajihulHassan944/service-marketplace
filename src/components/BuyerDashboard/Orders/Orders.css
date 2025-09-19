@@ -2,7 +2,6 @@
   
     padding: 40px 10%;
     padding-top: 15px;
-    /* font-family: 'Segoe UI', sans-serif; */
     min-height: 90vh;
 }
 
@@ -10,7 +9,6 @@
     width: 100%;
     padding: 40px 0;
     padding-top: 15px;
-    /* font-family: 'Segoe UI', sans-serif; */
   }
   
   .orders-container .title {

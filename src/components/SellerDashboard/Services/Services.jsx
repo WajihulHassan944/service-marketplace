@@ -233,10 +233,21 @@ const handleUnpauseGig = async (gigId) => {
                 orders: 0,
                 cancellations: '0%',
               };
-const lastModificationRequest =
-  gig.status === "requiresmodification" && gig.modificationRequests?.length > 0
-    ? gig.modificationRequests[gig.modificationRequests.length - 1]
-    : null;
+              
+const fieldLabels = {
+  gigTitle: "Title",
+  gigDescription: "Description",
+  packages: "Pricing",
+  faqs: "FAQ",
+  images: "Gallery",
+  videoIframes: "Video",
+  pdf: "Gig Document",
+  category: "Category",
+  subcategory: "Subcategory",
+  subcategorychild: "Subcategory Child",
+  positiveKeywords: "Positive Keywords",
+  hourlyRate: "Hourly Rate",
+};
 
               return (
                 <>
@@ -292,14 +303,15 @@ const lastModificationRequest =
                   </div>
           
                 </div>
-       {gig.status === "requiresmodification" &&
+    {gig.status === "requiresmodification" &&
   gig.modificationRequests?.length > 0 && (
     <div className="modification-message">
       <strong>Requires Modification:</strong>
       <ul>
         {gig.modificationRequests.map((req) => (
           <li key={req._id}>
-            <strong>{req.field} :</strong> {req.reason}
+            <strong>{fieldLabels[req.field] || req.field} :</strong>{" "}
+            {req.reason}
           </li>
         ))}
       </ul>
