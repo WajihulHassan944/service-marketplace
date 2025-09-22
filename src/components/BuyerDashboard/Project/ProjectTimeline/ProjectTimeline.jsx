@@ -36,27 +36,45 @@ const dueDate = new Date(order.deliveryDueDate);
     {
       id: 2,
       title: `${buyerName} submitted the requirements`,
+      time: new Date(order.createdAt).toLocaleString(),
       completed: true,
     },
     {
       id: 3,
       title: `${sellerName} reviewed the requirements`,
+      time: order.timeline?.requirementsReviewedAt
+      ? new Date(order.timeline.requirementsReviewedAt).toLocaleString()
+      : '',
       completed: true,
     },
     {
   id: 4,
   title: order.status === 'cancelled' ? 'Order cancelled' : `${sellerName} delivers the order`,
+    time:
+      order.status === "cancelled"
+        ? order.timeline?.cancelledAt
+          ? new Date(order.timeline.cancelledAt).toLocaleString()
+          : ''
+        : order.timeline?.deliveredAt
+        ? new Date(order.timeline.deliveredAt).toLocaleString()
+        : '',
   completed: order.status === 'cancelled' || order.status === 'delivered' || order.status === 'completed',
 },
 
     {
       id: 5,
       title: `${buyerName} reviews and approves the work`,
+       time: order.timeline?.approvedAt
+      ? new Date(order.timeline.approvedAt).toLocaleString()
+      : '',
       completed: order.status === 'completed',
     },
     {
       id: 6,
       title: 'Project complete',
+       time: order.timeline?.completedAt
+      ? new Date(order.timeline.completedAt).toLocaleString()
+      : '',
       completed: order.status === 'completed',
     },
   ].filter(step => {

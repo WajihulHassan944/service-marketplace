@@ -58,7 +58,7 @@ if (loading) return (
 
         <div className="right-column">
           <OrderDetails order={order} />
-          <SubmittedRequirements order={order} />
+          <SubmittedRequirements order={order} fetchOrder={fetchOrder} />
           <OrderActions order={order} setShowReviewPopup={setShowReviewPopup} fetchOrder={fetchOrder} />
           
         </div>

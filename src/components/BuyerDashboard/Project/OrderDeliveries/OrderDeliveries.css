@@ -76,6 +76,10 @@
   text-decoration: none;
   margin-top: 0.3rem;
   font-size: 0.94rem;
+  border:none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
 }
 
 .delivery-file-link:hover {
