@@ -6,6 +6,7 @@ import { fetchGigs } from '@/redux/features/gigsSlice';
 import Filters from './Filters';
 import GigCard from './GigCard';
 import { useSearchParams, useRouter } from 'next/navigation';
+import SearchAssistant from './SearchAssistant';
 
 const Gigs = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const Gigs = () => {
 
   const category = searchParams.get('category');
   const subCategory = searchParams.get('sub');
-const subCategoryChild = searchParams.get('child');
+  const subCategoryChild = searchParams.get('child');
 
   const serviceType = searchParams.get('service');
   const sellerLevel = searchParams.get('level');
@@ -24,7 +25,8 @@ const subCategoryChild = searchParams.get('child');
   const sort = searchParams.get('sort');
   const country = searchParams.get('country');
 
-  const search = searchParams.get('search')?.toLowerCase() || '';
+  const rawSearch = (searchParams.get('search') || '').trim();
+  const search = rawSearch.toLowerCase();
 
   useEffect(() => {
     if (status === 'idle') {
@@ -33,73 +35,97 @@ const subCategoryChild = searchParams.get('child');
   }, [status, dispatch]);
 
   const hasAnyFilter =
-    category || subCategory || serviceType || sellerLevel || budget || delivery || sort || search  || country;
+    category ||
+    subCategory ||
+    serviceType ||
+    sellerLevel ||
+    budget ||
+    delivery ||
+    sort ||
+    rawSearch ||
+    country;
 
-const filteredGigs = useMemo(() => {
-  let data = gigs.filter((gig) => gig.status === 'active');
+  const filteredGigs = useMemo(() => {
+    let data = gigs.filter((gig) => gig.status === 'active');
 
-  if (search) {
-    const searchWords = search.split(/\s+/).map((w) => w.toLowerCase());
+    if (search) {
+      const searchWords = search.split(/\s+/).map((w) => w.toLowerCase());
 
-    data = data.filter((gig) => {
-      const fieldsToSearch = [
-        gig.gigTitle,
-        gig.description,
-        gig.category,
-        gig.subcategory,
-        gig.subCategoryChild,
-        gig.userId?.firstName,
-        gig.userId?.lastName,
-        gig.packages?.basic?.description,
-      ];
+      data = data.filter((gig) => {
+        const fieldsToSearch = [
+          gig.gigTitle,
+          gig.description,
+          gig.category,
+          gig.subcategory,
+          gig.subCategoryChild,
+          gig.userId?.firstName,
+          gig.userId?.lastName,
+          gig.packages?.basic?.description,
+        ];
 
-      const combinedText = fieldsToSearch
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase();
+        const combinedText = fieldsToSearch
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
 
-      return searchWords.some((word) => combinedText.includes(word));
-    });
-  }
- if (country) {
-  data = data.filter(
-    (gig) => gig.userId?.country?.toLowerCase() === country.toLowerCase()
-  );
-}
-  if (category) data = data.filter((gig) => gig.category === category);
-  if (subCategory) data = data.filter((gig) => gig.subcategory === subCategory);
-  if (subCategoryChild) data = data.filter((gig) => gig.subcategorychild === subCategoryChild);
+        return searchWords.some((word) => combinedText.includes(word));
+      });
+    }
 
-  if (serviceType === 'hourly') data = data.filter((gig) => gig.hourlyRate);
-  if (sellerLevel)
-    data = data.filter(
-      (gig) =>
-        gig.userId?.sellerDetails?.level?.toLowerCase() === sellerLevel.toLowerCase()
-    );
-  if (budget) {
-    const [min, max] = budget.split('-').map(Number);
-    data = data.filter((gig) => {
-      const price = gig.packages?.basic?.price || 0;
-      return price >= min && price <= max;
-    });
-  }
-  if (delivery)
-    data = data.filter(
-      (gig) => gig.packages?.basic?.deliveryTime <= Number(delivery)
-    );
+    if (country) {
+      data = data.filter(
+        (gig) => gig.userId?.country?.toLowerCase() === country.toLowerCase()
+      );
+    }
 
-  if (sort === 'oldest') {
-    data = data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-  } else if (sort === 'newest') {
-    data = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  } else if (sort === 'lowToHigh') {
-    data = data.sort(
-      (a, b) => (a.packages?.basic?.price || 0) - (b.packages?.basic?.price || 0)
-    );
-  }
+    if (category) data = data.filter((gig) => gig.category === category);
+    if (subCategory) data = data.filter((gig) => gig.subcategory === subCategory);
+    if (subCategoryChild)
+      data = data.filter((gig) => gig.subcategorychild === subCategoryChild);
 
-  return data;
-}, [gigs, category, subCategory,subCategoryChild, serviceType, sellerLevel, budget, delivery, sort, search, country]);
+    if (serviceType === 'hourly') data = data.filter((gig) => gig.hourlyRate);
+    if (sellerLevel)
+      data = data.filter(
+        (gig) =>
+          gig.userId?.sellerDetails?.level?.toLowerCase() ===
+          sellerLevel.toLowerCase()
+      );
+    if (budget) {
+      const [min, max] = budget.split('-').map(Number);
+      data = data.filter((gig) => {
+        const price = gig.packages?.basic?.price || 0;
+        return price >= min && price <= max;
+      });
+    }
+    if (delivery)
+      data = data.filter(
+        (gig) => gig.packages?.basic?.deliveryTime <= Number(delivery)
+      );
+
+    if (sort === 'oldest') {
+      data = data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    } else if (sort === 'newest') {
+      data = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    } else if (sort === 'lowToHigh') {
+      data = data.sort(
+        (a, b) => (a.packages?.basic?.price || 0) - (b.packages?.basic?.price || 0)
+      );
+    }
+
+    return data;
+  }, [
+    gigs,
+    category,
+    subCategory,
+    subCategoryChild,
+    serviceType,
+    sellerLevel,
+    budget,
+    delivery,
+    sort,
+    search,
+    country,
+  ]);
 
   const clearFilters = () => {
     router.push('/services');
@@ -107,6 +133,14 @@ const filteredGigs = useMemo(() => {
 
   return (
     <div>
+      {rawSearch && (
+        <SearchAssistant
+          searchTerm={rawSearch}
+          gigs={filteredGigs}
+          isLoading={status === 'loading'}
+        />
+      )}
+
       <Filters resultsCount={filteredGigs.length} />
 
       {hasAnyFilter && (
