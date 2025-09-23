@@ -15,7 +15,6 @@ import {
   FiRefreshCcw,
 } from 'react-icons/fi';
 import './SearchAssistant.css';
-import { baseUrl } from '@/const';
 
 const SearchAssistant = ({ searchTerm, gigs, isLoading }) => {
   const [messages, setMessages] = useState([]);
@@ -69,7 +68,7 @@ const SearchAssistant = ({ searchTerm, gigs, isLoading }) => {
   const fetchAssistantReply = useCallback(
     async (historyPayload) => {
       try {
-        const response = await fetch(`${baseUrl}/ai/chat`, {
+        const response = await fetch('/api/ai/chat', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -199,7 +198,7 @@ const SearchAssistant = ({ searchTerm, gigs, isLoading }) => {
       setAiError(null);
 
       try {
-        const response = await fetch(`${baseUrl}/ai/brief`, {
+        const response = await fetch('/api/ai/brief', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
