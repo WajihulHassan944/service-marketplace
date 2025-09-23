@@ -24,62 +24,110 @@ const dueDate = new Date(order.deliveryDueDate);
   const diffMs = dueDate - now;
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
   const diffHours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
-
-  // Determine which steps are completed based on order status
-  const steps = [
-    {
-      id: 1,
-      title: 'Order placed',
-      time: new Date(order.createdAt).toLocaleString(),
-      completed: true,
-    },
-    {
-      id: 2,
-      title: `${buyerName} submitted the requirements`,
-      time: new Date(order.createdAt).toLocaleString(),
-      completed: true,
-    },
-    {
-      id: 3,
-      title: `${sellerName} reviewed the requirements`,
-      time: order.timeline?.requirementsReviewedAt
+// Determine which steps are completed based on order status
+let steps = [
+  {
+    id: 1,
+    title: "Order placed",
+    time: new Date(order.createdAt).toLocaleString(),
+    completed: true,
+  },
+  {
+    id: 2,
+    title: `${buyerName} submitted the requirements`,
+    time: new Date(order.createdAt).toLocaleString(),
+    completed: true,
+  },
+  {
+    id: 3,
+    title: `${sellerName} reviewed the requirements`,
+    time: order.timeline?.requirementsReviewedAt
       ? new Date(order.timeline.requirementsReviewedAt).toLocaleString()
-      : '',
-      completed: true,
-    },
-    {
-  id: 4,
-  title: order.status === 'cancelled' ? 'Order cancelled' : `${sellerName} delivers the order`,
+      : "",
+    completed: !!order.timeline?.requirementsReviewedAt,
+  },
+];
+
+// ✅ Only push delivery step if cancelled OR deliveredAt exists
+if (order.status === "cancelled" || order.timeline?.deliveredAt) {
+  steps.push({
+    id: steps.length + 1,
+    title:
+      order.status === "cancelled"
+        ? "Order cancelled"
+        : `${sellerName} delivers the order`,
     time:
       order.status === "cancelled"
         ? order.timeline?.cancelledAt
           ? new Date(order.timeline.cancelledAt).toLocaleString()
-          : ''
+          : ""
         : order.timeline?.deliveredAt
         ? new Date(order.timeline.deliveredAt).toLocaleString()
-        : '',
-  completed: order.status === 'cancelled' || order.status === 'delivered' || order.status === 'completed',
-},
+        : "",
+ completed: !!(order.timeline?.cancelledAt || order.timeline?.deliveredAt),
+  });
+}
+// 🔄 Insert revision requests + deliveries in chronological order
+if (order.timeline?.revisionRequests?.length > 0) {
+  order.timeline.revisionRequests.forEach((reqItem) => {
+    steps.push({
+      id: steps.length + 1,
+      title: `${buyerName} requested revision #${reqItem.revisionNumber}`,
+      time: reqItem.requestedAt
+        ? new Date(reqItem.requestedAt).toLocaleString()
+        : "",
+      completed: true,
+    });
 
-    {
-      id: 5,
-      title: `${buyerName} reviews and approves the work`,
-       time: order.timeline?.approvedAt
+    const delivery = order.timeline.revisionDeliveries?.find(
+      (d) => d.revisionNumber === reqItem.revisionNumber
+    );
+
+    if (delivery) {
+      steps.push({
+        id: steps.length + 1,
+        title: `${sellerName} delivered revision #${delivery.revisionNumber}`,
+        time: delivery.deliveredAt
+          ? new Date(delivery.deliveredAt).toLocaleString()
+          : "",
+        completed: true,
+      });
+    } else {
+      // 🔮 Predict the next expected action
+      steps.push({
+        id: steps.length + 1,
+        title: `${sellerName} delivers revision #${reqItem.revisionNumber}`,
+        time: "",
+        completed: false, // 🚫 Not completed yet
+      });
+    }
+  });
+}
+
+
+// ✅ Add final approval + completion
+steps.push(
+  {
+    id: steps.length + 1,
+    title: `${buyerName} reviews and approves the work`,
+    time: order.timeline?.approvedAt
       ? new Date(order.timeline.approvedAt).toLocaleString()
-      : '',
-      completed: order.status === 'completed',
-    },
-    {
-      id: 6,
-      title: 'Project complete',
-       time: order.timeline?.completedAt
+      : "",
+    completed: order.status === "completed",
+  },
+  {
+    id: steps.length + 1,
+    title: "Project complete",
+    time: order.timeline?.completedAt
       ? new Date(order.timeline.completedAt).toLocaleString()
-      : '',
-      completed: order.status === 'completed',
-    },
-  ].filter(step => {
-  // Hide steps 5 and 6 if order is cancelled
-  if (order.status === 'cancelled') return step.id < 5;
+      : "",
+    completed: order.status === "completed",
+  }
+);
+
+// 🚫 Hide steps 5+ if cancelled
+steps = steps.filter((step) => {
+  if (order.status === "cancelled") return step.id < 5;
   return true;
 });
 
