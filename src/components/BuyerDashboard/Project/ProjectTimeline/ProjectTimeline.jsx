@@ -47,26 +47,23 @@ let steps = [
     completed: !!order.timeline?.requirementsReviewedAt,
   },
 ];
+// ✅ Always push a delivery step: cancelled OR delivered OR expected (not-yet-delivered)
+const isCancelled = order.status === "cancelled";
+const hasDelivered = !!order.timeline?.deliveredAt;
 
-// ✅ Only push delivery step if cancelled OR deliveredAt exists
-if (order.status === "cancelled" || order.timeline?.deliveredAt) {
-  steps.push({
-    id: steps.length + 1,
-    title:
-      order.status === "cancelled"
-        ? "Order cancelled"
-        : `${sellerName} delivers the order`,
-    time:
-      order.status === "cancelled"
-        ? order.timeline?.cancelledAt
-          ? new Date(order.timeline.cancelledAt).toLocaleString()
-          : ""
-        : order.timeline?.deliveredAt
-        ? new Date(order.timeline.deliveredAt).toLocaleString()
-        : "",
- completed: !!(order.timeline?.cancelledAt || order.timeline?.deliveredAt),
-  });
-}
+steps.push({
+  id: steps.length + 1,
+  title: isCancelled ? "Order cancelled" : `${sellerName} delivers the order`,
+  time: isCancelled
+    ? order.timeline?.cancelledAt
+      ? new Date(order.timeline.cancelledAt).toLocaleString()
+      : ""
+    : hasDelivered
+    ? new Date(order.timeline.deliveredAt).toLocaleString()
+    : "",
+  completed: isCancelled ? !!order.timeline?.cancelledAt : hasDelivered,
+});
+
 // 🔄 Insert revision requests + deliveries in chronological order
 if (order.timeline?.revisionRequests?.length > 0) {
   order.timeline.revisionRequests.forEach((reqItem) => {
@@ -103,15 +100,18 @@ if (order.timeline?.revisionRequests?.length > 0) {
     }
   });
 }
-
-
-// ✅ Add final approval + completion
+// ✅ Always add approval + completion
 steps.push(
   {
     id: steps.length + 1,
-    title: `${buyerName} reviews and approves the work`,
+    title:
+      order.timeline?.autoCompletedAt && order.timeline?.systemNote
+        ? order.timeline.systemNote
+        : `${buyerName} reviews and approves the work`,
     time: order.timeline?.approvedAt
       ? new Date(order.timeline.approvedAt).toLocaleString()
+      : order.timeline?.autoCompletedAt
+      ? new Date(order.timeline.autoCompletedAt).toLocaleString()
       : "",
     completed: order.status === "completed",
   },
