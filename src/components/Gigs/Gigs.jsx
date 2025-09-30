@@ -145,8 +145,8 @@ const filteredGigs = useMemo(() => {
           sellerName: `${gig.userId?.firstName || ''} ${gig.userId?.lastName || ''}`,
           badge: gig.userId?.sellerDetails?.level || 'New Seller',
           title: gig.gigTitle,
-          rating: 5,
-          reviews: 0,
+          rating: gig.userId?.averageRating || "0.0",
+              reviews: gig.userId?.ratingCount || 0,
           price: `$${gig.packages?.basic?.price || gig.packages?.standard?.price || 'N/A'}`,
           offersVideo: true,
         }}

@@ -184,3 +184,8 @@
 .share-btn:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
+.no-reviews {
+  font-style: italic;
+  color: #888;
+  margin-left: 4px;
+}

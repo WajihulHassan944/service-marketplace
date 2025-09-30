@@ -718,43 +718,48 @@ if (referrerId) {
     </section>
 )}
    <section className={styles.reviewsSection}>
-      <h2>Reviews</h2>
+  <h2>Reviews</h2>
 
+  {filteredReviews.length === 0 ? (
+    <p className={styles.noReviews}>No reviews yet for this service.</p>
+  ) : (
+    <>
       <div className={styles.reviewSummary}>
         <div className={styles.leftStats}>
           <p><strong>{totalReviews} reviews for this Gig</strong></p>
 
-        <div className={styles.ratingRow}>
-  <span className={styles.fixedWidth}>Seller communication level</span>
-  <div className={styles.bar}>
-    <div
-      className={styles.filled}
-      style={{ width: `${(communicationAvg / 5) * 100}%` }}
-    ></div>
-  </div>
-  <span>★{communicationAvg.toFixed(1)}</span>
-</div>
-<div className={styles.ratingRow}>
-  <span className={styles.fixedWidth}>Quality of delivery</span>
-  <div className={styles.bar}>
-    <div
-      className={styles.filled}
-      style={{ width: `${(deliveryAvg / 5) * 100}%` }}
-    ></div>
-  </div>
-  <span>★ {deliveryAvg.toFixed(1)}</span>
-</div>
-<div className={styles.ratingRow}>
-  <span className={styles.fixedWidth}>Value of delivery</span>
-  <div className={styles.bar}>
-    <div
-      className={styles.filled}
-      style={{ width: `${(valueAvg / 5) * 100}%` }}
-    ></div>
-  </div>
-  <span>★ {valueAvg.toFixed(1)}</span>
-</div>
+          <div className={styles.ratingRow}>
+            <span className={styles.fixedWidth}>Seller communication level</span>
+            <div className={styles.bar}>
+              <div
+                className={styles.filled}
+                style={{ width: `${(communicationAvg / 5) * 100}%` }}
+              ></div>
+            </div>
+            <span>★ {communicationAvg.toFixed(1)}</span>
+          </div>
 
+          <div className={styles.ratingRow}>
+            <span className={styles.fixedWidth}>Quality of delivery</span>
+            <div className={styles.bar}>
+              <div
+                className={styles.filled}
+                style={{ width: `${(deliveryAvg / 5) * 100}%` }}
+              ></div>
+            </div>
+            <span>★ {deliveryAvg.toFixed(1)}</span>
+          </div>
+
+          <div className={styles.ratingRow}>
+            <span className={styles.fixedWidth}>Value of delivery</span>
+            <div className={styles.bar}>
+              <div
+                className={styles.filled}
+                style={{ width: `${(valueAvg / 5) * 100}%` }}
+              ></div>
+            </div>
+            <span>★ {valueAvg.toFixed(1)}</span>
+          </div>
         </div>
 
         <div className={styles.rightStats}>
@@ -762,8 +767,6 @@ if (referrerId) {
             <span>{"★".repeat(Math.round(averageRating))}</span>
             <strong>{averageRating.toFixed(1)}</strong>
           </div>
-
-         
         </div>
       </div>
 
@@ -774,9 +777,9 @@ if (referrerId) {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-      <button type="button" className="search-btn">
-  <FiSearch size={18} />
-</button>
+        <button type="button" className="search-btn">
+          <FiSearch size={18} />
+        </button>
         <select>
           <option>Most relevant</option>
         </select>
@@ -793,21 +796,24 @@ if (referrerId) {
               <div className={styles.location}>{review.reviewedByBuyer.country}</div>
             </div>
           </div>
+
           <div className={styles.stars}>
             {"★".repeat(Math.round(review.overallRating))}{" "}
-           <span>{review.overallRating.toFixed(1)}</span> •{" "}
-<span>
-  {new Date(review.createdAt).toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-  })}
-</span>
-
+            <span>{review.overallRating.toFixed(1)}</span> •{" "}
+            <span>
+              {new Date(review.createdAt).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "short",
+              })}
+            </span>
           </div>
+
           <p>{review.review}</p>
         </div>
       ))}
-    </section>
+    </>
+  )}
+</section>
 
   <section className={styles.techStack}>
             <div>

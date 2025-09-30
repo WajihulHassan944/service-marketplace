@@ -1,7 +1,8 @@
 import Image from "next/image";
+import { Star } from "lucide-react";
 
-export default function Reviews({ sellerReviews = [] }) {
-  if (sellerReviews.length === 0) {
+export default function Reviews({ buyerReviews = [] }) {
+  if (buyerReviews.length === 0) {
     return (
       <div className="reviews-container">
         <h3>Reviews</h3>
@@ -13,21 +14,27 @@ export default function Reviews({ sellerReviews = [] }) {
   return (
     <div className="reviews-container">
       <h3>
-        {sellerReviews.length} Review{sellerReviews.length > 1 ? "s" : ""}
+        {buyerReviews.length} Review{buyerReviews.length > 1 ? "s" : ""}
       </h3>
 
-      {sellerReviews.map((review, idx) => {
-        const reviewer = review.reviewedGigBuyer || {};
-        const reviewerName = `${reviewer.firstName || "Unknown"} ${reviewer.lastName || ""}`;
-        const reviewerCountry = reviewer.country || "Unknown";
-        const reviewerFlag = getFlagEmoji(reviewerCountry);
-        const profileImage = reviewer.profileUrl || "/assets/default-user.png";
+      {buyerReviews.map((review, idx) => {
+        const seller = review.reviewedSeller || {};
+        const buyer = review.reviewerBuyer || {};
+        const sellerName = `${seller.firstName || "Unknown"} ${
+          seller.lastName || ""
+        }`;
+        const sellerCountry = seller.country || "Unknown";
+        const sellerFlag = getFlagEmoji(sellerCountry);
+        const sellerProfile = seller.profileUrl || "/assets/default-user.png";
+
+        // rating stars
+        const rating = Math.round(review.overallRating || 0);
 
         return (
           <div className="review-card" key={idx}>
             <div className="review-top">
               <Image
-                src={profileImage}
+                src={buyer.profileUrl || "/assets/default-user.png"}
                 alt="Reviewer"
                 width={50}
                 height={50}
@@ -35,43 +42,48 @@ export default function Reviews({ sellerReviews = [] }) {
               />
               <div className="reviewer-details">
                 <div className="reviewer-name">
-                  <strong>{reviewerName}</strong>{" "}
-                  <span className="badge">Received as Seller</span>
+                  <strong>
+                    {buyer.firstName} {buyer.lastName}
+                  </strong>{" "}
+                  <span className="badge">Buyer</span>
                 </div>
                 <div className="reviewer-location">
-                  {reviewerFlag} {reviewerCountry}
+                  {getFlagEmoji(buyer.country)} {buyer.country || "Unknown"}
                 </div>
               </div>
             </div>
 
             <div className="review-rating">
-              <span>{"⭐".repeat(review.rating || 5)}</span>
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  size={18}
+                  fill={i < rating ? "#FFD700" : "none"}
+                  stroke={i < rating ? "#FFD700" : "#ccc"}
+                />
+              ))}
               <span className="review-time">• {review.timeAgo}</span>
             </div>
 
             <p className="review-text">{review.review}</p>
 
-            {(review.price || review.duration || review.tag) && (
-              <div className="review-meta">
-                {review.price && (
-                  <div className="meta-box">
-                    <strong>{review.price}</strong>
-                    <span>Price</span>
-                  </div>
-                )}
-                {review.duration && (
-                  <div className="meta-box">
-                    <strong>{review.duration}</strong>
-                    <span>Duration</span>
-                  </div>
-                )}
-                {review.tag && (
-                  <div className="meta-box tag-box">
-                    <span>{review.tag}</span>
-                  </div>
-                )}
-              </div>
-            )}
+            {/* Extra details */}
+            <div className="review-extra">
+              <p>
+                <strong>Seller:</strong> {sellerName} ({sellerFlag}{" "}
+                {sellerCountry})
+              </p>
+              {review.reviewedGig?.title && (
+                <p>
+                  <strong>Gig:</strong> {review.reviewedGig.title}
+                </p>
+              )}
+              <p>
+                <strong>Ratings:</strong> Communication {review.communicationLevel} | 
+                Service {review.serviceAsDescribed} | Recommend{" "}
+                {review.recommendToFriend}
+              </p>
+            </div>
 
             <div className="review-helpful">
               Helpful? <button>👍 Yes</button> <button>👎 No</button>
@@ -85,7 +97,7 @@ export default function Reviews({ sellerReviews = [] }) {
   );
 }
 
-// Utility to get flag emoji from country name (basic)
+// Utility to get flag emoji from country name
 function getFlagEmoji(country) {
   const flags = {
     Pakistan: "🇵🇰",

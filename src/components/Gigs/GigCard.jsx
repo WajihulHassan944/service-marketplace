@@ -12,7 +12,7 @@ export default function GigCard({ data }) {
   const router = useRouter();
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
-
+console.log(data);
   const fallbackData = {
     gigId: 'sample123',
     image: '/assets/gigs/dummy.png',
@@ -109,11 +109,18 @@ headers: {
 
         <p className="gig-title-gigcard">{gig.title}</p>
 
-        <div className="gig-rating">
-          <span className="star">★</span>
-          <span className="rating-score">{gig.rating}</span>
-          <span className="rating-count">({gig.reviews})</span>
-        </div>
+      <div className="gig-rating">
+  <span className="star">★</span>
+  {Number(gig.reviews) === 0 ? (
+    <span className="no-reviews">No reviews yet</span>
+  ) : (
+    <>
+      <span className="rating-score">{gig.rating}</span>
+      <span className="rating-count">({gig.reviews})</span>
+    </>
+  )}
+</div>
+
 
         <div className="gig-price">
           <span className="from-text">From</span>

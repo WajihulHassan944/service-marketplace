@@ -18,6 +18,7 @@
   width: 500px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   text-align: left;
+  position: relative;
 }
 
 .popup-title {
@@ -122,4 +123,21 @@
 
 .submit-review-btn:hover {
   background-color: #1f2a60;
+}
+
+
+/* Close button */
+.close-btn-review-popup {
+  position: absolute;
+  top: 20px;
+  right: 23px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #777;
+  transition: color 0.2s ease-in-out;
+}
+
+.close-btn-review-popup:hover {
+  color: #ff6b6b; /* subtle red hover */
 }

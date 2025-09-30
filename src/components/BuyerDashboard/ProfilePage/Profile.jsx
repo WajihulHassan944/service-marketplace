@@ -70,7 +70,8 @@ const clients = sellerData?.clients || [];
     </div>
   </div> </>
 )}
-        <Reviews sellerReviews={sellerData.sellerReviews} />
+      <Reviews buyerReviews={sellerData.buyerReviews} />
+
       </div>
     </div>
   );

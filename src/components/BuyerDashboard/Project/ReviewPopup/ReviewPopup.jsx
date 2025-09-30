@@ -3,6 +3,7 @@ import "./ReviewPopup.css";
 import { useSelector } from "react-redux";
 import { baseUrl } from "@/const";
 import toast from "react-hot-toast";
+import { X } from "lucide-react";
 
 const ReviewPopup = ({ onClose, orderId,  fetchOrder }) => {
   const user = useSelector((state) => state.user);
@@ -66,6 +67,7 @@ const ReviewPopup = ({ onClose, orderId,  fetchOrder }) => {
       if (data.success) {
         setSubmitted(true);
           fetchOrder();
+          toast.success("Your review has been submitted successfully!");
         setTimeout(onClose, 2000);
       } else {
       toast.error(data.message || "Something went wrong.");
@@ -79,8 +81,11 @@ const ReviewPopup = ({ onClose, orderId,  fetchOrder }) => {
   };
 
   return (
-    <div className="review-popup-overlay">
-      <div className="review-popup">
+    <div className="review-popup-overlay" onClick={onClose}>
+      <div className="review-popup" onClick={(e) => e.stopPropagation()}>
+        <button className="close-btn-review-popup" onClick={onClose}>
+          <X size={18} />
+        </button>
         <h2 className="popup-title">doTask Reviews</h2>
 
         <div className="review-flex-container">
